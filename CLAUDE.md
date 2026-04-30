@@ -20,7 +20,7 @@ To run a single test class:
 
 ## Project Overview
 
-"DoIt" is an Android to-do app. As of project creation, only the template scaffold exists — no application logic has been written yet.
+"DoIt" is an Android to-do app. The main app navigation has been added. Some screens still need to be implemented.
 
 ## Tech Stack
 
@@ -46,6 +46,6 @@ No architecture has been established yet. When building out the app, follow stan
 - **Unidirectional data flow** using Compose `State`/`StateFlow`
 - Persistence via **Room** if local storage is needed
 - **Hilt** for dependency injection if the app grows beyond trivial complexity
-- **Navigation Compose** for multi-screen navigation
+- **Navigation Compose** for multiscreen navigation
 
 All new dependencies should be added to `gradle/libs.versions.toml` first, then referenced in `app/build.gradle.kts` via the version catalog alias.
