@@ -24,8 +24,10 @@ To run a single test class:
 
 ## Tech Stack
 
-- **Language:** Kotlin 2.2.10
-- **UI:** Jetpack Compose (BOM 2026.02.01) with Material Design 3
+- **Language:** Kotlin 2.3.21
+- **UI:** Jetpack Compose (BOM 2026.04.01) with Material Design 3
+- **Navigation:** Navigation Compose 2.9.8 with type-safe routes (`kotlinx-serialization-json`)
+- **Serialization:** `kotlinx-serialization-json` 1.7.3
 - **Min SDK:** 24 (Android 7.0+), **Target/Compile SDK:** 36
 - **Java compatibility:** VERSION_11
 - **Build system:** Gradle with Kotlin DSL (`build.gradle.kts`) and version catalog (`gradle/libs.versions.toml`)
@@ -38,15 +40,23 @@ Single-module project (`:app`). Package root: `at.co.schwaerzler.maximilian.doit
 Current source files:
 - `MainActivity.kt` — single `ComponentActivity` entry point, sets Compose content
 - `ui/theme/` — `Color.kt`, `Theme.kt`, `Type.kt` (Material3 theme)
+- `ui/navigation/AppNavigation.kt` — `NavHost` with all type-safe routes
+- `ui/navigation/screen/HomeScreen.kt` — todo list screen (stub)
+- `ui/navigation/screen/EditTodoScreen.kt` — add/edit screen (stub), reused for both modes via nullable `todoId`
 
 ## Architecture Notes
 
-No architecture has been established yet. When building out the app, follow standard Android patterns:
+Follow standard Android patterns:
 - **MVVM** with `ViewModel` from `androidx.lifecycle`
 - **Unidirectional data flow** using Compose `State`/`StateFlow`
 - Persistence via **Room** if local storage is needed
 - **Hilt** for dependency injection if the app grows beyond trivial complexity
-- **Navigation Compose** for multiscreen navigation
+- **Navigation Compose** with type-safe `@Serializable` route objects
+
+### Navigation conventions
+- Define routes as `@Serializable` objects or data classes in `AppNavigation.kt`
+- Pass navigation actions to screens as **callbacks** (e.g. `onAddTodo: () -> Unit`), never pass `NavController` into composables
+- `EditTodoScreen` handles both add (`todoId = null`) and edit (`todoId = "<id>"`) modes via a single nullable parameter
 
 All new dependencies should be added to `gradle/libs.versions.toml` first, then referenced in `app/build.gradle.kts` via the version catalog alias.
 
