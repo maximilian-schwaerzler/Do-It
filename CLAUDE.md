@@ -49,3 +49,7 @@ No architecture has been established yet. When building out the app, follow stan
 - **Navigation Compose** for multiscreen navigation
 
 All new dependencies should be added to `gradle/libs.versions.toml` first, then referenced in `app/build.gradle.kts` via the version catalog alias.
+
+## Design
+
+Whenever possible, try to stick to the [Material Design 3](https://m3.material.io/) guidelines. Use their components wherever possible.
