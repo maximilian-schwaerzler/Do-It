@@ -5,11 +5,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import at.co.schwaerzler.maximilian.doit.ui.navigation.screen.EditTodoScreen
 import at.co.schwaerzler.maximilian.doit.ui.navigation.screen.HomeScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
 object Home
+
+@Serializable
+data class EditTodo(val todoId: String? = null)
 
 @Composable
 fun AppNavigation(modifier: Modifier = Modifier) {
@@ -17,7 +22,16 @@ fun AppNavigation(modifier: Modifier = Modifier) {
 
     NavHost(navController = navController, startDestination = Home, modifier = modifier) {
         composable<Home> {
-            HomeScreen()
+            HomeScreen(
+                onAddTodo = {
+                    navController.navigate(EditTodo(todoId = null))
+                }
+            )
+        }
+
+        composable<EditTodo> { backStackEntry ->
+            val route = backStackEntry.toRoute<EditTodo>()
+            EditTodoScreen(route.todoId)
         }
     }
 }
