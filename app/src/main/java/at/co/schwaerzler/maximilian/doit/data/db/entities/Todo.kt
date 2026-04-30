@@ -1,4 +1,4 @@
-package at.co.schwaerzler.maximilian.doit.data.entities
+package at.co.schwaerzler.maximilian.doit.data.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

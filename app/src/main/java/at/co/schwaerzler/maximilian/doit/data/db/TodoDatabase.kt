@@ -1,11 +1,11 @@
-package at.co.schwaerzler.maximilian.doit.data
+package at.co.schwaerzler.maximilian.doit.data.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import at.co.schwaerzler.maximilian.doit.data.entities.Todo
+import at.co.schwaerzler.maximilian.doit.data.db.entities.Todo
 
 @Database(
     entities = [Todo::class],

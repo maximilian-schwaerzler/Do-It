@@ -1,7 +1,6 @@
-package at.co.schwaerzler.maximilian.doit.data
+package at.co.schwaerzler.maximilian.doit.data.db
 
 import androidx.room.TypeConverter
-import java.util.Date
 import kotlin.time.Instant
 
 class Converters {
