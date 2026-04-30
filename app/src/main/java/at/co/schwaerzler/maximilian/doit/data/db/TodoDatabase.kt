@@ -5,7 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import at.co.schwaerzler.maximilian.doit.data.db.entities.Todo
+import at.co.schwaerzler.maximilian.doit.data.db.dao.TodoDao
+import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 
 @Database(
     entities = [Todo::class],
@@ -14,6 +15,7 @@ import at.co.schwaerzler.maximilian.doit.data.db.entities.Todo
 )
 @TypeConverters(Converters::class)
 abstract class TodoDatabase : RoomDatabase() {
+    abstract fun todoDao(): TodoDao
 
     companion object {
         @Volatile
