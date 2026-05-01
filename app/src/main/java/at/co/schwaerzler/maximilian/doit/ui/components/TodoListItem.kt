@@ -6,8 +6,10 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
+import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
@@ -17,6 +19,7 @@ import java.time.format.FormatStyle
 @Composable
 fun TodoListItem(
     todo: Todo,
+    onStateToggle: (newState: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val deadlineText = todo.deadlineDateTime?.let { deadline ->
@@ -27,13 +30,19 @@ fun TodoListItem(
     ListItem(
         modifier = modifier.fillMaxWidth(),
         headlineContent = {
-            Text(todo.title, overflow = TextOverflow.Ellipsis)
+            Text(
+                todo.title,
+                overflow = TextOverflow.Ellipsis,
+                textDecoration = if (todo.state == TodoState.DONE) TextDecoration.LineThrough else null
+            )
         },
         supportingContent = if (deadlineText != null) {
             { Text("Deadline: $deadlineText") }
         } else null,
         trailingContent = {
-            Checkbox(false, onCheckedChange = {})
+            Checkbox(todo.state == TodoState.DONE, onCheckedChange = {
+                onStateToggle(it)
+            })
         }
     )
 }

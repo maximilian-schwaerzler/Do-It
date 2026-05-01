@@ -13,6 +13,12 @@ interface TodoDao {
     @Query("SELECT * FROM todos ORDER BY deadline_timestamp ASC NULLS LAST")
     fun getAll(): Flow<List<Todo>>
 
+    @Query("SELECT * FROM todos WHERE state = 'OPEN' ORDER BY deadline_timestamp ASC NULLS LAST")
+    fun getOpen(): Flow<List<Todo>>
+
+    @Query("SELECT * FROM todos WHERE state = 'DONE' ORDER BY creation_timestamp DESC")
+    fun getDone(): Flow<List<Todo>>
+
     @Query("SELECT * FROM todos WHERE id = :id")
     suspend fun getById(id: Int): Todo?
 

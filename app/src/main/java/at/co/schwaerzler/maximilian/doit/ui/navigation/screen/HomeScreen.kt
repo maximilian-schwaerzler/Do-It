@@ -6,7 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,8 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import at.co.schwaerzler.maximilian.doit.data.HomeViewModel
 import at.co.schwaerzler.maximilian.doit.R
+import at.co.schwaerzler.maximilian.doit.data.HomeViewModel
 import at.co.schwaerzler.maximilian.doit.ui.components.TodoListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,7 +32,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
 ) {
-    val todos by viewModel.todos.collectAsStateWithLifecycle(emptyList())
+    val openTodos by viewModel.openTodos.collectAsStateWithLifecycle(emptyList())
+    val doneTodos by viewModel.doneTodos.collectAsStateWithLifecycle(emptyList())
 
     Scaffold(
         modifier.fillMaxSize(), topBar = {
@@ -59,8 +62,46 @@ fun HomeScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            items(todos, key = { it.id }) { item ->
-                TodoListItem(item)
+            if (openTodos.isNotEmpty()) {
+                item(key = "open-headline") {
+                    ListItem(
+                        headlineContent = {
+                            Text("Open", style = MaterialTheme.typography.headlineSmall)
+                        },
+                        modifier = Modifier.animateItem()
+                    )
+                    HorizontalDivider()
+                }
+            }
+            items(openTodos, key = { it.id }) { item ->
+                TodoListItem(
+                    item, onStateToggle = {
+                        viewModel.toggleTodoDone(item)
+                    },
+                    Modifier.animateItem()
+                )
+            }
+            if (doneTodos.isNotEmpty()) {
+                item(key = "done-headline") {
+                    if (openTodos.isNotEmpty()) {
+                        HorizontalDivider()
+                    }
+                    ListItem(
+                        headlineContent = {
+                            Text("Done", style = MaterialTheme.typography.headlineSmall)
+                        },
+                        Modifier.animateItem()
+                    )
+                    HorizontalDivider()
+                }
+            }
+            items(doneTodos, key = { it.id }) { item ->
+                TodoListItem(
+                    item, onStateToggle = {
+                        viewModel.toggleTodoDone(item)
+                    },
+                    Modifier.animateItem()
+                )
             }
         }
     }
