@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 object Home
 
 @Serializable
-data class EditTodo(val todoId: String? = null)
+data class EditTodo(val todoId: Int? = null)
 
 @Composable
 fun AppNavigation(modifier: Modifier = Modifier) {
@@ -31,7 +31,9 @@ fun AppNavigation(modifier: Modifier = Modifier) {
 
         composable<EditTodo> { backStackEntry ->
             val route = backStackEntry.toRoute<EditTodo>()
-            EditTodoScreen(route.todoId)
+            EditTodoScreen(route.todoId, navigateBack = {
+                navController.popBackStack()
+            })
         }
     }
 }

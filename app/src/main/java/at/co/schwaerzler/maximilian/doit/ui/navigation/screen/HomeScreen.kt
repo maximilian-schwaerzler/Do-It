@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import at.co.schwaerzler.maximilian.doit.HomeViewModel
+import at.co.schwaerzler.maximilian.doit.data.HomeViewModel
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.ui.components.TodoListItem
 
