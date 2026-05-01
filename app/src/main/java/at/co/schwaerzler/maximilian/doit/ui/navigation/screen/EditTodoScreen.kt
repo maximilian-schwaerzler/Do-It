@@ -3,6 +3,7 @@ package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -31,7 +32,9 @@ fun EditTodoScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier.fillMaxSize(),
+        modifier
+            .fillMaxSize()
+            .imePadding(),
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
