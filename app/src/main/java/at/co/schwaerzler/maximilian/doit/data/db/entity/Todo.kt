@@ -13,8 +13,15 @@ data class Todo(
     val id: Int,
     val title: String,
     val description: String?,
-    @ColumnInfo(name = "creation_timestamp")
-    val creationDateTime: Instant = Clock.System.now(),
     @ColumnInfo(name = "deadline_timestamp")
-    val deadlineDateTime: Instant?
+    val deadlineDateTime: Instant?,
+    val state: TodoState = TodoState.OPEN,
+    @ColumnInfo(name = "creation_timestamp")
+    val creationDateTime: Instant = Clock.System.now()
 )
+
+enum class TodoState {
+    OPEN,
+    IN_PROGRESS,
+    DONE
+}
