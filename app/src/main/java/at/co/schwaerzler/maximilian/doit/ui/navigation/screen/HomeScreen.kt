@@ -19,11 +19,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.HomeViewModel
+import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
+import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.ui.components.TodoListItem
+import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,6 +39,24 @@ fun HomeScreen(
     val openTodos by viewModel.openTodos.collectAsStateWithLifecycle(emptyList())
     val doneTodos by viewModel.doneTodos.collectAsStateWithLifecycle(emptyList())
 
+    HomeScreenContent(
+        openTodos = openTodos,
+        doneTodos = doneTodos,
+        onAddTodo = onAddTodo,
+        onStateToggle = { viewModel.toggleTodoDone(it) },
+        modifier = modifier,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HomeScreenContent(
+    openTodos: List<Todo>,
+    doneTodos: List<Todo>,
+    onAddTodo: () -> Unit,
+    onStateToggle: (Todo) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Scaffold(
         modifier.fillMaxSize(), topBar = {
             TopAppBar(
@@ -75,9 +97,7 @@ fun HomeScreen(
             }
             items(openTodos, key = { it.id }) { item ->
                 TodoListItem(
-                    item, onStateToggle = {
-                        viewModel.toggleTodoDone(item)
-                    },
+                    item, onStateToggle = { onStateToggle(item) },
                     Modifier.animateItem()
                 )
             }
@@ -97,12 +117,41 @@ fun HomeScreen(
             }
             items(doneTodos, key = { it.id }) { item ->
                 TodoListItem(
-                    item, onStateToggle = {
-                        viewModel.toggleTodoDone(item)
-                    },
+                    item, onStateToggle = { onStateToggle(item) },
                     Modifier.animateItem()
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeScreenEmptyPreview() {
+    DoItTheme {
+        HomeScreenContent(
+            openTodos = emptyList(),
+            doneTodos = emptyList(),
+            onAddTodo = {},
+            onStateToggle = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeScreenWithTodosPreview() {
+    DoItTheme {
+        HomeScreenContent(
+            openTodos = listOf(
+                Todo(id = 1, title = "Buy groceries", description = "Milk, eggs, bread", deadlineDateTime = null),
+                Todo(id = 2, title = "Read a book", description = null, deadlineDateTime = null),
+            ),
+            doneTodos = listOf(
+                Todo(id = 3, title = "Fix the bug", description = "The login crash", deadlineDateTime = null, state = TodoState.DONE),
+            ),
+            onAddTodo = {},
+            onStateToggle = {},
+        )
     }
 }

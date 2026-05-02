@@ -16,11 +16,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel
+import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel.EditTodoUiState
+import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 
 @Composable
 fun EditTodoScreen(
@@ -31,17 +34,30 @@ fun EditTodoScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    EditTodoScreenContent(
+        uiState = uiState,
+        onTitleChange = { viewModel.updateTitle(it) },
+        onDescriptionChange = { viewModel.updateDescription(it) },
+        onSave = { if (viewModel.saveTodo(todoId)) navigateBack() },
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun EditTodoScreenContent(
+    uiState: EditTodoUiState,
+    onTitleChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    onSave: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Scaffold(
         modifier
             .fillMaxSize()
             .imePadding(),
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = {
-                    if (viewModel.saveTodo(todoId)) {
-                        navigateBack()
-                    }
-                },
+                onClick = onSave,
                 icon = {
                     Icon(painterResource(R.drawable.add_task_24px), contentDescription = null)
                 },
@@ -59,7 +75,7 @@ fun EditTodoScreen(
         ) {
             OutlinedTextField(
                 uiState.title,
-                onValueChange = { viewModel.updateTitle(it) },
+                onValueChange = onTitleChange,
                 Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp),
@@ -81,7 +97,7 @@ fun EditTodoScreen(
 
             OutlinedTextField(
                 uiState.description,
-                onValueChange = { viewModel.updateDescription(it) },
+                onValueChange = onDescriptionChange,
                 Modifier.fillMaxWidth(),
                 label = {
                     Text("Description")
@@ -93,5 +109,50 @@ fun EditTodoScreen(
                 isError = uiState.descriptionError != null
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EditTodoScreenAddPreview() {
+    DoItTheme {
+        EditTodoScreenContent(
+            uiState = EditTodoUiState(),
+            onTitleChange = {},
+            onDescriptionChange = {},
+            onSave = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EditTodoScreenEditPreview() {
+    DoItTheme {
+        EditTodoScreenContent(
+            uiState = EditTodoUiState(
+                title = "Buy groceries",
+                description = "Milk, eggs, bread",
+            ),
+            onTitleChange = {},
+            onDescriptionChange = {},
+            onSave = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EditTodoScreenValidationErrorPreview() {
+    DoItTheme {
+        EditTodoScreenContent(
+            uiState = EditTodoUiState(
+                title = "",
+                titleError = "Title is required",
+            ),
+            onTitleChange = {},
+            onDescriptionChange = {},
+            onSave = {},
+        )
     }
 }
