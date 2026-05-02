@@ -33,6 +33,7 @@ import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 @Composable
 fun HomeScreen(
     onAddTodo: () -> Unit,
+    onClickTodo: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
 ) {
@@ -43,6 +44,7 @@ fun HomeScreen(
         openTodos = openTodos,
         doneTodos = doneTodos,
         onAddTodo = onAddTodo,
+        onClickTodo = onClickTodo,
         onStateToggle = { viewModel.toggleTodoDone(it) },
         modifier = modifier,
     )
@@ -54,6 +56,7 @@ private fun HomeScreenContent(
     openTodos: List<Todo>,
     doneTodos: List<Todo>,
     onAddTodo: () -> Unit,
+    onClickTodo: (id: Int) -> Unit,
     onStateToggle: (Todo) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -97,7 +100,9 @@ private fun HomeScreenContent(
             }
             items(openTodos, key = { it.id }) { item ->
                 TodoListItem(
-                    item, onStateToggle = { onStateToggle(item) },
+                    item,
+                    onStateToggle = { onStateToggle(item) },
+                    onClick = { onClickTodo(item.id) },
                     Modifier.animateItem()
                 )
             }
@@ -117,7 +122,9 @@ private fun HomeScreenContent(
             }
             items(doneTodos, key = { it.id }) { item ->
                 TodoListItem(
-                    item, onStateToggle = { onStateToggle(item) },
+                    item,
+                    onStateToggle = { onStateToggle(item) },
+                    onClick = { onClickTodo(item.id) },
                     Modifier.animateItem()
                 )
             }
@@ -134,6 +141,7 @@ private fun HomeScreenEmptyPreview() {
             doneTodos = emptyList(),
             onAddTodo = {},
             onStateToggle = {},
+            onClickTodo = {}
         )
     }
 }
@@ -144,14 +152,26 @@ private fun HomeScreenWithTodosPreview() {
     DoItTheme {
         HomeScreenContent(
             openTodos = listOf(
-                Todo(id = 1, title = "Buy groceries", description = "Milk, eggs, bread", deadlineDateTime = null),
+                Todo(
+                    id = 1,
+                    title = "Buy groceries",
+                    description = "Milk, eggs, bread",
+                    deadlineDateTime = null
+                ),
                 Todo(id = 2, title = "Read a book", description = null, deadlineDateTime = null),
             ),
             doneTodos = listOf(
-                Todo(id = 3, title = "Fix the bug", description = "The login crash", deadlineDateTime = null, state = TodoState.DONE),
+                Todo(
+                    id = 3,
+                    title = "Fix the bug",
+                    description = "The login crash",
+                    deadlineDateTime = null,
+                    state = TodoState.DONE
+                ),
             ),
             onAddTodo = {},
             onStateToggle = {},
+            onClickTodo = {}
         )
     }
 }

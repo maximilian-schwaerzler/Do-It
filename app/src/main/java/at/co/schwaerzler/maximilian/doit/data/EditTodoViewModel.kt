@@ -21,6 +21,8 @@ class EditTodoViewModel(
     private val _uiState = MutableStateFlow<EditTodoUiState>(EditTodoUiState())
     val uiState = _uiState.asStateFlow()
 
+    private var originalTodo: Todo? = null
+
     fun updateTitle(newTitle: String) {
         _uiState.update {
             it.copy(
@@ -51,7 +53,7 @@ class EditTodoViewModel(
             return false
         }
 
-        if (id == null || id == 0) {
+        if (id == null) {
             viewModelScope.launch {
                 db.todoDao().insert(
                     Todo(
@@ -64,8 +66,31 @@ class EditTodoViewModel(
             }
             return true
         } else {
-            // TODO
-            throw NotImplementedError()
+            val original = originalTodo ?: return false
+            viewModelScope.launch {
+                db.todoDao().update(
+                    original.copy(
+                        title = uiState.value.title,
+                        description = uiState.value.description.ifBlank { null },
+                        deadlineDateTime = uiState.value.deadline
+                    )
+                )
+            }
+            return true
+        }
+    }
+
+    fun loadTodo(id: Int) {
+        viewModelScope.launch {
+            val todo = db.todoDao().getById(id) ?: return@launch
+            originalTodo = todo
+            _uiState.update {
+                it.copy(
+                    title = todo.title,
+                    description = todo.description ?: "",
+                    deadline = todo.deadlineDateTime
+                )
+            }
         }
     }
 

@@ -5,13 +5,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,8 +36,14 @@ fun EditTodoScreen(
     viewModel: EditTodoViewModel = viewModel(factory = EditTodoViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(todoId) {
+        if (todoId != null) {
+            viewModel.loadTodo(todoId)
+        }
+    }
 
     EditTodoScreenContent(
+        id = todoId,
         uiState = uiState,
         onTitleChange = { viewModel.updateTitle(it) },
         onDescriptionChange = { viewModel.updateDescription(it) },
@@ -43,8 +52,10 @@ fun EditTodoScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EditTodoScreenContent(
+    id: Int?,
     uiState: EditTodoUiState,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
@@ -63,6 +74,17 @@ private fun EditTodoScreenContent(
                 },
                 text = {
                     Text("Done")
+                }
+            )
+        },
+        topBar = {
+            TopAppBar(
+                title = {
+                    if (id == null) {
+                        Text("Add new TODO")
+                    } else {
+                        Text("Edit TODO")
+                    }
                 }
             )
         }
@@ -117,6 +139,7 @@ private fun EditTodoScreenContent(
 private fun EditTodoScreenAddPreview() {
     DoItTheme {
         EditTodoScreenContent(
+            id = null,
             uiState = EditTodoUiState(),
             onTitleChange = {},
             onDescriptionChange = {},
@@ -130,6 +153,7 @@ private fun EditTodoScreenAddPreview() {
 private fun EditTodoScreenEditPreview() {
     DoItTheme {
         EditTodoScreenContent(
+            id = 1,
             uiState = EditTodoUiState(
                 title = "Buy groceries",
                 description = "Milk, eggs, bread",
@@ -146,6 +170,7 @@ private fun EditTodoScreenEditPreview() {
 private fun EditTodoScreenValidationErrorPreview() {
     DoItTheme {
         EditTodoScreenContent(
+            id = null,
             uiState = EditTodoUiState(
                 title = "",
                 titleError = "Title is required",

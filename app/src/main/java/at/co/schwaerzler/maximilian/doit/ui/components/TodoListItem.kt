@@ -1,5 +1,6 @@
 package at.co.schwaerzler.maximilian.doit.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ListItem
@@ -20,6 +21,7 @@ import java.time.format.FormatStyle
 fun TodoListItem(
     todo: Todo,
     onStateToggle: (newState: Boolean) -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val deadlineText = todo.deadlineDateTime?.let { deadline ->
@@ -28,7 +30,11 @@ fun TodoListItem(
     }
 
     ListItem(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable {
+                onClick()
+            },
         headlineContent = {
             Text(
                 todo.title,

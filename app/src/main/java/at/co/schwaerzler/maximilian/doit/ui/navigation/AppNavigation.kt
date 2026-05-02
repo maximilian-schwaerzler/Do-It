@@ -25,6 +25,9 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             HomeScreen(
                 onAddTodo = {
                     navController.navigate(EditTodo(todoId = null))
+                },
+                onClickTodo = { todoId ->
+                    navController.navigate(EditTodo(todoId = todoId))
                 }
             )
         }
