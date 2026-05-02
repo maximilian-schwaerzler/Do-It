@@ -65,7 +65,10 @@ fun EditTodoScreen(
             title = { Text("Discard changes?") },
             text = { Text("Your unsaved changes will be lost.") },
             confirmButton = {
-                TextButton(onClick = onCancel) { Text("Discard") }
+                TextButton(onClick = {
+                    showDiscardDialog = false
+                    onCancel()
+                }) { Text("Discard") }
             },
             dismissButton = {
                 TextButton(onClick = { showDiscardDialog = false }) { Text("Keep editing") }
