@@ -10,7 +10,10 @@ import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Instant
@@ -22,6 +25,15 @@ class EditTodoViewModel(
     val uiState = _uiState.asStateFlow()
 
     private var originalTodo: Todo? = null
+    private var originalTitle = ""
+    private var originalDescription = ""
+    private var originalDeadline: Instant? = null
+
+    val isModified = uiState.map { state ->
+        state.title != originalTitle ||
+        state.description != originalDescription ||
+        state.deadline != originalDeadline
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
 
     fun updateTitle(newTitle: String) {
         _uiState.update {
@@ -84,6 +96,9 @@ class EditTodoViewModel(
         viewModelScope.launch {
             val todo = db.todoDao().getById(id) ?: return@launch
             originalTodo = todo
+            originalTitle = todo.title
+            originalDescription = todo.description ?: ""
+            originalDeadline = todo.deadlineDateTime
             _uiState.update {
                 it.copy(
                     title = todo.title,

@@ -36,6 +36,8 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             val route = backStackEntry.toRoute<EditTodo>()
             EditTodoScreen(route.todoId, navigateBack = {
                 navController.popBackStack()
+            }, onCancel = {
+                navController.popBackStack()
             })
         }
     }
