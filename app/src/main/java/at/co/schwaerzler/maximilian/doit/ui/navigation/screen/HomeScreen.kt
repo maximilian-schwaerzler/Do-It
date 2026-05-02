@@ -24,8 +24,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.HomeViewModel
-import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
+import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import at.co.schwaerzler.maximilian.doit.ui.components.TodoListItem
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 
@@ -53,11 +53,11 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenContent(
-    openTodos: List<Todo>,
-    doneTodos: List<Todo>,
+    openTodos: List<TodoSummary>,
+    doneTodos: List<TodoSummary>,
     onAddTodo: () -> Unit,
     onClickTodo: (id: Int) -> Unit,
-    onStateToggle: (Todo) -> Unit,
+    onStateToggle: (TodoSummary) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -152,22 +152,11 @@ private fun HomeScreenWithTodosPreview() {
     DoItTheme {
         HomeScreenContent(
             openTodos = listOf(
-                Todo(
-                    id = 1,
-                    title = "Buy groceries",
-                    description = "Milk, eggs, bread",
-                    deadlineDateTime = null
-                ),
-                Todo(id = 2, title = "Read a book", description = null, deadlineDateTime = null),
+                TodoSummary(id = 1, title = "Buy groceries", deadlineDateTime = null, state = TodoState.OPEN, creationDateTime = kotlin.time.Clock.System.now()),
+                TodoSummary(id = 2, title = "Read a book", deadlineDateTime = null, state = TodoState.OPEN, creationDateTime = kotlin.time.Clock.System.now()),
             ),
             doneTodos = listOf(
-                Todo(
-                    id = 3,
-                    title = "Fix the bug",
-                    description = "The login crash",
-                    deadlineDateTime = null,
-                    state = TodoState.DONE
-                ),
+                TodoSummary(id = 3, title = "Fix the bug", deadlineDateTime = null, state = TodoState.DONE, creationDateTime = kotlin.time.Clock.System.now()),
             ),
             onAddTodo = {},
             onStateToggle = {},

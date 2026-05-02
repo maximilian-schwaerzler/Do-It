@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
+import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
@@ -19,7 +19,7 @@ import java.time.format.FormatStyle
 
 @Composable
 fun TodoListItem(
-    todo: Todo,
+    todo: TodoSummary,
     onStateToggle: (newState: Boolean) -> Unit,
     onClick: () -> Unit,
     modifier: Modifier = Modifier

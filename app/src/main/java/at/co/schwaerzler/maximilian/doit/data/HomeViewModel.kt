@@ -8,31 +8,20 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
-import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
+import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val db: TodoDatabase
 ) : ViewModel() {
-    val openTodos = db.todoDao().getOpen()
-    val doneTodos = db.todoDao().getDone()
+    val openTodos = db.todoDao().getOpenSummaries()
+    val doneTodos = db.todoDao().getDoneSummaries()
 
-    fun toggleTodoDone(todo: Todo) {
+    fun toggleTodoDone(todo: TodoSummary) {
         viewModelScope.launch {
-            if (todo.state == TodoState.OPEN) {
-                db.todoDao().update(
-                    todo.copy(
-                        state = TodoState.DONE
-                    )
-                )
-            } else if (todo.state == TodoState.DONE) {
-                db.todoDao().update(
-                    todo.copy(
-                        state = TodoState.OPEN
-                    )
-                )
-            }
+            val newState = if (todo.state == TodoState.OPEN) TodoState.DONE else TodoState.OPEN
+            db.todoDao().updateState(todo.id, newState)
         }
     }
 
