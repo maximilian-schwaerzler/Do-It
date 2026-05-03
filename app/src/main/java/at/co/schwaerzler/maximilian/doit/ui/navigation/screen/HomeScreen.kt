@@ -49,8 +49,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
 ) {
-    val openTodos by viewModel.openTodos.collectAsStateWithLifecycle(emptyList())
-    val doneTodos by viewModel.doneTodos.collectAsStateWithLifecycle(emptyList())
+    val todos by viewModel.todos.collectAsStateWithLifecycle(Pair(emptyList(), emptyList()))
+    val (openTodos, doneTodos) = todos
 
     var selectedTodos by rememberSaveable {
         mutableStateOf<Set<Int>>(emptySet())

@@ -8,16 +8,18 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
-import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val db: TodoDatabase
 ) : ViewModel() {
-    val openTodos = db.todoDao().getOpenSummaries()
-    val doneTodos = db.todoDao().getDoneSummaries()
+    val todos = combine(
+        db.todoDao().getOpenSummaries(),
+        db.todoDao().getDoneSummaries()
+    ) { open, done -> Pair(open, done) }
 
     fun toggleTodoDone(todo: TodoSummary) {
         viewModelScope.launch {
