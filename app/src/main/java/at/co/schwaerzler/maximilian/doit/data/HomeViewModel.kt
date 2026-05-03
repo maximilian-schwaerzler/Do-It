@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
+import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import kotlinx.coroutines.launch
@@ -22,6 +23,12 @@ class HomeViewModel(
         viewModelScope.launch {
             val newState = if (todo.state == TodoState.OPEN) TodoState.DONE else TodoState.OPEN
             db.todoDao().updateState(todo.id, newState)
+        }
+    }
+
+    fun deleteTodosByIds(ids: List<Int>) {
+        viewModelScope.launch {
+            db.todoDao().deleteByIds(ids)
         }
     }
 

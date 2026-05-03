@@ -41,4 +41,10 @@ interface TodoDao {
 
     @Delete
     suspend fun delete(todo: Todo)
+
+    @Delete
+    suspend fun delete(vararg todo: Todo)
+
+    @Query("DELETE FROM todos WHERE id IN (:ids)")
+    suspend fun deleteByIds(ids: List<Int>)
 }
