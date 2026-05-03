@@ -7,7 +7,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class MigrationTest {
-    private val TEST_DB = "migration-test.db"
+    private val testDb = "migration-test.db"
 
     @get:Rule
     val helper = MigrationTestHelper(
@@ -18,13 +18,13 @@ class MigrationTest {
     @Test
     fun migrate1to2() {
         // Create DB at version 1 and insert a row with the old schema
-        helper.createDatabase(TEST_DB, 1).apply {
+        helper.createDatabase(testDb, 1).apply {
             execSQL("INSERT INTO todos (id, title, description, deadline_timestamp, creation_timestamp) VALUES (1, 'Test', NULL, NULL, 0)")
             close()
         }
 
         // Run the migration
-        helper.runMigrationsAndValidate(TEST_DB, 2, true, TodoDatabase.MIGRATION_1_2)
+        helper.runMigrationsAndValidate(testDb, 2, true, TodoDatabase.MIGRATION_1_2)
         // If it doesn't throw, the migration succeeded and the schema matches your entity
     }
 }
