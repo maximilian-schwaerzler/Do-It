@@ -1,5 +1,6 @@
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,6 +9,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,6 +18,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,12 +45,23 @@ fun HomeScreen(
     val openTodos by viewModel.openTodos.collectAsStateWithLifecycle(emptyList())
     val doneTodos by viewModel.doneTodos.collectAsStateWithLifecycle(emptyList())
 
+    var selectedTodos by rememberSaveable {
+        mutableStateOf<Set<Int>>(emptySet())
+    }
+
     HomeScreenContent(
         openTodos = openTodos,
         doneTodos = doneTodos,
         onAddTodo = onAddTodo,
         onClickTodo = onClickTodo,
         onStateToggle = { viewModel.toggleTodoDone(it) },
+        selectedTodos = selectedTodos,
+        onClearSelection = {
+            selectedTodos = emptySet()
+        },
+        toggleTodoItemSelection = { id ->
+            selectedTodos = if (id in selectedTodos) selectedTodos - id else selectedTodos + id
+        },
         modifier = modifier,
     )
 }
@@ -57,23 +73,55 @@ private fun HomeScreenContent(
     doneTodos: List<TodoSummary>,
     onAddTodo: () -> Unit,
     onClickTodo: (id: Int) -> Unit,
+    toggleTodoItemSelection: (id: Int) -> Unit,
     onStateToggle: (TodoSummary) -> Unit,
+    selectedTodos: Set<Int>,
+    onClearSelection: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val selectionToolbar = selectedTodos.isNotEmpty()
+
     Scaffold(
         modifier.fillMaxSize(), topBar = {
-            TopAppBar(
-                title = {
-                    Text(stringResource(R.string.app_name))
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer
-                )
-            )
+            Crossfade(
+                targetState = selectionToolbar,
+                label = "topBar"
+            ) { inSelectionMode ->
+                if (inSelectionMode) {
+                    TopAppBar(
+                        title = {
+                            Text("${selectedTodos.size} selected")
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = onClearSelection) {
+                                Icon(
+                                    painterResource(R.drawable.close_24px),
+                                    contentDescription = null
+                                )
+                            }
+                        },
+                        actions = {
+                            // TODO
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer
+                        )
+                    )
+                } else {
+                    TopAppBar(
+                        title = {
+                            Text(stringResource(R.string.app_name))
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer
+                        )
+                    )
+                }
+            }
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = { onAddTodo() },
+                onClick = onAddTodo,
                 text = {
                     Text("Add a new TODO")
                 },
@@ -102,7 +150,17 @@ private fun HomeScreenContent(
                 TodoListItem(
                     item,
                     onStateToggle = { onStateToggle(item) },
-                    onClick = { onClickTodo(item.id) },
+                    onClick = {
+                        if (selectionToolbar) {
+                            toggleTodoItemSelection(item.id)
+                        } else {
+                            onClickTodo(item.id)
+                        }
+                    },
+                    onLongClick = {
+                        toggleTodoItemSelection(item.id)
+                    },
+                    selected = selectedTodos.contains(item.id),
                     Modifier.animateItem()
                 )
             }
@@ -124,13 +182,29 @@ private fun HomeScreenContent(
                 TodoListItem(
                     item,
                     onStateToggle = { onStateToggle(item) },
-                    onClick = { onClickTodo(item.id) },
+                    onClick = {
+                        if (selectionToolbar) {
+                            toggleTodoItemSelection(item.id)
+                        } else {
+                            onClickTodo(item.id)
+                        }
+                    },
+                    onLongClick = {
+                        toggleTodoItemSelection(item.id)
+                    },
+                    selected = selectedTodos.contains(item.id),
                     Modifier.animateItem()
                 )
             }
         }
     }
 }
+
+private val previewTodos = listOf(
+    TodoSummary(1, "Buy groceries", null, TodoState.OPEN, kotlin.time.Clock.System.now()),
+    TodoSummary(2, "Read a book", null, TodoState.OPEN, kotlin.time.Clock.System.now()),
+    TodoSummary(3, "Fix the bug", null, TodoState.DONE, kotlin.time.Clock.System.now()),
+)
 
 @Preview(showBackground = true)
 @Composable
@@ -140,8 +214,11 @@ private fun HomeScreenEmptyPreview() {
             openTodos = emptyList(),
             doneTodos = emptyList(),
             onAddTodo = {},
+            onClickTodo = {},
             onStateToggle = {},
-            onClickTodo = {}
+            selectedTodos = emptySet(),
+            onClearSelection = {},
+            toggleTodoItemSelection = {}
         )
     }
 }
@@ -151,16 +228,31 @@ private fun HomeScreenEmptyPreview() {
 private fun HomeScreenWithTodosPreview() {
     DoItTheme {
         HomeScreenContent(
-            openTodos = listOf(
-                TodoSummary(id = 1, title = "Buy groceries", deadlineDateTime = null, state = TodoState.OPEN, creationDateTime = kotlin.time.Clock.System.now()),
-                TodoSummary(id = 2, title = "Read a book", deadlineDateTime = null, state = TodoState.OPEN, creationDateTime = kotlin.time.Clock.System.now()),
-            ),
-            doneTodos = listOf(
-                TodoSummary(id = 3, title = "Fix the bug", deadlineDateTime = null, state = TodoState.DONE, creationDateTime = kotlin.time.Clock.System.now()),
-            ),
+            openTodos = previewTodos.filter { it.state == TodoState.OPEN },
+            doneTodos = previewTodos.filter { it.state == TodoState.DONE },
             onAddTodo = {},
+            onClickTodo = {},
             onStateToggle = {},
-            onClickTodo = {}
+            selectedTodos = emptySet(),
+            onClearSelection = {},
+            toggleTodoItemSelection = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeScreenSelectionPreview() {
+    DoItTheme {
+        HomeScreenContent(
+            openTodos = previewTodos.filter { it.state == TodoState.OPEN },
+            doneTodos = previewTodos.filter { it.state == TodoState.DONE },
+            onAddTodo = {},
+            onClickTodo = {},
+            onStateToggle = {},
+            selectedTodos = setOf(1),
+            onClearSelection = {},
+            toggleTodoItemSelection = {}
         )
     }
 }
