@@ -110,12 +110,10 @@ fun EditTodoScreen(
                 onCancel()
             }
         },
-        onDelete = if (todoId != null) {
-            {
-                viewModel.deleteTodo()
-                navigateBack()
-            }
-        } else null,
+        onDelete = {
+            viewModel.deleteTodo()
+            navigateBack()
+        },
         modifier = modifier,
     )
 }
@@ -130,7 +128,7 @@ private fun EditTodoScreenContent(
     onDeadlineChange: (kotlin.time.Instant?) -> Unit,
     onSave: () -> Unit,
     onCancel: () -> Unit,
-    onDelete: (() -> Unit)?,
+    onDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
@@ -207,7 +205,7 @@ private fun EditTodoScreenContent(
                     }
                 },
                 actions = {
-                    if (onDelete != null) {
+                    if (id != null) {
                         IconButton(onClick = onDelete) {
                             Icon(
                                 painterResource(R.drawable.delete_24px),
@@ -366,7 +364,7 @@ private fun EditTodoScreenAddPreview() {
             onDeadlineChange = {},
             onSave = {},
             onCancel = {},
-            onDelete = null
+            onDelete = {}
         )
     }
 }
@@ -406,7 +404,7 @@ private fun EditTodoScreenValidationErrorPreview() {
             onDeadlineChange = {},
             onSave = {},
             onCancel = {},
-            onDelete = null
+            onDelete = {}
         )
     }
 }
