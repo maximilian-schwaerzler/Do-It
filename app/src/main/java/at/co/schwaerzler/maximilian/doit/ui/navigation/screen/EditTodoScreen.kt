@@ -89,6 +89,12 @@ fun EditTodoScreen(
                 onCancel()
             }
         },
+        onDelete = if (todoId != null) {
+            {
+                viewModel.deleteTodo()
+                navigateBack()
+            }
+        } else null,
         modifier = modifier,
     )
 }
@@ -102,6 +108,7 @@ private fun EditTodoScreenContent(
     onDescriptionChange: (String) -> Unit,
     onSave: () -> Unit,
     onCancel: () -> Unit,
+    onDelete: (() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -131,6 +138,13 @@ private fun EditTodoScreenContent(
                 navigationIcon = {
                     IconButton(onClick = { onCancel() }) {
                         Icon(painterResource(R.drawable.arrow_back_24px), contentDescription = null)
+                    }
+                },
+                actions = {
+                    if (onDelete != null) {
+                        IconButton(onClick = onDelete) {
+                            Icon(painterResource(R.drawable.delete_24px), contentDescription = "Delete")
+                        }
                     }
                 }
             )
@@ -192,7 +206,8 @@ private fun EditTodoScreenAddPreview() {
             onTitleChange = {},
             onDescriptionChange = {},
             onSave = {},
-            onCancel = {}
+            onCancel = {},
+            onDelete = null
         )
     }
 }
@@ -210,7 +225,8 @@ private fun EditTodoScreenEditPreview() {
             onTitleChange = {},
             onDescriptionChange = {},
             onSave = {},
-            onCancel = {}
+            onCancel = {},
+            onDelete = {}
         )
     }
 }
@@ -228,7 +244,8 @@ private fun EditTodoScreenValidationErrorPreview() {
             onTitleChange = {},
             onDescriptionChange = {},
             onSave = {},
-            onCancel = {}
+            onCancel = {},
+            onDelete = null
         )
     }
 }

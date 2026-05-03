@@ -92,6 +92,13 @@ class EditTodoViewModel(
         }
     }
 
+    fun deleteTodo() {
+        val todo = originalTodo ?: return
+        viewModelScope.launch {
+            db.todoDao().delete(todo)
+        }
+    }
+
     fun loadTodo(id: Int) {
         viewModelScope.launch {
             val todo = db.todoDao().getById(id) ?: return@launch
