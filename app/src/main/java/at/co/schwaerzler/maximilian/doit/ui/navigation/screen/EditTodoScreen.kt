@@ -1,7 +1,11 @@
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -9,6 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -18,13 +25,18 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +48,14 @@ import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel
 import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel.EditTodoUiState
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @Composable
 fun EditTodoScreen(
@@ -81,6 +101,7 @@ fun EditTodoScreen(
         uiState = uiState,
         onTitleChange = { viewModel.updateTitle(it) },
         onDescriptionChange = { viewModel.updateDescription(it) },
+        onDeadlineChange = { viewModel.updateDeadline(it) },
         onSave = { if (viewModel.saveTodo(todoId)) navigateBack() },
         onCancel = {
             if (isModified) {
@@ -106,11 +127,56 @@ private fun EditTodoScreenContent(
     uiState: EditTodoUiState,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
+    onDeadlineChange: (kotlin.time.Instant?) -> Unit,
     onSave: () -> Unit,
     onCancel: () -> Unit,
     onDelete: (() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
+    var showDatePicker by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
+    var pendingDateMillis by remember { mutableLongStateOf(0L) }
+
+    if (showDatePicker) {
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = uiState.deadline?.toEpochMilliseconds()
+        )
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    val selected = datePickerState.selectedDateMillis
+                    if (selected != null) {
+                        pendingDateMillis = selected
+                        showDatePicker = false
+                        showTimePicker = true
+                    }
+                }) { Text("Next") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
+
+    if (showTimePicker) {
+        val (initHour, initMinute) = uiState.deadline
+            ?.toLocalDateTime(TimeZone.currentSystemDefault())
+            ?.let { it.hour to it.minute }
+            ?: (12 to 0)
+        DeadlineTimePickerDialog(
+            initialHour = initHour,
+            initialMinute = initMinute,
+            onDismiss = { showTimePicker = false },
+            onConfirm = { hour, minute ->
+                onDeadlineChange(buildInstant(pendingDateMillis, hour, minute))
+                showTimePicker = false
+            }
+        )
+    }
+
     Scaffold(
         modifier
             .fillMaxSize()
@@ -143,7 +209,10 @@ private fun EditTodoScreenContent(
                 actions = {
                     if (onDelete != null) {
                         IconButton(onClick = onDelete) {
-                            Icon(painterResource(R.drawable.delete_24px), contentDescription = "Delete")
+                            Icon(
+                                painterResource(R.drawable.delete_24px),
+                                contentDescription = "Delete"
+                            )
                         }
                     }
                 }
@@ -192,8 +261,97 @@ private fun EditTodoScreenContent(
                 },
                 isError = uiState.descriptionError != null
             )
+
+            val deadlineSet = uiState.deadline != null
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 4.dp)
+            ) {
+                Checkbox(
+                    checked = deadlineSet,
+                    onCheckedChange = { checked ->
+                        if (checked) {
+                            showDatePicker = true
+                        } else {
+                            onDeadlineChange(null)
+                        }
+                    }
+                )
+                Text("Set deadline")
+            }
+
+            if (uiState.deadline != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp, bottom = 8.dp)
+                ) {
+                    OutlinedTextField(
+                        value = uiState.deadline.formatDeadline(),
+                        onValueChange = {},
+                        modifier = Modifier.fillMaxWidth(),
+                        readOnly = true,
+                        label = { Text("Deadline") },
+                        leadingIcon = {
+                            Icon(painterResource(R.drawable.event_24px), contentDescription = null)
+                        }
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null,
+                                onClick = { showDatePicker = true }
+                            )
+                    )
+                }
+            }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DeadlineTimePickerDialog(
+    initialHour: Int,
+    initialMinute: Int,
+    onDismiss: () -> Unit,
+    onConfirm: (hour: Int, minute: Int) -> Unit,
+) {
+    val timePickerState = rememberTimePickerState(
+        initialHour = initialHour,
+        initialMinute = initialMinute,
+        is24Hour = true
+    )
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Select time") },
+        text = { TimePicker(state = timePickerState) },
+        confirmButton = {
+            TextButton(onClick = { onConfirm(timePickerState.hour, timePickerState.minute) }) {
+                Text("OK")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancel") }
+        }
+    )
+}
+
+private fun buildInstant(dateEpochMs: Long, hour: Int, minute: Int): kotlin.time.Instant {
+    // DatePicker returns UTC midnight; resolve local date first to handle DST correctly
+    val localDate = kotlin.time.Instant.fromEpochMilliseconds(dateEpochMs)
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+        .date
+    return LocalDateTime(localDate, LocalTime(hour, minute))
+        .toInstant(TimeZone.currentSystemDefault())
+}
+
+private fun kotlin.time.Instant.formatDeadline(): String {
+    val local = toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+    return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(local)
 }
 
 @Preview(showBackground = true)
@@ -205,6 +363,7 @@ private fun EditTodoScreenAddPreview() {
             uiState = EditTodoUiState(),
             onTitleChange = {},
             onDescriptionChange = {},
+            onDeadlineChange = {},
             onSave = {},
             onCancel = {},
             onDelete = null
@@ -224,6 +383,7 @@ private fun EditTodoScreenEditPreview() {
             ),
             onTitleChange = {},
             onDescriptionChange = {},
+            onDeadlineChange = {},
             onSave = {},
             onCancel = {},
             onDelete = {}
@@ -243,6 +403,7 @@ private fun EditTodoScreenValidationErrorPreview() {
             ),
             onTitleChange = {},
             onDescriptionChange = {},
+            onDeadlineChange = {},
             onSave = {},
             onCancel = {},
             onDelete = null
