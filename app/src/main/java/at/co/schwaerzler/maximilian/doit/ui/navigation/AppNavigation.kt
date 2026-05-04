@@ -34,11 +34,13 @@ fun AppNavigation(modifier: Modifier = Modifier) {
 
         composable<EditTodo> { backStackEntry ->
             val route = backStackEntry.toRoute<EditTodo>()
-            EditTodoScreen(route.todoId, navigateBack = {
-                navController.popBackStack()
-            }, onCancel = {
-                navController.popBackStack()
-            })
+            EditTodoScreen(
+                route.todoId,
+                navigateBack = {
+                    navController.popBackStack()
+                }, onCancel = {
+                    navController.popBackStack()
+                })
         }
     }
 }

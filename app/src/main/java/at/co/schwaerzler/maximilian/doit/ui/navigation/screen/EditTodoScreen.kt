@@ -47,6 +47,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel
 import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel.EditTodoUiState
+import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -217,93 +218,94 @@ private fun EditTodoScreenContent(
             )
         }
     ) { innerPadding ->
-        Column(
-            Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 8.dp)
-        ) {
-            OutlinedTextField(
-                uiState.title,
-                onValueChange = onTitleChange,
+        MaxWidthLayout(Modifier.padding(innerPadding)) {
+            Column(
                 Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
-                singleLine = true,
-                label = {
-                    Text("Title")
-                },
-                supportingText = {
-                    Text(uiState.titleError ?: "Required")
-                },
-                isError = uiState.titleError != null,
-                leadingIcon = {
-                    Icon(painterResource(R.drawable.title_24px), contentDescription = null)
-                },
-                textStyle = LocalTextStyle.current.copy(
-                    fontWeight = FontWeight.Bold
-                )
-            )
-
-            OutlinedTextField(
-                uiState.description,
-                onValueChange = onDescriptionChange,
-                Modifier.fillMaxWidth(),
-                label = {
-                    Text("Description")
-                },
-                minLines = 5,
-                supportingText = {
-                    Text(uiState.descriptionError ?: "Optional")
-                },
-                isError = uiState.descriptionError != null
-            )
-
-            val deadlineSet = uiState.deadline != null
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(top = 4.dp)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 8.dp)
             ) {
-                Checkbox(
-                    checked = deadlineSet,
-                    onCheckedChange = { checked ->
-                        if (checked) {
-                            showDatePicker = true
-                        } else {
-                            onDeadlineChange(null)
-                        }
-                    }
-                )
-                Text("Set deadline")
-            }
-
-            if (uiState.deadline != null) {
-                Box(
-                    modifier = Modifier
+                OutlinedTextField(
+                    uiState.title,
+                    onValueChange = onTitleChange,
+                    Modifier
                         .fillMaxWidth()
-                        .padding(top = 4.dp, bottom = 8.dp)
+                        .padding(bottom = 8.dp),
+                    singleLine = true,
+                    label = {
+                        Text("Title")
+                    },
+                    supportingText = {
+                        Text(uiState.titleError ?: "Required")
+                    },
+                    isError = uiState.titleError != null,
+                    leadingIcon = {
+                        Icon(painterResource(R.drawable.title_24px), contentDescription = null)
+                    },
+                    textStyle = LocalTextStyle.current.copy(
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+
+                OutlinedTextField(
+                    uiState.description,
+                    onValueChange = onDescriptionChange,
+                    Modifier.fillMaxWidth(),
+                    label = {
+                        Text("Description")
+                    },
+                    minLines = 5,
+                    supportingText = {
+                        Text(uiState.descriptionError ?: "Optional")
+                    },
+                    isError = uiState.descriptionError != null
+                )
+
+                val deadlineSet = uiState.deadline != null
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(top = 4.dp)
                 ) {
-                    OutlinedTextField(
-                        value = uiState.deadline.formatDeadline(),
-                        onValueChange = {},
-                        modifier = Modifier.fillMaxWidth(),
-                        readOnly = true,
-                        label = { Text("Deadline") },
-                        leadingIcon = {
-                            Icon(painterResource(R.drawable.event_24px), contentDescription = null)
+                    Checkbox(
+                        checked = deadlineSet,
+                        onCheckedChange = { checked ->
+                            if (checked) {
+                                showDatePicker = true
+                            } else {
+                                onDeadlineChange(null)
+                            }
                         }
                     )
+                    Text("Set deadline")
+                }
+
+                if (uiState.deadline != null) {
                     Box(
                         modifier = Modifier
-                            .matchParentSize()
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = null,
-                                onClick = { showDatePicker = true }
-                            )
-                    )
+                            .fillMaxWidth()
+                            .padding(top = 4.dp, bottom = 8.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = uiState.deadline.formatDeadline(),
+                            onValueChange = {},
+                            modifier = Modifier.fillMaxWidth(),
+                            readOnly = true,
+                            label = { Text("Deadline") },
+                            leadingIcon = {
+                                Icon(painterResource(R.drawable.event_24px), contentDescription = null)
+                            }
+                        )
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null,
+                                    onClick = { showDatePicker = true }
+                                )
+                        )
+                    }
                 }
             }
         }

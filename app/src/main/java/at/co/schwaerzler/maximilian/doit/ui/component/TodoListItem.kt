@@ -1,4 +1,4 @@
-package at.co.schwaerzler.maximilian.doit.ui.components
+package at.co.schwaerzler.maximilian.doit.ui.component
 
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.fillMaxWidth

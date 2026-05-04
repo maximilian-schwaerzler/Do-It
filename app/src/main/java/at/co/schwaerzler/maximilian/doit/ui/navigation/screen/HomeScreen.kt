@@ -37,7 +37,8 @@ import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.HomeViewModel
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
-import at.co.schwaerzler.maximilian.doit.ui.components.TodoListItem
+import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
+import at.co.schwaerzler.maximilian.doit.ui.component.TodoListItem
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import kotlin.time.Clock
 
@@ -162,88 +163,89 @@ private fun HomeScreenContent(
                 })
         }
     ) { innerPadding ->
-        if (openTodos.isNotEmpty() || doneTodos.isNotEmpty()) {
-            LazyColumn(
-                Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize()
-            ) {
-                if (openTodos.isNotEmpty()) {
-                    item(key = "open-headline") {
-                        ListItem(
-                            headlineContent = {
-                                Text("Open", style = MaterialTheme.typography.headlineSmall)
-                            },
-                            modifier = Modifier.animateItem()
-                        )
-                        HorizontalDivider()
-                    }
-                }
-                items(openTodos, key = { it.id }) { item ->
-                    TodoListItem(
-                        item,
-                        onStateToggle = { onStateToggle(item) },
-                        onClick = {
-                            if (selectionToolbar) {
-                                toggleTodoItemSelection(item.id)
-                            } else {
-                                onClickTodo(item.id)
-                            }
-                        },
-                        onLongClick = {
-                            toggleTodoItemSelection(item.id)
-                        },
-                        selected = selectedTodos.contains(item.id),
-                        Modifier.animateItem()
-                    )
-                }
-                if (doneTodos.isNotEmpty()) {
-                    item(key = "done-headline") {
-                        if (openTodos.isNotEmpty()) {
+        MaxWidthLayout(Modifier.padding(innerPadding)) {
+            if (openTodos.isNotEmpty() || doneTodos.isNotEmpty()) {
+                LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                ) {
+                    if (openTodos.isNotEmpty()) {
+                        item(key = "open-headline") {
+                            ListItem(
+                                headlineContent = {
+                                    Text("Open", style = MaterialTheme.typography.headlineSmall)
+                                },
+                                modifier = Modifier.animateItem()
+                            )
                             HorizontalDivider()
                         }
-                        ListItem(
-                            headlineContent = {
-                                Text("Done", style = MaterialTheme.typography.headlineSmall)
+                    }
+                    items(openTodos, key = { it.id }) { item ->
+                        TodoListItem(
+                            item,
+                            onStateToggle = { onStateToggle(item) },
+                            onClick = {
+                                if (selectionToolbar) {
+                                    toggleTodoItemSelection(item.id)
+                                } else {
+                                    onClickTodo(item.id)
+                                }
                             },
+                            onLongClick = {
+                                toggleTodoItemSelection(item.id)
+                            },
+                            selected = selectedTodos.contains(item.id),
                             Modifier.animateItem()
                         )
-                        HorizontalDivider()
+                    }
+                    if (doneTodos.isNotEmpty()) {
+                        item(key = "done-headline") {
+                            if (openTodos.isNotEmpty()) {
+                                HorizontalDivider()
+                            }
+                            ListItem(
+                                headlineContent = {
+                                    Text("Done", style = MaterialTheme.typography.headlineSmall)
+                                },
+                                Modifier.animateItem()
+                            )
+                            HorizontalDivider()
+                        }
+                    }
+                    items(doneTodos, key = { it.id }) { item ->
+                        TodoListItem(
+                            item,
+                            onStateToggle = { onStateToggle(item) },
+                            onClick = {
+                                if (selectionToolbar) {
+                                    toggleTodoItemSelection(item.id)
+                                } else {
+                                    onClickTodo(item.id)
+                                }
+                            },
+                            onLongClick = {
+                                toggleTodoItemSelection(item.id)
+                            },
+                            selected = selectedTodos.contains(item.id),
+                            Modifier.animateItem()
+                        )
                     }
                 }
-                items(doneTodos, key = { it.id }) { item ->
-                    TodoListItem(
-                        item,
-                        onStateToggle = { onStateToggle(item) },
-                        onClick = {
-                            if (selectionToolbar) {
-                                toggleTodoItemSelection(item.id)
-                            } else {
-                                onClickTodo(item.id)
-                            }
-                        },
-                        onLongClick = {
-                            toggleTodoItemSelection(item.id)
-                        },
-                        selected = selectedTodos.contains(item.id),
-                        Modifier.animateItem()
-                    )
-                }
-            }
-        } else {
-            Box(
-                Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+            } else {
+                Box(
+                    Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        "Nothing to do! \uD83E\uDD73",
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                    Text("Add a new TODO with the button below.")
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            "Nothing to do! \uD83E\uDD73",
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                        Text("Add a new TODO with the button below.")
+                    }
                 }
             }
         }
