@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,9 +30,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import at.co.schwaerzler.maximilian.doit.R
@@ -143,7 +146,7 @@ private fun HomeScreenContent(
                 } else {
                     TopAppBar(
                         title = {
-                            Text(stringResource(R.string.app_name))
+                            Text("Just do it!")
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -178,6 +181,22 @@ private fun HomeScreenContent(
                                 modifier = Modifier.animateItem()
                             )
                             HorizontalDivider()
+                        }
+                    } else {
+                        item {
+                            Box(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .heightIn(min = 70.dp)
+                                    .animateItem(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    "You did everything! \uD83D\uDE80",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 22.sp
+                                )
+                            }
                         }
                     }
                     items(openTodos, key = { it.id }) { item ->
@@ -283,6 +302,25 @@ private fun HomeScreenWithTodosPreview() {
     DoItTheme {
         HomeScreenContent(
             openTodos = previewTodos.filter { it.state == TodoState.OPEN },
+            doneTodos = previewTodos.filter { it.state == TodoState.DONE },
+            onAddTodo = {},
+            onClickTodo = {},
+            toggleTodoItemSelection = {},
+            onStateToggle = {},
+            selectedTodos = emptySet(),
+            onClearSelection = {},
+            onSelectAll = {},
+            onDeleteSelection = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HomeScreenAllDonePreview() {
+    DoItTheme {
+        HomeScreenContent(
+            openTodos = emptyList(),
             doneTodos = previewTodos.filter { it.state == TodoState.DONE },
             onAddTodo = {},
             onClickTodo = {},
