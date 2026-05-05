@@ -1,3 +1,5 @@
+![Social Banner](assets/images/social-banner.png)
+
 # Do-It
 
 A modern Android to-do app built with Jetpack Compose and Material Design 3.
@@ -13,17 +15,17 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 
 ## Tech Stack
 
-| Layer | Technology |
-| --- | --- |
-| Language | Kotlin 2.3.21 |
-| UI | Jetpack Compose (BOM 2026.04.01) + Material 3 |
-| Navigation | Navigation Compose 2.9.8 (type-safe routes) |
-| Persistence | Room 2.8.4 |
-| Async | Kotlinx Coroutines 1.10.2 |
-| Date/time | Kotlinx Datetime 0.7.1 |
-| Min SDK | 26 (Android 8.0) |
-| Target SDK | 36 (Android 15) |
-| Build | Gradle Kotlin DSL + version catalog |
+| Layer       | Technology                                    |
+|-------------|-----------------------------------------------|
+| Language    | Kotlin 2.3.21                                 |
+| UI          | Jetpack Compose (BOM 2026.04.01) + Material 3 |
+| Navigation  | Navigation Compose 2.9.8 (type-safe routes)   |
+| Persistence | Room 2.8.4                                    |
+| Async       | Kotlinx Coroutines 1.10.2                     |
+| Date/time   | Kotlinx Datetime 0.7.1                        |
+| Min SDK     | 26 (Android 8.0)                              |
+| Target SDK  | 36 (Android 15)                               |
+| Build       | Gradle Kotlin DSL + version catalog           |
 
 ## Requirements
 
