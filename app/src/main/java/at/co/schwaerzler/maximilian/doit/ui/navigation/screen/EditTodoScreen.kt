@@ -1,7 +1,6 @@
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
