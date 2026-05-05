@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Do It</string>
+    <string name="todos_selected_template">%1$d selected</string>
+    <string name="just_do_it_app_bar">Just do it!</string>
+    <string name="add_new_todo_fab">Add a new TODO</string>
+    <string name="you_did_everything_empty_text">You did everything! 🚀</string>
+    <string name="done_headline">Done</string>
+    <string name="open_headline">Open</string>
+    <string name="nothing_to_do_empty_text">Nothing to do! 🥳</string>
+    <string name="add_new_todo_button">Add a new TODO with the button below.</string>
+    <string name="discard_changes_question">Discard changes?</string>
+    <string name="unsaved_changes_lost">Your unsaved changes will be lost.</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
+    <string name="next">Next</string>
+    <string name="cancel">Cancel</string>
+    <string name="done_fab">Done</string>
+    <string name="add_new_todo_app_bar">Add new TODO</string>
+    <string name="edit_todo_app_bar">Edit TODO</string>
+    <string name="delete_todo">Delete TODO</string>
+    <string name="share_todo">Share TODO</string>
+    <string name="title">Title</string>
+    <string name="required">Required</string>
+    <string name="description">Description</string>
+    <string name="optional">Optional</string>
+    <string name="set_deadline">Set deadline</string>
+    <string name="deadline">Deadline</string>
+    <string name="select_this_todo">Select this TODO</string>
+    <string name="deadline_template">Deadline: %1$s</string>
+    <string name="title_is_required">Title is required</string>
 </resources>
