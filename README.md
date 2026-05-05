@@ -1,0 +1,85 @@
+# Do-It
+
+A modern Android to-do app built with Jetpack Compose and Material Design 3.
+
+## Features
+
+- View open and completed todos in separate sections
+- Add and edit todos with a title, optional description, and optional deadline
+- Mark todos complete or incomplete with a single tap
+- Multi-select todos via long-press, then bulk-delete or select all
+- Motivational empty-state messages when the list is empty or everything is done
+- Edge-to-edge UI following Material Design 3 guidelines
+
+## Tech Stack
+
+| Layer | Technology |
+| --- | --- |
+| Language | Kotlin 2.3.21 |
+| UI | Jetpack Compose (BOM 2026.04.01) + Material 3 |
+| Navigation | Navigation Compose 2.9.8 (type-safe routes) |
+| Persistence | Room 2.8.4 |
+| Async | Kotlinx Coroutines 1.10.2 |
+| Date/time | Kotlinx Datetime 0.7.1 |
+| Min SDK | 26 (Android 8.0) |
+| Target SDK | 36 (Android 15) |
+| Build | Gradle Kotlin DSL + version catalog |
+
+## Requirements
+
+- Android Studio Meerkat or newer
+- JDK 11+
+- Android device or emulator running API 26+
+
+## Getting Started
+
+Clone the repository and open it in Android Studio, or build from the command line:
+
+```bash
+./gradlew assembleDebug          # Build debug APK
+./gradlew assembleRelease        # Build release APK
+./gradlew test                   # Run unit tests
+./gradlew connectedAndroidTest   # Run instrumented tests (requires device/emulator)
+./gradlew lint                   # Run lint checks
+```
+
+## Project Structure
+
+Single-module project (`:app`). Package root: `at.co.schwaerzler.maximilian.doit`.
+
+```text
+app/src/main/java/at/co/schwaerzler/maximilian/doit/
+├── MainActivity.kt
+├── DoItApplication.kt
+├── data/
+│   ├── HomeViewModel.kt
+│   ├── EditTodoViewModel.kt
+│   └── db/
+│       ├── TodoDatabase.kt
+│       ├── Converters.kt
+│       ├── dao/TodoDao.kt
+│       └── entity/
+│           ├── Todo.kt
+│           └── TodoSummary.kt
+└── ui/
+    ├── navigation/
+    │   ├── AppNavigation.kt
+    │   └── screen/
+    │       ├── HomeScreen.kt
+    │       └── EditTodoScreen.kt
+    ├── component/
+    │   ├── MaxWidthLayout.kt
+    │   └── TodoListItem.kt
+    └── theme/
+        ├── Color.kt
+        ├── Theme.kt
+        └── Type.kt
+```
+
+## Architecture
+
+The app follows MVVM with unidirectional data flow: screens observe `StateFlow` exposed by
+ViewModels and send events back as simple function calls. Room handles local persistence via a
+`TodoDao`. Navigation uses type-safe `@Serializable` route objects — screens receive navigation
+actions as callbacks and never hold a reference to `NavController`. `EditTodoScreen` serves as
+both the add and edit screen via a single nullable `todoId` parameter.
