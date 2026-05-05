@@ -41,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,16 +87,16 @@ fun EditTodoScreen(
     if (showDiscardDialog) {
         AlertDialog(
             onDismissRequest = { showDiscardDialog = false },
-            title = { Text("Discard changes?") },
-            text = { Text("Your unsaved changes will be lost.") },
+            title = { Text(stringResource(R.string.discard_changes_question)) },
+            text = { Text(stringResource(R.string.unsaved_changes_lost)) },
             confirmButton = {
                 TextButton(onClick = {
                     showDiscardDialog = false
                     onCancel()
-                }) { Text("Discard") }
+                }) { Text(stringResource(R.string.discard)) }
             },
             dismissButton = {
-                TextButton(onClick = { showDiscardDialog = false }) { Text("Keep editing") }
+                TextButton(onClick = { showDiscardDialog = false }) { Text(stringResource(R.string.keep_editing)) }
             }
         )
     }
@@ -174,10 +175,10 @@ private fun EditTodoScreenContent(
                         showDatePicker = false
                         showTimePicker = true
                     }
-                }) { Text("Next") }
+                }) { Text(stringResource(R.string.next)) }
             },
             dismissButton = {
-                TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
+                TextButton(onClick = { showDatePicker = false }) { Text(stringResource(R.string.cancel)) }
             }
         ) {
             DatePicker(state = datePickerState)
@@ -211,7 +212,7 @@ private fun EditTodoScreenContent(
                     Icon(painterResource(R.drawable.add_task_24px), contentDescription = null)
                 },
                 text = {
-                    Text("Done")
+                    Text(stringResource(R.string.done_fab))
                 }
             )
         },
@@ -219,9 +220,9 @@ private fun EditTodoScreenContent(
             TopAppBar(
                 title = {
                     if (id == null) {
-                        Text("Add new TODO")
+                        Text(stringResource(R.string.add_new_todo_app_bar))
                     } else {
-                        Text("Edit TODO")
+                        Text(stringResource(R.string.edit_todo_app_bar))
                     }
                 },
                 navigationIcon = {
@@ -234,14 +235,14 @@ private fun EditTodoScreenContent(
                         IconButton(onClick = onDelete) {
                             Icon(
                                 painterResource(R.drawable.delete_24px),
-                                contentDescription = "Delete TODO"
+                                contentDescription = stringResource(R.string.delete_todo)
                             )
                         }
 
                         IconButton(onClick = { onShareTodo() }) {
                             Icon(
                                 painterResource(R.drawable.share_24px),
-                                contentDescription = "Share TODO"
+                                contentDescription = stringResource(R.string.share_todo)
                             )
                         }
                     }
@@ -264,10 +265,10 @@ private fun EditTodoScreenContent(
                         .padding(bottom = 8.dp),
                     singleLine = true,
                     label = {
-                        Text("Title")
+                        Text(stringResource(R.string.title))
                     },
                     supportingText = {
-                        Text(uiState.titleError ?: "Required")
+                        Text(uiState.titleError ?: stringResource(R.string.required))
                     },
                     isError = uiState.titleError != null,
                     leadingIcon = {
@@ -283,11 +284,11 @@ private fun EditTodoScreenContent(
                     onValueChange = onDescriptionChange,
                     Modifier.fillMaxWidth(),
                     label = {
-                        Text("Description")
+                        Text(stringResource(R.string.description))
                     },
                     minLines = 5,
                     supportingText = {
-                        Text(uiState.descriptionError ?: "Optional")
+                        Text(uiState.descriptionError ?: stringResource(R.string.optional))
                     },
                     isError = uiState.descriptionError != null
                 )
@@ -308,7 +309,7 @@ private fun EditTodoScreenContent(
                             }
                         }
                     )
-                    Text("Set deadline")
+                    Text(stringResource(R.string.set_deadline))
                 }
 
                 if (uiState.deadline != null) {
@@ -322,7 +323,7 @@ private fun EditTodoScreenContent(
                             onValueChange = {},
                             modifier = Modifier.fillMaxWidth(),
                             readOnly = true,
-                            label = { Text("Deadline") },
+                            label = { Text(stringResource(R.string.deadline)) },
                             leadingIcon = {
                                 Icon(
                                     painterResource(R.drawable.event_24px),
