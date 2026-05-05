@@ -1,6 +1,9 @@
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
+import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -135,6 +138,27 @@ private fun EditTodoScreenContent(
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     var pendingDateMillis by remember { mutableLongStateOf(0L) }
+    val activity = LocalActivity.current
+
+    fun onShareTodo() {
+        val shareContentBuilder = StringBuilder()
+        shareContentBuilder.append("*")
+        shareContentBuilder.append(uiState.title)
+        shareContentBuilder.append("*")
+        shareContentBuilder.append("\n")
+        if (uiState.description.isNotBlank()) {
+            shareContentBuilder.append(uiState.description)
+        }
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareContentBuilder.toString())
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        activity?.startActivity(shareIntent)
+    }
 
     if (showDatePicker) {
         val datePickerState = rememberDatePickerState(
@@ -210,7 +234,14 @@ private fun EditTodoScreenContent(
                         IconButton(onClick = onDelete) {
                             Icon(
                                 painterResource(R.drawable.delete_24px),
-                                contentDescription = "Delete"
+                                contentDescription = "Delete TODO"
+                            )
+                        }
+
+                        IconButton(onClick = { onShareTodo() }) {
+                            Icon(
+                                painterResource(R.drawable.share_24px),
+                                contentDescription = "Share TODO"
                             )
                         }
                     }
@@ -293,7 +324,10 @@ private fun EditTodoScreenContent(
                             readOnly = true,
                             label = { Text("Deadline") },
                             leadingIcon = {
-                                Icon(painterResource(R.drawable.event_24px), contentDescription = null)
+                                Icon(
+                                    painterResource(R.drawable.event_24px),
+                                    contentDescription = null
+                                )
                             }
                         )
                         Box(
