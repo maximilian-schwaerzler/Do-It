@@ -59,6 +59,7 @@ import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import kotlin.time.Instant
 
 @Composable
 fun EditTodoScreen(
@@ -128,7 +129,7 @@ private fun EditTodoScreenContent(
     uiState: EditTodoUiState,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
-    onDeadlineChange: (kotlin.time.Instant?) -> Unit,
+    onDeadlineChange: (Instant?) -> Unit,
     onSave: () -> Unit,
     onCancel: () -> Unit,
     onDelete: () -> Unit,
@@ -373,16 +374,16 @@ private fun DeadlineTimePickerDialog(
     )
 }
 
-private fun buildInstant(dateEpochMs: Long, hour: Int, minute: Int): kotlin.time.Instant {
+private fun buildInstant(dateEpochMs: Long, hour: Int, minute: Int): Instant {
     // DatePicker returns UTC midnight; resolve local date first to handle DST correctly
-    val localDate = kotlin.time.Instant.fromEpochMilliseconds(dateEpochMs)
+    val localDate = Instant.fromEpochMilliseconds(dateEpochMs)
         .toLocalDateTime(TimeZone.currentSystemDefault())
         .date
     return LocalDateTime(localDate, LocalTime(hour, minute))
         .toInstant(TimeZone.currentSystemDefault())
 }
 
-private fun kotlin.time.Instant.formatDeadline(): String {
+private fun Instant.formatDeadline(): String {
     val local = toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
     return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(local)
 }
