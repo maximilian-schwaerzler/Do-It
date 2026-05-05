@@ -26,9 +26,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
@@ -63,7 +65,7 @@ fun TodoListItem(
                 onClick = {
                     onClick()
                 },
-                onLongClickLabel = "Select this TODO"
+                onLongClickLabel = stringResource(R.string.select_this_todo)
             ),
         headlineContent = {
             Text(
@@ -73,7 +75,7 @@ fun TodoListItem(
             )
         },
         supportingContent = if (deadlineText != null) {
-            { Text("Deadline: $deadlineText") }
+            { Text(stringResource(R.string.deadline_template, deadlineText)) }
         } else null,
         trailingContent = {
             Checkbox(todo.state == TodoState.DONE, onCheckedChange = {

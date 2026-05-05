@@ -46,6 +46,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -131,7 +132,11 @@ private fun HomeScreenContent(
                 if (inSelectionMode) {
                     TopAppBar(
                         title = {
-                            Text("${selectedTodos.size} selected")
+                            Text(
+                                stringResource(
+                                    R.string.todos_selected_template,
+                                    selectedTodos.size
+                                ))
                         },
                         navigationIcon = {
                             IconButton(onClick = onClearSelection) {
@@ -162,7 +167,7 @@ private fun HomeScreenContent(
                 } else {
                     TopAppBar(
                         title = {
-                            Text("Just do it!")
+                            Text(stringResource(R.string.just_do_it_app_bar))
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -175,10 +180,10 @@ private fun HomeScreenContent(
             ExtendedFloatingActionButton(
                 onClick = onAddTodo,
                 text = {
-                    Text("Add a new TODO")
+                    Text(stringResource(R.string.add_new_todo_fab))
                 },
                 icon = {
-                    Icon(painterResource(R.drawable.add_24px), contentDescription = "Add new todo")
+                    Icon(painterResource(R.drawable.add_24px), contentDescription = stringResource(R.string.add_new_todo_fab))
                 })
         }
     ) { innerPadding ->
@@ -192,7 +197,7 @@ private fun HomeScreenContent(
                         item(key = "open-headline") {
                             ListItem(
                                 headlineContent = {
-                                    Text("Open", style = MaterialTheme.typography.headlineSmall)
+                                    Text(stringResource(R.string.open_headline), style = MaterialTheme.typography.headlineSmall)
                                 },
                                 modifier = Modifier.animateItem()
                             )
@@ -208,7 +213,7 @@ private fun HomeScreenContent(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    "You did everything! \uD83D\uDE80",
+                                    stringResource(R.string.you_did_everything_empty_text),
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 22.sp
                                 )
@@ -240,7 +245,7 @@ private fun HomeScreenContent(
                             }
                             ListItem(
                                 headlineContent = {
-                                    Text("Done", style = MaterialTheme.typography.headlineSmall)
+                                    Text(stringResource(R.string.done_headline), style = MaterialTheme.typography.headlineSmall)
                                 },
                                 Modifier.animateItem()
                             )
@@ -276,10 +281,10 @@ private fun HomeScreenContent(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
-                            "Nothing to do! \uD83E\uDD73",
+                            stringResource(R.string.nothing_to_do_empty_text),
                             style = MaterialTheme.typography.headlineMedium
                         )
-                        Text("Add a new TODO with the button below.")
+                        Text(stringResource(R.string.add_new_todo_button))
                     }
                 }
             }
