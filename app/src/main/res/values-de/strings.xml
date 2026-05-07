@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="todos_selected_template">%1$d ausgewählt</string>
+    <string name="add_new_todo_fab">Neue Aufgabe</string>
+    <string name="you_did_everything_empty_text">Alles erledigt! 🚀</string>
+    <string name="done_headline">Fertig</string>
+    <string name="open_headline">Offen</string>
+    <string name="nothing_to_do_empty_text">Alles erledigt! 🥳</string>
+    <string name="add_new_todo_button">Neue Aufgabe unten hinzufügen</string>
+    <string name="discard_changes_question">Änderungen verwerfen?</string>
+    <string name="unsaved_changes_lost">Alle ungespeicherten Änderungen werden verworfen</string>
+    <string name="discard">Verwerfen</string>
+    <string name="keep_editing">Weitermachen</string>
+    <string name="next">Weiter</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="done_fab">Fertig</string>
+    <string name="add_new_todo_app_bar">Neue Aufgabe</string>
+    <string name="edit_todo_app_bar">Aufgabe bearbeiten</string>
+    <string name="delete_todo">Aufgabe löschen</string>
+    <string name="share_todo">Aufgabe teilen</string>
+    <string name="title">Titel</string>
+    <string name="required">Erforderlich</string>
+    <string name="description">Beschreibung</string>
+    <string name="optional">Optional</string>
+    <string name="set_deadline">Frist hinzufügen</string>
+    <string name="deadline">Frist</string>
+    <string name="select_this_todo">Aufgabe auswählen</string>
+    <string name="deadline_template">Frist: %1$s</string>
+    <string name="title_is_required">Titel erforderlich</string>
+</resources>

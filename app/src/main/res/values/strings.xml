@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Do It</string>
+    <string name="app_name" translatable="false">Do It</string>
     <string name="todos_selected_template">%1$d selected</string>
-    <string name="just_do_it_app_bar">Just do it!</string>
+    <string name="just_do_it_app_bar" translatable="false">Just do it!</string>
     <string name="add_new_todo_fab">Add a new TODO</string>
     <string name="you_did_everything_empty_text">You did everything! 🚀</string>
     <string name="done_headline">Done</string>
