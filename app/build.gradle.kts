@@ -37,7 +37,6 @@ android {
     }
 
     val keystorePropertiesFile = rootProject.file("keystore.properties")
-
     signingConfigs {
         if (keystorePropertiesFile.exists()) {
             val keystoreProperties = Properties()
@@ -72,10 +71,12 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     buildFeatures {
         compose = true
     }
@@ -103,6 +104,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
+    implementation(libs.commonmark)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.room.runtime)
