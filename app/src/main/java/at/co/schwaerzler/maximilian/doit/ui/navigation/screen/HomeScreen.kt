@@ -136,7 +136,8 @@ private fun HomeScreenContent(
                                 stringResource(
                                     R.string.todos_selected_template,
                                     selectedTodos.size
-                                ))
+                                )
+                            )
                         },
                         navigationIcon = {
                             IconButton(onClick = onClearSelection) {
@@ -183,7 +184,10 @@ private fun HomeScreenContent(
                     Text(stringResource(R.string.add_new_todo_fab))
                 },
                 icon = {
-                    Icon(painterResource(R.drawable.add_24px), contentDescription = stringResource(R.string.add_new_todo_fab))
+                    Icon(
+                        painterResource(R.drawable.add_24px),
+                        contentDescription = stringResource(R.string.add_new_todo_fab)
+                    )
                 })
         }
     ) { innerPadding ->
@@ -197,7 +201,10 @@ private fun HomeScreenContent(
                         item(key = "open-headline") {
                             ListItem(
                                 headlineContent = {
-                                    Text(stringResource(R.string.open_headline), style = MaterialTheme.typography.headlineSmall)
+                                    Text(
+                                        stringResource(R.string.open_headline),
+                                        style = MaterialTheme.typography.headlineSmall
+                                    )
                                 },
                                 modifier = Modifier.animateItem()
                             )
@@ -245,7 +252,10 @@ private fun HomeScreenContent(
                             }
                             ListItem(
                                 headlineContent = {
-                                    Text(stringResource(R.string.done_headline), style = MaterialTheme.typography.headlineSmall)
+                                    Text(
+                                        stringResource(R.string.done_headline),
+                                        style = MaterialTheme.typography.headlineSmall
+                                    )
                                 },
                                 Modifier.animateItem()
                             )

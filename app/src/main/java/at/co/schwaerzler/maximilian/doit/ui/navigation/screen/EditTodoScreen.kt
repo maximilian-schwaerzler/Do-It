@@ -112,7 +112,9 @@ fun EditTodoScreen(
                 }) { Text(stringResource(R.string.discard)) }
             },
             dismissButton = {
-                TextButton(onClick = { showDiscardDialog = false }) { Text(stringResource(R.string.keep_editing)) }
+                TextButton(onClick = {
+                    showDiscardDialog = false
+                }) { Text(stringResource(R.string.keep_editing)) }
             }
         )
     }
@@ -194,7 +196,9 @@ private fun EditTodoScreenContent(
                 }) { Text(stringResource(R.string.next)) }
             },
             dismissButton = {
-                TextButton(onClick = { showDatePicker = false }) { Text(stringResource(R.string.cancel)) }
+                TextButton(onClick = {
+                    showDatePicker = false
+                }) { Text(stringResource(R.string.cancel)) }
             }
         ) {
             DatePicker(state = datePickerState)
