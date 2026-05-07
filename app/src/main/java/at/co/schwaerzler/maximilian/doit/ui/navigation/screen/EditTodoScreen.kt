@@ -57,6 +57,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -377,7 +378,7 @@ private fun DeadlineTimePickerDialog(
     )
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select time") },
+        title = { Text(stringResource(R.string.select_time)) },
         text = { TimePicker(state = timePickerState) },
         confirmButton = {
             TextButton(onClick = { onConfirm(timePickerState.hour, timePickerState.minute) }) {
@@ -385,7 +386,7 @@ private fun DeadlineTimePickerDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
         }
     )
 }

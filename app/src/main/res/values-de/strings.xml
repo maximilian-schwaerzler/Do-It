@@ -43,4 +43,5 @@
     <string name="select_this_todo">Aufgabe auswählen</string>
     <string name="deadline_template">Frist: %1$s</string>
     <string name="title_is_required">Titel erforderlich</string>
+    <string name="select_time">Zeit auswählen</string>
 </resources>
