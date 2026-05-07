@@ -80,6 +80,11 @@ android {
         compose = true
     }
 
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+
     androidResources {
         generateLocaleConfig = true
     }
