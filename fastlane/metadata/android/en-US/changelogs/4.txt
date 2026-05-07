@@ -1,0 +1,2 @@
+- Add translations for German
+- Enable per-app language selection in the system settings
