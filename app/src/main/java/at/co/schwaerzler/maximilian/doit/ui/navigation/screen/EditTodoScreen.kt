@@ -1,3 +1,19 @@
+/*
+ * Copyright 2026 Maximilian Schwärzler
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
 import android.content.Intent
@@ -41,7 +57,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -87,16 +102,16 @@ fun EditTodoScreen(
     if (showDiscardDialog) {
         AlertDialog(
             onDismissRequest = { showDiscardDialog = false },
-            title = { Text(stringResource(R.string.discard_changes_question)) },
-            text = { Text(stringResource(R.string.unsaved_changes_lost)) },
+            title = { Text("Discard changes?") },
+            text = { Text("Your unsaved changes will be lost.") },
             confirmButton = {
                 TextButton(onClick = {
                     showDiscardDialog = false
                     onCancel()
-                }) { Text(stringResource(R.string.discard)) }
+                }) { Text("Discard") }
             },
             dismissButton = {
-                TextButton(onClick = { showDiscardDialog = false }) { Text(stringResource(R.string.keep_editing)) }
+                TextButton(onClick = { showDiscardDialog = false }) { Text("Keep editing") }
             }
         )
     }
@@ -175,10 +190,10 @@ private fun EditTodoScreenContent(
                         showDatePicker = false
                         showTimePicker = true
                     }
-                }) { Text(stringResource(R.string.next)) }
+                }) { Text("Next") }
             },
             dismissButton = {
-                TextButton(onClick = { showDatePicker = false }) { Text(stringResource(R.string.cancel)) }
+                TextButton(onClick = { showDatePicker = false }) { Text("Cancel") }
             }
         ) {
             DatePicker(state = datePickerState)
@@ -212,7 +227,7 @@ private fun EditTodoScreenContent(
                     Icon(painterResource(R.drawable.add_task_24px), contentDescription = null)
                 },
                 text = {
-                    Text(stringResource(R.string.done_fab))
+                    Text("Done")
                 }
             )
         },
@@ -220,9 +235,9 @@ private fun EditTodoScreenContent(
             TopAppBar(
                 title = {
                     if (id == null) {
-                        Text(stringResource(R.string.add_new_todo_app_bar))
+                        Text("Add new TODO")
                     } else {
-                        Text(stringResource(R.string.edit_todo_app_bar))
+                        Text("Edit TODO")
                     }
                 },
                 navigationIcon = {
@@ -235,14 +250,14 @@ private fun EditTodoScreenContent(
                         IconButton(onClick = onDelete) {
                             Icon(
                                 painterResource(R.drawable.delete_24px),
-                                contentDescription = stringResource(R.string.delete_todo)
+                                contentDescription = "Delete TODO"
                             )
                         }
 
                         IconButton(onClick = { onShareTodo() }) {
                             Icon(
                                 painterResource(R.drawable.share_24px),
-                                contentDescription = stringResource(R.string.share_todo)
+                                contentDescription = "Share TODO"
                             )
                         }
                     }
@@ -265,10 +280,10 @@ private fun EditTodoScreenContent(
                         .padding(bottom = 8.dp),
                     singleLine = true,
                     label = {
-                        Text(stringResource(R.string.title))
+                        Text("Title")
                     },
                     supportingText = {
-                        Text(uiState.titleError ?: stringResource(R.string.required))
+                        Text(uiState.titleError ?: "Required")
                     },
                     isError = uiState.titleError != null,
                     leadingIcon = {
@@ -284,11 +299,11 @@ private fun EditTodoScreenContent(
                     onValueChange = onDescriptionChange,
                     Modifier.fillMaxWidth(),
                     label = {
-                        Text(stringResource(R.string.description))
+                        Text("Description")
                     },
                     minLines = 5,
                     supportingText = {
-                        Text(uiState.descriptionError ?: stringResource(R.string.optional))
+                        Text(uiState.descriptionError ?: "Optional")
                     },
                     isError = uiState.descriptionError != null
                 )
@@ -309,7 +324,7 @@ private fun EditTodoScreenContent(
                             }
                         }
                     )
-                    Text(stringResource(R.string.set_deadline))
+                    Text("Set deadline")
                 }
 
                 if (uiState.deadline != null) {
@@ -323,7 +338,7 @@ private fun EditTodoScreenContent(
                             onValueChange = {},
                             modifier = Modifier.fillMaxWidth(),
                             readOnly = true,
-                            label = { Text(stringResource(R.string.deadline)) },
+                            label = { Text("Deadline") },
                             leadingIcon = {
                                 Icon(
                                     painterResource(R.drawable.event_24px),

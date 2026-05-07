@@ -1,6 +1,21 @@
+/*
+ * Copyright 2026 Maximilian Schwärzler
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package at.co.schwaerzler.maximilian.doit.data
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -8,7 +23,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
-import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +35,6 @@ import kotlinx.coroutines.launch
 import kotlin.time.Instant
 
 class EditTodoViewModel(
-    private val appContext: Context,
     private val db: TodoDatabase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<EditTodoUiState>(EditTodoUiState())
@@ -34,8 +47,8 @@ class EditTodoViewModel(
 
     val isModified = uiState.map { state ->
         state.title != originalTitle ||
-                state.description != originalDescription ||
-                state.deadline != originalDeadline
+        state.description != originalDescription ||
+        state.deadline != originalDeadline
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
 
     fun updateTitle(newTitle: String) {
@@ -64,7 +77,7 @@ class EditTodoViewModel(
 
     fun saveTodo(id: Int?): Boolean {
         if (_uiState.value.title.isBlank()) {
-            _uiState.update { it.copy(titleError = appContext.getString(R.string.title_is_required)) }
+            _uiState.update { it.copy(titleError = "Title is required") }
             return false
         }
 
@@ -124,9 +137,7 @@ class EditTodoViewModel(
             initializer {
                 val db =
                     (this[APPLICATION_KEY] as DoItApplication).database
-                val appContext = (this[APPLICATION_KEY] as DoItApplication).applicationContext
                 EditTodoViewModel(
-                    appContext = appContext,
                     db = db
                 )
             }

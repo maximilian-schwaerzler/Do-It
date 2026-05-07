@@ -1,0 +1,14 @@
+Do-It is a clean, distraction-free to-do app that helps you stay on top of your tasks.
+
+<b>Features</b>
+
+• View open and completed todos in separate sections
+• Add and edit todos with a title, optional description, and optional deadline
+• Mark todos complete or incomplete with a single tap
+• Multi-select todos via long-press, then bulk-delete or select all
+• Motivational empty-state messages when the list is empty or everything is done
+• Edge-to-edge UI following Material Design 3 guidelines
+
+<b>Open Source</b>
+
+Do-It is free and open-source software, licensed under the Apache License 2.0. No ads, no tracking, no accounts required.

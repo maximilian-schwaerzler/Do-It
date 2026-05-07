@@ -1,3 +1,19 @@
+/*
+ * Copyright 2026 Maximilian Schwärzler
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
 import androidx.activity.compose.BackHandler
@@ -30,7 +46,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -116,11 +131,7 @@ private fun HomeScreenContent(
                 if (inSelectionMode) {
                     TopAppBar(
                         title = {
-                            Text(
-                                stringResource(
-                                    R.string.todos_selected_template,
-                                    selectedTodos.size
-                                ))
+                            Text("${selectedTodos.size} selected")
                         },
                         navigationIcon = {
                             IconButton(onClick = onClearSelection) {
@@ -151,7 +162,7 @@ private fun HomeScreenContent(
                 } else {
                     TopAppBar(
                         title = {
-                            Text(stringResource(R.string.just_do_it_app_bar))
+                            Text("Just do it!")
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -164,10 +175,10 @@ private fun HomeScreenContent(
             ExtendedFloatingActionButton(
                 onClick = onAddTodo,
                 text = {
-                    Text(stringResource(R.string.add_new_todo_fab))
+                    Text("Add a new TODO")
                 },
                 icon = {
-                    Icon(painterResource(R.drawable.add_24px), contentDescription = stringResource(R.string.add_new_todo_fab))
+                    Icon(painterResource(R.drawable.add_24px), contentDescription = "Add new todo")
                 })
         }
     ) { innerPadding ->
@@ -181,7 +192,7 @@ private fun HomeScreenContent(
                         item(key = "open-headline") {
                             ListItem(
                                 headlineContent = {
-                                    Text(stringResource(R.string.open_headline), style = MaterialTheme.typography.headlineSmall)
+                                    Text("Open", style = MaterialTheme.typography.headlineSmall)
                                 },
                                 modifier = Modifier.animateItem()
                             )
@@ -197,7 +208,7 @@ private fun HomeScreenContent(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    stringResource(R.string.you_did_everything_empty_text),
+                                    "You did everything! \uD83D\uDE80",
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 22.sp
                                 )
@@ -229,7 +240,7 @@ private fun HomeScreenContent(
                             }
                             ListItem(
                                 headlineContent = {
-                                    Text(stringResource(R.string.done_headline), style = MaterialTheme.typography.headlineSmall)
+                                    Text("Done", style = MaterialTheme.typography.headlineSmall)
                                 },
                                 Modifier.animateItem()
                             )
@@ -265,10 +276,10 @@ private fun HomeScreenContent(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
-                            stringResource(R.string.nothing_to_do_empty_text),
+                            "Nothing to do! \uD83E\uDD73",
                             style = MaterialTheme.typography.headlineMedium
                         )
-                        Text(stringResource(R.string.add_new_todo_button))
+                        Text("Add a new TODO with the button below.")
                     }
                 }
             }
