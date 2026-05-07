@@ -378,7 +378,7 @@ private fun DeadlineTimePickerDialog(
     )
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select time") },
+        title = { Text(stringResource(R.string.select_time)) },
         text = { TimePicker(state = timePickerState) },
         confirmButton = {
             TextButton(onClick = { onConfirm(timePickerState.hour, timePickerState.minute) }) {
@@ -386,7 +386,7 @@ private fun DeadlineTimePickerDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
         }
     )
 }
