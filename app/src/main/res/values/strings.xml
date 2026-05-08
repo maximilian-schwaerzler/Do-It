@@ -45,4 +45,6 @@
     <string name="deadline_template">Deadline: %1$s</string>
     <string name="title_is_required">Title is required</string>
     <string name="select_time">Select time</string>
+    <string name="clear_selection">Clear selection</string>
+    <string name="select_all">Select all</string>
 </resources>

@@ -44,4 +44,6 @@
     <string name="deadline_template">Frist: %1$s</string>
     <string name="title_is_required">Titel erforderlich</string>
     <string name="select_time">Zeit auswählen</string>
+    <string name="clear_selection">Auswahl aufheben</string>
+    <string name="select_all">Alles auswählen</string>
 </resources>
