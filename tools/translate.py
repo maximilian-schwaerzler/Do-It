@@ -1,14 +1,24 @@
 #!/usr/bin/env python3
-"""Translate Android strings.xml into other languages using the DeepL API.
+"""Translate app content into other languages using the DeepL API.
 
-Usage:
+Setup:
     pip install deepl
-    python translate.py --api-key YOUR_KEY fr es it
-    python translate.py --api-key YOUR_KEY de          # fill gaps in existing file
-    python translate.py --api-key YOUR_KEY --force de  # re-translate everything
 
-By default, strings already present in the target file are kept untouched so
-that hand-edited translations are never overwritten.
+Subcommands:
+
+  strings   Translate app/src/main/res/values/strings.xml
+  fastlane  Translate fastlane/metadata/android/en-US/ store listing files
+
+Examples:
+    python tools/translate.py strings --api-key KEY fr es it
+    python tools/translate.py strings --api-key KEY de        # fill gaps only
+    python tools/translate.py strings --api-key KEY --force de
+
+    python tools/translate.py fastlane --api-key KEY de fr
+    python tools/translate.py fastlane --api-key KEY --force de
+
+By default, files/strings that already exist in the target are left untouched
+so that hand-edited translations are never overwritten. Use --force to redo all.
 """
 
 import argparse
@@ -23,8 +33,8 @@ except ImportError:
     print("deepl package not found. Run: pip install deepl", file=sys.stderr)
     sys.exit(1)
 
-# Maps Android resource locale codes to DeepL target-language codes.
-# Add entries here for any language DeepL supports.
+# Maps locale codes (used as folder names) to DeepL target-language codes.
+# The same map is used by both subcommands.
 DEEPL_LANG_MAP: dict[str, str] = {
     "bg": "BG",
     "cs": "CS",
@@ -47,6 +57,7 @@ DEEPL_LANG_MAP: dict[str, str] = {
     "pl": "PL",
     "pt": "PT-PT",
     "pt-rBR": "PT-BR",
+    "pt-BR": "PT-BR",
     "ro": "RO",
     "ru": "RU",
     "sk": "SK",
@@ -56,10 +67,11 @@ DEEPL_LANG_MAP: dict[str, str] = {
     "uk": "UK",
     "zh": "ZH",
     "zh-rTW": "ZH-HANT",
+    "zh-TW": "ZH-HANT",
     "ta": "TA"
 }
 
-LICENSE_HEADER = """\
+_XML_LICENSE_HEADER = """\
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2026 Maximilian Schwärzler
@@ -80,28 +92,35 @@ LICENSE_HEADER = """\
 """
 
 # Matches Android printf-style placeholders: %s, %d, %f, %1$s, %2$d, %%
-_PLACEHOLDER_RE = re.compile(r'%%|%\d+\$[sdf]|%[sdf]')
+_PLACEHOLDER_RE = re.compile(r"%%|%\d+\$[sdf]|%[sdf]")
 
 
-def _protect(text: str) -> str:
-    """Wrap placeholders so DeepL leaves them alone."""
+def _resolve_deepl_lang(locale: str) -> str | None:
+    return DEEPL_LANG_MAP.get(locale)
+
+
+def _protect_placeholders(text: str) -> str:
+    """Wrap Android format placeholders so DeepL leaves them alone."""
     return _PLACEHOLDER_RE.sub(lambda m: f"<ph>{m.group()}</ph>", text)
 
 
-def _restore(text: str) -> str:
-    """Strip the wrapper tags added by _protect."""
+def _restore_placeholders(text: str) -> str:
     return re.sub(r"<ph>(.*?)</ph>", lambda m: m.group(1), text)
 
 
 def _android_escape(text: str) -> str:
-    """Apply the escaping rules required by Android string resources."""
+    """Escape text for use inside an Android string resource element."""
     text = text.replace("&", "&amp;")
     text = text.replace("<", "&lt;")
     text = text.replace("'", "\\'")
     return text
 
 
-def _load_existing(path: Path) -> dict[str, str]:
+# ---------------------------------------------------------------------------
+# strings subcommand
+# ---------------------------------------------------------------------------
+
+def _load_existing_strings(path: Path) -> dict[str, str]:
     if not path.exists():
         return {}
     try:
@@ -112,28 +131,24 @@ def _load_existing(path: Path) -> dict[str, str]:
         return {}
 
 
-def translate_language(
+def _translate_strings_language(
     translator: deepl.Translator,
     source_root: ET.Element,
     res_dir: Path,
-    android_lang: str,
+    locale: str,
     force: bool,
 ) -> None:
-    deepl_lang = DEEPL_LANG_MAP.get(android_lang)
+    deepl_lang = _resolve_deepl_lang(locale)
     if deepl_lang is None:
-        print(
-            f"[{android_lang}] Unknown locale — add it to DEEPL_LANG_MAP and retry.",
-            file=sys.stderr,
-        )
+        print(f"[{locale}] Unknown locale — add it to DEEPL_LANG_MAP and retry.", file=sys.stderr)
         return
 
-    target_dir = res_dir / f"values-{android_lang}"
+    target_dir = res_dir / f"values-{locale}"
     target_path = target_dir / "strings.xml"
     target_dir.mkdir(exist_ok=True)
 
-    existing = {} if force else _load_existing(target_path)
+    existing = {} if force else _load_existing_strings(target_path)
 
-    # Collect strings that need translation (respects translatable="false")
     to_translate: list[tuple[str, str]] = []
     for el in source_root.findall("string"):
         name = el.get("name")
@@ -143,22 +158,21 @@ def translate_language(
             to_translate.append((name, el.text or ""))
 
     if to_translate:
-        print(f"[{android_lang}] Translating {len(to_translate)} string(s)…")
-        protected_texts = [_protect(text) for _, text in to_translate]
+        print(f"[{locale}] Translating {len(to_translate)} string(s)…")
+        protected = [_protect_placeholders(t) for _, t in to_translate]
         results = translator.translate_text(
-            protected_texts,
+            protected,
             source_lang="EN",
             target_lang=deepl_lang,
             tag_handling="xml",
             ignore_tags=["ph"],
         )
         for (name, _), result in zip(to_translate, results):
-            existing[name] = _restore(result.text)
+            existing[name] = _restore_placeholders(result.text)
     else:
-        print(f"[{android_lang}] Nothing new to translate.")
+        print(f"[{locale}] Nothing new to translate.")
 
-    # Write output in the same order as the source file
-    lines: list[str] = [LICENSE_HEADER, "<resources>\n"]
+    lines: list[str] = [_XML_LICENSE_HEADER, "<resources>\n"]
     for el in source_root.findall("string"):
         name = el.get("name")
         if el.get("translatable") == "false":
@@ -168,35 +182,10 @@ def translate_language(
     lines.append("</resources>\n")
 
     target_path.write_text("".join(lines), encoding="utf-8")
-    print(f"[{android_lang}] Written → {target_path}")
+    print(f"[{locale}] Written → {target_path}")
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Translate Android strings.xml via DeepL.",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__,
-    )
-    parser.add_argument(
-        "languages",
-        nargs="+",
-        metavar="LANG",
-        help="Android locale codes to translate into, e.g. fr es it de",
-    )
-    parser.add_argument("--api-key", required=True, help="DeepL API authentication key")
-    parser.add_argument(
-        "--strings",
-        default="app/src/main/res/values/strings.xml",
-        metavar="PATH",
-        help="Path to the source strings.xml (default: app/src/main/res/values/strings.xml)",
-    )
-    parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Re-translate all strings, ignoring existing translations",
-    )
-    args = parser.parse_args()
-
+def cmd_strings(args: argparse.Namespace) -> None:
     source_path = Path(args.strings)
     if not source_path.exists():
         print(f"Source file not found: {source_path}", file=sys.stderr)
@@ -206,8 +195,171 @@ def main() -> None:
     res_dir = source_path.parent.parent
     translator = deepl.Translator(args.api_key)
 
-    for lang in args.languages:
-        translate_language(translator, source_root, res_dir, lang, args.force)
+    for locale in args.languages:
+        _translate_strings_language(translator, source_root, res_dir, locale, args.force)
+
+
+# ---------------------------------------------------------------------------
+# fastlane subcommand
+# ---------------------------------------------------------------------------
+
+# Files whose content contains HTML markup — use DeepL's HTML mode for these.
+_HTML_FILES = {"full_description.txt"}
+
+# Files/directories inside the locale folder that should never be translated.
+_SKIP_DIRS = {"images"}
+
+
+def _collect_source_files(source_locale_dir: Path) -> list[Path]:
+    """Return all translatable .txt files under the source locale directory."""
+    return [
+        p for p in source_locale_dir.rglob("*.txt")
+        if not any(part in _SKIP_DIRS for part in p.relative_to(source_locale_dir).parts)
+    ]
+
+
+def _translate_fastlane_language(
+    translator: deepl.Translator,
+    source_locale_dir: Path,
+    metadata_dir: Path,
+    locale: str,
+    force: bool,
+) -> None:
+    deepl_lang = _resolve_deepl_lang(locale)
+    if deepl_lang is None:
+        print(f"[{locale}] Unknown locale — add it to DEEPL_LANG_MAP and retry.", file=sys.stderr)
+        return
+
+    target_locale_dir = metadata_dir / locale
+    source_files = _collect_source_files(source_locale_dir)
+
+    to_translate: list[tuple[Path, str, bool]] = []  # (rel_path, text, is_html)
+    for src in source_files:
+        rel = src.relative_to(source_locale_dir)
+        dst = target_locale_dir / rel
+        if not force and dst.exists():
+            continue
+        text = src.read_text(encoding="utf-8").strip()
+        is_html = src.name in _HTML_FILES
+        to_translate.append((rel, text, is_html))
+
+    if not to_translate:
+        print(f"[{locale}] Nothing new to translate.")
+        return
+
+    print(f"[{locale}] Translating {len(to_translate)} file(s)…")
+
+    # DeepL supports batch requests but requires uniform tag_handling per call,
+    # so split into two batches: plain text and HTML.
+    plain = [(rel, text) for rel, text, is_html in to_translate if not is_html]
+    html = [(rel, text) for rel, text, is_html in to_translate if is_html]
+
+    translated: dict[Path, str] = {}
+
+    if plain:
+        results = translator.translate_text(
+            [t for _, t in plain],
+            source_lang="EN",
+            target_lang=deepl_lang,
+        )
+        for (rel, _), result in zip(plain, results):
+            translated[rel] = result.text
+
+    if html:
+        results = translator.translate_text(
+            [t for _, t in html],
+            source_lang="EN",
+            target_lang=deepl_lang,
+            tag_handling="html",
+        )
+        for (rel, _), result in zip(html, results):
+            translated[rel] = result.text
+
+    for rel, text in translated.items():
+        dst = target_locale_dir / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_text(text + "\n", encoding="utf-8")
+        print(f"[{locale}] Written → {dst}")
+
+
+def cmd_fastlane(args: argparse.Namespace) -> None:
+    metadata_dir = Path(args.metadata)
+    source_locale_dir = metadata_dir / args.source_locale
+
+    if not source_locale_dir.is_dir():
+        print(f"Source locale directory not found: {source_locale_dir}", file=sys.stderr)
+        sys.exit(1)
+
+    translator = deepl.Translator(args.api_key)
+
+    for locale in args.languages:
+        _translate_fastlane_language(translator, source_locale_dir, metadata_dir, locale, args.force)
+
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+
+def _add_common_args(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--api-key", required=True, help="DeepL API authentication key")
+    p.add_argument(
+        "--force",
+        action="store_true",
+        help="Re-translate everything, ignoring existing translations",
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Translate app content via DeepL.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=__doc__,
+    )
+
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    # -- strings --
+    p_strings = subparsers.add_parser("strings", help="Translate strings.xml resources")
+    _add_common_args(p_strings)
+    p_strings.add_argument(
+        "languages",
+        nargs="+",
+        metavar="LANG",
+        help="Android locale codes, e.g. fr es it de",
+    )
+    p_strings.add_argument(
+        "--strings",
+        default="app/src/main/res/values/strings.xml",
+        metavar="PATH",
+        help="Path to the source strings.xml (default: app/src/main/res/values/strings.xml)",
+    )
+    p_strings.set_defaults(func=cmd_strings)
+
+    # -- fastlane --
+    p_fastlane = subparsers.add_parser("fastlane", help="Translate fastlane store listing files")
+    _add_common_args(p_fastlane)
+    p_fastlane.add_argument(
+        "languages",
+        nargs="+",
+        metavar="LANG",
+        help="Fastlane locale codes, e.g. de fr es-ES pt-BR",
+    )
+    p_fastlane.add_argument(
+        "--metadata",
+        default="fastlane/metadata/android",
+        metavar="PATH",
+        help="Path to fastlane metadata directory (default: fastlane/metadata/android)",
+    )
+    p_fastlane.add_argument(
+        "--source-locale",
+        default="en-US",
+        metavar="LOCALE",
+        help="Source locale folder name (default: en-US)",
+    )
+    p_fastlane.set_defaults(func=cmd_fastlane)
+
+    args = parser.parse_args()
+    args.func(args)
 
 
 if __name__ == "__main__":
