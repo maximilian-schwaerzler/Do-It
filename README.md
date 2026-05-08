@@ -1,5 +1,8 @@
 ![Social Banner](assets/images/social-banner.png)
 
+![F-Droid Version](https://img.shields.io/f-droid/v/at.co.schwaerzler.maximilian.doit)
+![GitHub Release](https://img.shields.io/github/v/release/maximilian-schwaerzler/Do-It)
+
 # Do-It
 
 A modern Android to-do app built with Jetpack Compose and Material Design 3.
@@ -32,6 +35,12 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 - Android Studio Meerkat or newer
 - JDK 11+
 - Android device or emulator running API 26+
+
+## Installation
+
+[<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/at.co.schwaerzler.maximilian.doit)
+
+Download the app on the [F-Droid App Store](https://f-droid.org/packages/at.co.schwaerzler.maximilian.doit) or directly from the [Releases](https://github.com/maximilian-schwaerzler/Do-It/releases) here.
 
 ## Getting Started
 
