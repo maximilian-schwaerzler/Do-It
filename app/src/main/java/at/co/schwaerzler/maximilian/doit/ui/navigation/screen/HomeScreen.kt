@@ -122,6 +122,7 @@ private fun HomeScreenContent(
     onSelectAll: () -> Unit,
 ) {
     val selectionToolbar = selectedTodos.isNotEmpty()
+    val isAllSelected = selectedTodos.size == openTodos.size + doneTodos.size
 
     Scaffold(
         modifier.fillMaxSize(), topBar = {
@@ -139,14 +140,14 @@ private fun HomeScreenContent(
                                 )
                             )
                         },
-                        navigationIcon = {
-                            IconButton(onClick = onClearSelection) {
-                                Icon(
-                                    painterResource(R.drawable.close_24px),
-                                    contentDescription = null
-                                )
-                            }
-                        },
+//                        navigationIcon = {
+//                            IconButton(onClick = onClearSelection) {
+//                                Icon(
+//                                    painterResource(R.drawable.close_24px),
+//                                    contentDescription = null
+//                                )
+//                            }
+//                        },
                         actions = {
                             IconButton(onClick = onDeleteSelection) {
                                 Icon(
@@ -154,10 +155,12 @@ private fun HomeScreenContent(
                                     contentDescription = null
                                 )
                             }
-                            IconButton(onClick = onSelectAll) {
+                            IconButton(onClick = if (isAllSelected) onClearSelection else onSelectAll) {
                                 Icon(
-                                    painterResource(R.drawable.select_all_24px),
-                                    contentDescription = null
+                                    painterResource(if (isAllSelected) R.drawable.deselect_24px else R.drawable.select_all_24px),
+                                    contentDescription = if (isAllSelected) stringResource(R.string.clear_selection) else stringResource(
+                                        R.string.select_all
+                                    )
                                 )
                             }
                         },
