@@ -54,9 +54,10 @@ android {
     defaultConfig {
         applicationId = "at.co.schwaerzler.maximilian.doit"
         minSdk = 26
+        //noinspection OldTargetApi
         targetSdk = 36
-        versionCode = 4
-        versionName = "1.3"
+        versionCode = 5
+        versionName = "1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -86,6 +87,7 @@ android {
     }
 
     androidResources {
+        @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
     }
 }

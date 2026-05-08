@@ -1,0 +1,3 @@
+- El campo Título se centra automáticamente al añadir una nueva tarea.
+- La barra de herramientas de selección ahora alterna entre Seleccionar todo y Deseleccionar todo.
+- Añadir traducciones a varios idiomas

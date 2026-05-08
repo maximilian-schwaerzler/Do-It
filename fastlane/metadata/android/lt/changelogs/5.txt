@@ -1,0 +1,3 @@
+- Pridedant naują užduotį automatiškai sukoncentruojamas antraštės laukas
+- Pasirinkimo įrankių juostoje dabar galima perjungti parinktis Pažymėti viską ir Panaikinti pasirinkimą
+- Pridėti kelių kalbų vertimus

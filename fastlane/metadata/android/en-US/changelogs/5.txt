@@ -1,0 +1,3 @@
+- Title field is automatically focused when adding a new todo
+- Selection toolbar now toggles between Select All and Deselect All
+- Add translations for multiple languages

@@ -1,0 +1,3 @@
+- Il campo del titolo viene focalizzato automaticamente quando si aggiunge un nuovo todo
+- La barra degli strumenti di selezione ora alterna tra Seleziona tutto e Deseleziona tutto
+- Aggiunta di traduzioni per più lingue

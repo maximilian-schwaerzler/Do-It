@@ -1,0 +1,3 @@
+- Das Titelfeld wird automatisch fokussiert, wenn ein neues ToDo hinzugefügt wird
+- Die Auswahl-Symbolleiste schaltet jetzt zwischen Alles auswählen und Alles abwählen um
+- Übersetzungen für mehrere Sprachen hinzufügen

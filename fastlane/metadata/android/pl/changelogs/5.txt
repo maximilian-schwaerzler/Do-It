@@ -1,0 +1,3 @@
+- Pole tytułu jest automatycznie skupiane podczas dodawania nowej czynności do wykonania
+- Pasek narzędzi zaznaczania przełącza się teraz między opcjami Zaznacz wszystko i Odznacz wszystko.
+- Dodawanie tłumaczeń dla wielu języków

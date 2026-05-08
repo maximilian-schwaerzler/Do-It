@@ -1,0 +1,3 @@
+- Le champ titre est automatiquement mis en évidence lors de l'ajout d'une nouvelle tâche.
+- La barre d'outils de sélection bascule désormais entre Sélectionner tout et Désélectionner tout
+- Ajout de traductions pour plusieurs langues
