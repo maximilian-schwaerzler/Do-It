@@ -1,0 +1,3 @@
+- Wielokrotny wybór zadań poprzez długie naciśnięcie, a następnie zbiorcze usunięcie lub wybranie wszystkich
+- Motywacyjne komunikaty o pustym stanie, gdy lista jest pusta lub wszystko gotowe
+- Różne poprawki błędów i ulepszenia interfejsu użytkownika

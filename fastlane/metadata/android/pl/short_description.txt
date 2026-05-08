@@ -1,0 +1,1 @@
+Nowoczesna aplikacja do robienia rzeczy zbudowana przy użyciu Jetpack Compose i Material Design 3.

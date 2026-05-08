@@ -1,0 +1,2 @@
+- Pridėti vertimus į vokiečių kalbą
+- Įjungti kiekvienos programos kalbos pasirinkimą sistemos nustatymuose

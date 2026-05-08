@@ -1,0 +1,14 @@
+Do-It è un&#x27;app per le cose da fare dal design pulito e priva di distrazioni, che ti aiuta a tenere sotto controllo i tuoi compiti.
+
+<b>Caratteristiche</b>
+
+- Visualizza le attività aperte e completate in sezioni separate
+- Aggiungi e modifica le attività con un titolo, una descrizione facoltativa e una scadenza facoltativa
+- Contrassegna le attività come completate o incomplete con un solo tocco
+- Seleziona più attività con un tocco prolungato, quindi eliminale in blocco o selezionale tutte
+- Messaggi motivazionali quando l&#x27;elenco è vuoto o tutto è stato completato
+- Interfaccia utente edge-to-edge conforme alle linee guida di Material Design 3
+
+<b>Open Source</b>
+
+Do-It è un software gratuito e open source, concesso in licenza ai sensi della Licenza Apache 2.0. Nessuna pubblicità, nessun tracciamento, nessun account richiesto.

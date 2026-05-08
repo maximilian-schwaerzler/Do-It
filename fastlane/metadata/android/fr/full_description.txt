@@ -1,0 +1,14 @@
+Do-It est une application de gestion des tâches épurée et sans distraction qui vous aide à rester à jour dans vos tâches.
+
+<b>Fonctionnalités</b>
+
+- Affichez les tâches en cours et terminées dans des sections distinctes
+- Ajoutez et modifiez des tâches en leur attribuant un titre, une description facultative et une date limite facultative
+- Marquez les tâches comme terminées ou en cours d&#x27;un simple geste
+- Sélectionnez plusieurs tâches en appuyant longuement, puis supprimez-les en bloc ou sélectionnez-les toutes
+- Messages de motivation lorsque la liste est vide ou que tout est terminé
+- Interface utilisateur bord à bord conforme aux directives de Material Design 3
+
+<b>Open Source</b>
+
+Do-It est un logiciel gratuit et open source, sous licence Apache 2.0. Pas de publicités, pas de suivi, aucun compte requis.

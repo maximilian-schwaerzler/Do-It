@@ -1,0 +1,3 @@
+- Keletą kartų pasirinkite "todos", paspausdami ilgąjį pelės klavišą, tada masiškai ištrinkite arba pasirinkite visus
+- Motyvuojantys tuščios būsenos pranešimai, kai sąrašas tuščias arba visi darbai baigti
+- Įvairūs klaidų taisymai ir vartotojo sąsajos patobulinimai

@@ -1,0 +1,2 @@
+- Dodaj tłumaczenia dla języka niemieckiego
+- Włączenie wyboru języka aplikacji w ustawieniach systemu

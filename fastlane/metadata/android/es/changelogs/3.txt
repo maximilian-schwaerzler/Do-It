@@ -1,0 +1,3 @@
+- Selección múltiple de tareas mediante pulsación larga y, a continuación, eliminación masiva o selección de todas.
+- Mensajes motivadores de estado vacío cuando la lista está vacía o terminada.
+- Varias correcciones de errores y mejoras de la interfaz de usuario

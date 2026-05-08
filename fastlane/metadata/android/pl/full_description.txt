@@ -1,0 +1,14 @@
+Do-It to przejrzysta aplikacja do zarządzania zadaniami, która pomaga Ci trzymać wszystko pod kontrolą.
+
+<b>Funkcje</b>
+
+: - Wyświetlanie otwartych i wykonanych zadań w osobnych sekcjach
+- Dodawanie i edytowanie zadań wraz z tytułem, opcjonalnym opisem i opcjonalnym terminem
+- Oznaczanie zadań jako wykonanych lub niewykonanych jednym dotknięciem
+- Wybieraj wiele zadań poprzez długie naciśnięcie, a następnie usuwaj je zbiorczo lub zaznacz wszystkie
+- Motywujące komunikaty wyświetlane, gdy lista jest pusta lub wszystko zostało wykonane
+- Interfejs użytkownika od krawędzi do krawędzi zgodny z wytycznymi Material Design 3
+
+<b>Open Source</b>
+
+Do-It to darmowe oprogramowanie typu open source, na licencji Apache License 2.0. Bez reklam, bez śledzenia, bez konieczności zakładania konta.

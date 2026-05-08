@@ -1,0 +1,1 @@
+Un'app moderna per gli impegni costruita con Jetpack Compose e Material Design 3.

@@ -1,0 +1,1 @@
+Šiuolaikiška to-do programėlė, sukurta naudojant "Jetpack Compose" ir "Material Design 3".

@@ -1,0 +1,14 @@
+„Do-It“ – tai paprasta, dėmesio nesiblaškanti užduočių tvarkyklė, padedanti jums susitvarkyti su užduotimis.
+
+<b>Funkcijos</b>
+
+- Peržiūrėkite nebaigtas ir atliktas užduotis atskiruose skyriuose
+- Pridėkite ir redaguokite užduotis, nurodydami pavadinimą, pasirinktinį aprašymą ir pasirinktinį terminą
+- Vienu bakstelėjimu pažymėkite užduotis kaip atliktas arba nebaigtas
+- Pasirinkite kelis užduotis ilgai spausdami, tada ištrinkite jas visas arba pasirinkite visas
+- Motyvuojantys pranešimai, kai sąrašas tuščias arba viskas atlikta
+- Nuo krašto iki krašto vartotojo sąsaja, atitinkanti „Material Design 3“ gaires
+
+<b>Atviro kodo</b>
+
+„Do-It“ yra nemokama ir atviro kodo programinė įranga, licencijuota pagal „Apache License 2.0“. Be reklamų, be sekimo, nereikia kurti paskyros.

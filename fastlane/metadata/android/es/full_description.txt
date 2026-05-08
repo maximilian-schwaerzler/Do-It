@@ -1,0 +1,14 @@
+Do-It es una aplicación de tareas sencilla y sin distracciones que te ayuda a mantenerte al día con tus tareas.
+
+<b>Características</b>
+
+: - Visualiza las tareas pendientes y completadas en secciones separadas
+- Añade y edita tareas con un título, una descripción opcional y una fecha límite opcional
+- Marca las tareas como completadas o pendientes con un solo toque
+- Selecciona varias tareas a la vez manteniendo pulsado, y luego elimínalas en bloque o selecciónalas todas
+- Mensajes motivadores cuando la lista está vacía o todo está hecho
+- Interfaz de usuario de borde a borde siguiendo las directrices de Material Design 3
+
+<b>Código abierto</b>
+
+Do-It es un software gratuito y de código abierto, con licencia Apache 2.0. Sin anuncios, sin seguimiento y sin necesidad de crear una cuenta.

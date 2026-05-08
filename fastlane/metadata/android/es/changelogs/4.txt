@@ -1,0 +1,2 @@
+- Añadir traducciones al alemán
+- Habilitar la selección de idioma por aplicación en la configuración del sistema.

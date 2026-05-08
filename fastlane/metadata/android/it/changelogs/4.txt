@@ -1,0 +1,2 @@
+- Aggiungere traduzioni per il tedesco
+- Abilitazione della selezione della lingua per app nelle impostazioni di sistema

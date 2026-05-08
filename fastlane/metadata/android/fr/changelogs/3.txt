@@ -1,0 +1,3 @@
+- Multi-sélection des tâches par un appui long, puis suppression en bloc ou sélection de toutes les tâches
+- Messages motivants sur l'état vide lorsque la liste est vide ou terminée
+- Diverses corrections de bugs et améliorations de l'interface utilisateur
