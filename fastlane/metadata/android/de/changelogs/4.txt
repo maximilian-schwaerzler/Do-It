@@ -1,0 +1,2 @@
+- Übersetzungen für Deutsch hinzufügen
+- Sprachauswahl für die App in den Systemeinstellungen aktivieren

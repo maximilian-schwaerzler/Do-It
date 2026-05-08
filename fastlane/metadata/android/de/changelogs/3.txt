@@ -1,0 +1,3 @@
+- Mehrfachauswahl von Aufgaben durch langes Drücken, um mehrere Aufgaben zu löschen
+- Motivierende Meldungen, wenn die Liste leer ist oder alle Aufgaben erledigt sind
+- Verschiedene Fehlerbehebungen und Verbesserungen der Benutzeroberfläche
