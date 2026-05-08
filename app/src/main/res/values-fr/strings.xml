@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2026 Maximilian Schwärzler
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<resources>
+    <string name="todos_selected_template">%1$d sélectionné</string>
+    <string name="add_new_todo_fab">Ajouter une nouvelle tâche</string>
+    <string name="you_did_everything_empty_text">Tu as tout fait ! 🚀</string>
+    <string name="done_headline">C\'est fait</string>
+    <string name="open_headline">Ouvrir</string>
+    <string name="nothing_to_do_empty_text">Rien à faire ! 🥳</string>
+    <string name="add_new_todo_button">Ajoutez une nouvelle tâche à l\'aide du bouton ci-dessous.</string>
+    <string name="discard_changes_question">Ignorer les modifications ?</string>
+    <string name="unsaved_changes_lost">Les modifications que vous n\'avez pas enregistrées seront perdues.</string>
+    <string name="discard">Ignorer</string>
+    <string name="keep_editing">Continuer à modifier</string>
+    <string name="next">Suivant</string>
+    <string name="cancel">Annuler</string>
+    <string name="done_fab">C\'est fait</string>
+    <string name="add_new_todo_app_bar">Ajouter une nouvelle tâche</string>
+    <string name="edit_todo_app_bar">Modifier la liste des tâches</string>
+    <string name="delete_todo">Supprimer la liste des tâches</string>
+    <string name="share_todo">Partager la liste des tâches</string>
+    <string name="title">Titre</string>
+    <string name="required">Obligatoire</string>
+    <string name="description">Description</string>
+    <string name="optional">Facultatif</string>
+    <string name="set_deadline">Fixer une date limite</string>
+    <string name="deadline">Date limite</string>
+    <string name="select_this_todo">Sélectionnez cette tâche</string>
+    <string name="deadline_template">Date limite : %1$s</string>
+    <string name="title_is_required">Le titre est obligatoire</string>
+    <string name="select_time">Sélectionnez l\'heure</string>
+    <string name="clear_selection">Effacer la sélection</string>
+    <string name="select_all">Tout sélectionner</string>
+</resources>

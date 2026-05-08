@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2026 Maximilian Schwärzler
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<resources>
+    <string name="todos_selected_template">%1$d தேர்ந்தெடுக்கப்பட்ட</string>
+    <string name="add_new_todo_fab">புதிய TODO-வைச் சேர்க்கவும்</string>
+    <string name="you_did_everything_empty_text">நீங்கள் எல்லாவற்றையும் செய்தீர்கள்! 🚀</string>
+    <string name="done_headline">முடிந்தது</string>
+    <string name="open_headline">திற</string>
+    <string name="nothing_to_do_empty_text">செய்ய ஒண்ணும் இல்லை! 🥳</string>
+    <string name="add_new_todo_button">கீழே உள்ள பொத்தானைக் கொண்டு ஒரு புதிய TODO-வைச் சேர்க்கவும்.</string>
+    <string name="discard_changes_question">மாற்றங்களை நிராகரிக்கவா?</string>
+    <string name="unsaved_changes_lost">உங்கள் சேமிக்கப்படாத மாற்றங்கள் இழக்கப்படும்.</string>
+    <string name="discard">தள்ளுபடி செய்</string>
+    <string name="keep_editing">தொடர்ந்து திருத்தவும்</string>
+    <string name="next">அடுத்து</string>
+    <string name="cancel">ரத்து செய்</string>
+    <string name="done_fab">முடிந்தது</string>
+    <string name="add_new_todo_app_bar">புதிய செய்ய வேண்டியதைச் சேர்</string>
+    <string name="edit_todo_app_bar">செய்வதற்கானவை: திருத்து</string>
+    <string name="delete_todo">நீக்கவும் செய்ய வேண்டியவை</string>
+    <string name="share_todo">பகிரவும் செய்ய வேண்டியவை</string>
+    <string name="title">தலைப்பு</string>
+    <string name="required">தேவையானது</string>
+    <string name="description">விளக்கம்</string>
+    <string name="optional">விருப்பத்தேர்வு</string>
+    <string name="set_deadline">காலக்கெடு நிர்ணயிக்கவும்</string>
+    <string name="deadline">காலக்கெடு</string>
+    <string name="select_this_todo">இந்தச் செய்ய வேண்டியதைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="deadline_template">காலக்கெடு: %1$s</string>
+    <string name="title_is_required">தலைப்பு கட்டாயம் தேவை</string>
+    <string name="select_time">நேரத்தைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="clear_selection">தெளிவான தேர்வு</string>
+    <string name="select_all">அனைத்தையும் தேர்ந்தெடுக்கவும்</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2026 Maximilian Schwärzler
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<resources>
+    <string name="todos_selected_template">%1$d 已选中</string>
+    <string name="add_new_todo_fab">添加一个新待办事项</string>
+    <string name="you_did_everything_empty_text">你太棒了！🚀</string>
+    <string name="done_headline">完成</string>
+    <string name="open_headline">打开</string>
+    <string name="nothing_to_do_empty_text">没事可做！🥳</string>
+    <string name="add_new_todo_button">点击下方的按钮添加一个新的待办事项。</string>
+    <string name="discard_changes_question">要放弃更改吗？</string>
+    <string name="unsaved_changes_lost">您未保存的更改将会丢失。</string>
+    <string name="discard">取消</string>
+    <string name="keep_editing">继续编辑</string>
+    <string name="next">下一页</string>
+    <string name="cancel">取消</string>
+    <string name="done_fab">完成</string>
+    <string name="add_new_todo_app_bar">添加新待办事项</string>
+    <string name="edit_todo_app_bar">编辑待办事项</string>
+    <string name="delete_todo">删除待办事项</string>
+    <string name="share_todo">分享 待办事项</string>
+    <string name="title">标题</string>
+    <string name="required">必填</string>
+    <string name="description">描述</string>
+    <string name="optional">可选</string>
+    <string name="set_deadline">设定截止日期</string>
+    <string name="deadline">截止日期</string>
+    <string name="select_this_todo">选择此待办事项</string>
+    <string name="deadline_template">截止日期：%1$s</string>
+    <string name="title_is_required">标题为必填项</string>
+    <string name="select_time">选择时间</string>
+    <string name="clear_selection">清除选中项</string>
+    <string name="select_all">全选</string>
+</resources>
