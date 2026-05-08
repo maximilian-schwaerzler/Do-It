@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2026 Maximilian Schwärzler
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<resources>
+    <string name="todos_selected_template">%1$d seleccionado</string>
+    <string name="add_new_todo_fab">Añadir una nueva tarea</string>
+    <string name="you_did_everything_empty_text">¡Lo has hecho todo! 🚀</string>
+    <string name="done_headline">Hecho</string>
+    <string name="open_headline">Abrir</string>
+    <string name="nothing_to_do_empty_text">¡No hay nada que hacer! 🥳</string>
+    <string name="add_new_todo_button">Añade una nueva tarea con el botón de abajo.</string>
+    <string name="discard_changes_question">¿Desea descartar los cambios?</string>
+    <string name="unsaved_changes_lost">Los cambios que no hayas guardado se perderán.</string>
+    <string name="discard">Descartar</string>
+    <string name="keep_editing">Sigue editando</string>
+    <string name="next">Siguiente</string>
+    <string name="cancel">Cancelar</string>
+    <string name="done_fab">Hecho</string>
+    <string name="add_new_todo_app_bar">Añadir nueva tarea</string>
+    <string name="edit_todo_app_bar">Editar lista de tareas pendientes</string>
+    <string name="delete_todo">Eliminar tareas pendientes</string>
+    <string name="share_todo">Compartir Lista de tareas pendientes</string>
+    <string name="title">Título</string>
+    <string name="required">Obligatorio</string>
+    <string name="description">Descripción</string>
+    <string name="optional">Opcional</string>
+    <string name="set_deadline">Fijar una fecha límite</string>
+    <string name="deadline">Fecha límite</string>
+    <string name="select_this_todo">Selecciona esta tarea</string>
+    <string name="deadline_template">Fecha límite: %1$s</string>
+    <string name="title_is_required">Es obligatorio introducir un título</string>
+    <string name="select_time">Selecciona la hora</string>
+    <string name="clear_selection">Borrar selección</string>
+    <string name="select_all">Seleccionar todo</string>
+</resources>

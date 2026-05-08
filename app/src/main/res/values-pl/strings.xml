@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2026 Maximilian Schwärzler
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<resources>
+    <string name="todos_selected_template">%1$d wybrane</string>
+    <string name="add_new_todo_fab">Dodaj nowe zadanie</string>
+    <string name="you_did_everything_empty_text">Zrobiłeś wszystko! 🚀</string>
+    <string name="done_headline">Gotowe</string>
+    <string name="open_headline">Otwórz</string>
+    <string name="nothing_to_do_empty_text">Nie mam nic do roboty! 🥳</string>
+    <string name="add_new_todo_button">Dodaj nowe zadanie, klikając przycisk poniżej.</string>
+    <string name="discard_changes_question">Odrzucić zmiany?</string>
+    <string name="unsaved_changes_lost">Niezapisane zmiany zostaną utracone.</string>
+    <string name="discard">Odrzuć</string>
+    <string name="keep_editing">Kontynuuj edycję</string>
+    <string name="next">Dalej</string>
+    <string name="cancel">Anuluj</string>
+    <string name="done_fab">Gotowe</string>
+    <string name="add_new_todo_app_bar">Dodaj nowe zadanie</string>
+    <string name="edit_todo_app_bar">Edytuj listę zadań do wykonania</string>
+    <string name="delete_todo">Usuń zadanie</string>
+    <string name="share_todo">Udostępnij listę rzeczy do zrobienia</string>
+    <string name="title">Tytuł</string>
+    <string name="required">Wymagane</string>
+    <string name="description">Opis</string>
+    <string name="optional">Opcjonalnie</string>
+    <string name="set_deadline">Ustal termin</string>
+    <string name="deadline">Termin</string>
+    <string name="select_this_todo">Zaznacz to zadanie</string>
+    <string name="deadline_template">Termin: %1$s</string>
+    <string name="title_is_required">Tytuł jest wymagany</string>
+    <string name="select_time">Wybierz godzinę</string>
+    <string name="clear_selection">Wyczyść wybór</string>
+    <string name="select_all">Zaznacz wszystko</string>
+</resources>
