@@ -77,14 +77,6 @@ android {
         }
     }
 
-    applicationVariants.all {
-        if (buildType.name == "release") {
-            outputs.all {
-                (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl)
-                    .outputFileName = "Do-It-release.apk"
-            }
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -101,6 +93,14 @@ android {
     androidResources {
         @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
+    }
+}
+
+androidComponents {
+    onVariants(selector().withBuildType("release")) { variant ->
+        variant.outputs.forEach { output ->
+            output.outputFileName.set("Do-It-release.apk")
+        }
     }
 }
 
