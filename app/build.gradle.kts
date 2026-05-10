@@ -37,9 +37,10 @@ android {
     }
 
     val keystorePropertiesFile = rootProject.file("keystore.properties")
+    val isFdroidBuild = project.hasProperty("fdroidBuild")
 
     signingConfigs {
-        if (keystorePropertiesFile.exists()) {
+        if (!isFdroidBuild && keystorePropertiesFile.exists()) {
             val keystoreProperties = Properties()
             keystoreProperties.load(keystorePropertiesFile.inputStream())
             create("release") {
@@ -70,7 +71,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            if (!isFdroidBuild && signingConfigs.findByName("release") != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
     compileOptions {
