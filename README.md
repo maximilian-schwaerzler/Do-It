@@ -21,11 +21,11 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 | Layer       | Technology                                    |
 |-------------|-----------------------------------------------|
 | Language    | Kotlin 2.3.21                                 |
-| UI          | Jetpack Compose (BOM 2026.04.01) + Material 3 |
+| UI          | Jetpack Compose (BOM 2026.05.00) + Material 3 |
 | Navigation  | Navigation Compose 2.9.8 (type-safe routes)   |
 | Persistence | Room 2.8.4                                    |
 | Async       | Kotlinx Coroutines 1.10.2                     |
-| Date/time   | Kotlinx Datetime 0.7.1                        |
+| Date/time   | Kotlinx Datetime 0.8.0                        |
 | Min SDK     | 26 (Android 8.0)                              |
 | Target SDK  | 36 (Android 15)                               |
 | Build       | Gradle Kotlin DSL + version catalog           |
@@ -83,8 +83,7 @@ app/src/main/java/at/co/schwaerzler/maximilian/doit/
     │   └── TodoListItem.kt
     └── theme/
         ├── Color.kt
-        ├── Theme.kt
-        └── Type.kt
+        └── Theme.kt
 ```
 
 ## Architecture
