@@ -264,6 +264,34 @@
         .cell-edit-btns .ok { background: var(--primary); color: #fff; }
         .cell-edit-btns .cx { background: var(--surface-variant); color: var(--on-surface); }
 
+        /* ── Focus selector ── */
+        .focus-wrap {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 8px;
+            border: 1px solid var(--outline);
+            font-size: 13px;
+            color: var(--on-surface-variant);
+            overflow: hidden;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .focus-wrap.active { border-color: var(--primary); background: var(--primary-container); color: var(--primary); }
+        .focus-label {
+            padding: 6px 8px 6px 14px;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        .focus-select {
+            border: none;
+            background: transparent;
+            padding: 6px 12px 6px 2px;
+            font-size: 13px;
+            font-family: inherit;
+            color: inherit;
+            cursor: pointer;
+            outline: none;
+        }
+
         /* ── No FS API warning ── */
         .no-api { color: #b71c1c; background: #ffebee; border: 1px solid #ffcdd2; border-radius: 8px; padding: 10px 16px; font-size: 13px; }
     </style>
@@ -285,6 +313,12 @@
         Hide non-translatable
     </button>
     <input class="search-box" type="search" id="searchBox" placeholder="Filter keys…" oninput="renderTable()">
+    <div class="focus-wrap" id="focusWrap" style="display:none">
+        <label class="focus-label" for="focusSelect">Focus</label>
+        <select class="focus-select" id="focusSelect" onchange="setFocus(this.value)">
+            <option value="">All languages</option>
+        </select>
+    </div>
     <span class="stats" id="stats"></span>
 </div>
 
@@ -312,6 +346,7 @@ let entries   = {};      // { key: { type, translatable, translations: { locale:
 let fileHandles = {};    // { locale: FileSystemFileHandle }
 let dirty     = new Set();
 let filters   = { missing: false, hide: false };
+let focusLocale = null;  // null = all locales, otherwise a single locale code
 let activeEdit = null;   // { td, key, locale, quantity }
 
 // ── Open ─────────────────────────────────────────────────────────────────────
@@ -329,7 +364,7 @@ async function openDirectory() {
         return;
     }
 
-    locales = []; keyOrder = []; entries = {}; fileHandles = {}; dirty = new Set();
+    locales = []; keyOrder = []; entries = {}; fileHandles = {}; dirty = new Set(); focusLocale = null;
     document.getElementById('saveBtn').disabled = true;
 
     // Collect all values* subdirectories
@@ -348,6 +383,25 @@ async function openDirectory() {
         locales.push(locale);
     }
 
+    populateFocusSelect();
+    renderTable();
+    updateStats();
+}
+
+function populateFocusSelect() {
+    const sel = document.getElementById('focusSelect');
+    sel.innerHTML = '<option value="">All languages</option>';
+    for (const l of locales) {
+        const opt = document.createElement('option');
+        opt.value = l; opt.textContent = l;
+        sel.appendChild(opt);
+    }
+    document.getElementById('focusWrap').style.display = locales.length ? '' : 'none';
+}
+
+function setFocus(locale) {
+    focusLocale = locale || null;
+    document.getElementById('focusWrap').classList.toggle('active', !!focusLocale);
     renderTable();
     updateStats();
 }
@@ -391,6 +445,7 @@ function renderTable() {
         return;
     }
 
+    const activeLocales = focusLocale ? [focusLocale] : locales;
     const search = (document.getElementById('searchBox').value || '').toLowerCase();
     const visibleKeys = keyOrder.filter(key => {
         const e = entries[key];
@@ -398,7 +453,7 @@ function renderTable() {
         if (filters.hide && e.translatable === false) return false;
         if (filters.missing) {
             if (e.translatable === false) return false;
-            return locales.some(l => {
+            return activeLocales.some(l => {
                 if (e.type === 'string') return !e.translations[l];
                 return !e.translations[l] || Object.values(e.translations[l]).every(v => !v);
             });
@@ -411,7 +466,7 @@ function renderTable() {
     const hr = thead.insertRow();
     th(hr, 'Key', 'key-col');
     th(hr, 'Default (en)');
-    for (const l of locales) th(hr, l);
+    for (const l of activeLocales) th(hr, l);
 
     const tbody = table.createTBody();
 
@@ -429,7 +484,7 @@ function renderTable() {
                 const dv = entry.translations['default']?.[qty] ?? '';
                 dtd.innerHTML = `<div class="cell-inner">${esc(dv)}</div>`;
 
-                for (const locale of locales) {
+                for (const locale of activeLocales) {
                     const val = entry.translations[locale]?.[qty] ?? null;
                     const td = tr.insertCell();
                     td.className = `cell${val ? '' : ' missing'}`;
@@ -449,7 +504,7 @@ function renderTable() {
             const dtd = tr.insertCell(); dtd.className = nt ? 'cell non-translatable' : 'cell';
             dtd.innerHTML = `<div class="cell-inner">${esc(entry.translations['default'] ?? '')}</div>`;
 
-            for (const locale of locales) {
+            for (const locale of activeLocales) {
                 const td = tr.insertCell();
                 if (nt) {
                     td.className = 'cell non-translatable';
@@ -639,11 +694,12 @@ function toggleFilter(name) {
 }
 
 function updateStats() {
+    const activeLocales = focusLocale ? [focusLocale] : locales;
     let total = 0, done = 0, missing = 0;
     for (const key of keyOrder) {
         const e = entries[key];
         if (e.translatable === false || e.type !== 'string') continue;
-        for (const l of locales) {
+        for (const l of activeLocales) {
             total++;
             if (e.translations[l]) done++; else missing++;
         }
