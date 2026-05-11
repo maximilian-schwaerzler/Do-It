@@ -16,7 +16,9 @@
   -->
 
 <resources>
-    <string name="todos_selected_template">%1$d 선택됨</string>
+    <plurals name="todos_selected_template">
+        <item quantity="other">%1$d 선택됨</item>
+    </plurals>
     <string name="add_new_todo_fab">새 할 일 추가</string>
     <string name="you_did_everything_empty_text">정말 대단해요! 🚀</string>
     <string name="done_headline">완료</string>

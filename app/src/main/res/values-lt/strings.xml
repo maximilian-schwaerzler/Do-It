@@ -16,7 +16,12 @@
   -->
 
 <resources>
-    <string name="todos_selected_template">%1$d pasirinkta</string>
+    <plurals name="todos_selected_template">
+        <item quantity="one">%1$d pasirinkta</item>
+        <item quantity="few">%1$d pasirinktos</item>
+        <item quantity="many">%1$d pasirinktos</item>
+        <item quantity="other">%1$d pasirinktų</item>
+    </plurals>
     <string name="add_new_todo_fab">Pridėti naują užduotį</string>
     <string name="you_did_everything_empty_text">Tu viską padarei! 🚀</string>
     <string name="done_headline">Baigta</string>

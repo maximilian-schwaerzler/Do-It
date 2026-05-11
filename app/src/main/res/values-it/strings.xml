@@ -16,7 +16,11 @@
   -->
 
 <resources>
-    <string name="todos_selected_template">%1$d selezionato</string>
+    <plurals name="todos_selected_template">
+        <item quantity="one">%1$d selezionato</item>
+        <item quantity="many">%1$d selezionati</item>
+        <item quantity="other">%1$d selezionati</item>
+    </plurals>
     <string name="add_new_todo_fab">Aggiungi una nuova attività</string>
     <string name="you_did_everything_empty_text">Hai fatto tutto tu! 🚀</string>
     <string name="done_headline">Fatto</string>

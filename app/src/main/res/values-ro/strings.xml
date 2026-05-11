@@ -16,14 +16,13 @@
   -->
 
 <resources>
-    <string name="todos_selected_template">%1$d selectat</string>
     <string name="add_new_todo_fab">Adaugă o nouă sarcină</string>
     <string name="you_did_everything_empty_text">Ai făcut totul! 🚀</string>
     <string name="done_headline">Gata</string>
     <string name="open_headline">Deschide</string>
     <string name="nothing_to_do_empty_text">Nimic de făcut! 🥳</string>
     <string name="add_new_todo_button">Adaugă o nouă sarcină folosind butonul de mai jos.</string>
-    <string name="discard_changes_question">Să anulezi modificările?</string>
+    <string name="discard_changes_question">Anulezi modificările?</string>
     <string name="unsaved_changes_lost">Modificările nesalvate se vor pierde.</string>
     <string name="discard">Ignoră</string>
     <string name="keep_editing">Continuă să editezi</string>
@@ -46,4 +45,9 @@
     <string name="select_time">Selectează ora</string>
     <string name="clear_selection">Șterge selecția</string>
     <string name="select_all">Selectează tot</string>
+    <plurals name="todos_selected_template">
+        <item quantity="one">%1$d selectată</item>
+        <item quantity="few">%1$d selectate</item>
+        <item quantity="other">%1$d selectate</item>
+    </plurals>
 </resources>
