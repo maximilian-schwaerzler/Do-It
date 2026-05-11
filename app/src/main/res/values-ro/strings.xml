@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2026 Maximilian Schwärzler
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<resources>
+    <string name="todos_selected_template">%1$d selectat</string>
+    <string name="add_new_todo_fab">Adaugă o nouă sarcină</string>
+    <string name="you_did_everything_empty_text">Ai făcut totul! 🚀</string>
+    <string name="done_headline">Gata</string>
+    <string name="open_headline">Deschide</string>
+    <string name="nothing_to_do_empty_text">Nimic de făcut! 🥳</string>
+    <string name="add_new_todo_button">Adaugă o nouă sarcină folosind butonul de mai jos.</string>
+    <string name="discard_changes_question">Să anulezi modificările?</string>
+    <string name="unsaved_changes_lost">Modificările nesalvate se vor pierde.</string>
+    <string name="discard">Ignoră</string>
+    <string name="keep_editing">Continuă să editezi</string>
+    <string name="next">Următorul</string>
+    <string name="cancel">Anulează</string>
+    <string name="done_fab">Gata</string>
+    <string name="add_new_todo_app_bar">Adaugă o sarcină nouă</string>
+    <string name="edit_todo_app_bar">Editare de făcut</string>
+    <string name="delete_todo">Șterge lista de sarcini</string>
+    <string name="share_todo">Distribuie Lista de sarcini</string>
+    <string name="title">Titlu</string>
+    <string name="required">Obligatoriu</string>
+    <string name="description">Descriere</string>
+    <string name="optional">Opțional</string>
+    <string name="set_deadline">Stabilește un termen limită</string>
+    <string name="deadline">Termen limită</string>
+    <string name="select_this_todo">Selectează această sarcină</string>
+    <string name="deadline_template">Termen limită: %1$s</string>
+    <string name="title_is_required">Titlul este obligatoriu</string>
+    <string name="select_time">Selectează ora</string>
+    <string name="clear_selection">Șterge selecția</string>
+    <string name="select_all">Selectează tot</string>
+</resources>

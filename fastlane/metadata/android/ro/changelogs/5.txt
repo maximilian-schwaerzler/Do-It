@@ -1,0 +1,3 @@
+- Câmpul Titlu este focalizat automat atunci când se adaugă un nou todo
+- Bara de instrumente de selecție comută acum între Select All și Deselect All
+- Adăugați traduceri pentru mai multe limbi
