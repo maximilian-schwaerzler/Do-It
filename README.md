@@ -15,6 +15,19 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 - Multi-select todos via long-press, then bulk-delete or select all
 - Motivational empty-state messages when the list is empty or everything is done
 - Edge-to-edge UI following Material Design 3 guidelines
+- Full app translations into multiple languages:
+  - English
+  - German
+  - Spanish
+  - French
+  - Italian
+  - Korean
+  - Lithuanian
+  - Polish
+  - Romanian
+  - Tamil
+  - Chinese (simplified)
+  - Add an [issue](https://github.com/maximilian-schwaerzler/Do-It/issues) or a [pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls) to request or add your language!
 
 ## Tech Stack
 
