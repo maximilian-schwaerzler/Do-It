@@ -1,0 +1,3 @@
+- Selectare multiplă a tuturor prin apăsare lungă, apoi ștergere în bloc sau selectare a tuturor
+- Mesaje motivaționale de stare goală atunci când lista este goală sau terminată
+- Diverse remedieri de erori și îmbunătățiri ale interfeței utilizator

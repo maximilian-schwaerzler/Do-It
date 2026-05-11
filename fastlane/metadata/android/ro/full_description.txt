@@ -1,0 +1,14 @@
+Do-It este o aplicație de gestionare a sarcinilor simplă și fără elemente care să-ți distragă atenția, care te ajută să ții pasul cu sarcinile tale.
+
+<b>Caracteristici</b>
+
+- Vizualizează sarcinile deschise și finalizate în secțiuni separate
+- Adaugă și editează sarcini cu titlu, descriere opțională și termen limită opțional
+- Marchează sarcinile ca finalizate sau nefinalizate cu o singură atingere
+- Selectați mai multe sarcini prin apăsare lungă, apoi ștergeți în bloc sau selectați totul
+- Mesaje motivaționale atunci când lista este goală sau totul este finalizat
+- Interfață de la margine la margine, conformă cu liniile directoare Material Design 3
+
+<b>Open Source</b>
+
+Do-It este un software gratuit și open-source, licențiat sub licența Apache 2.0. Fără reclame, fără urmărire, fără conturi necesare.

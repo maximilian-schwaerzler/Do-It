@@ -1,0 +1,2 @@
+- Adăugați traduceri pentru limba germană
+- Activați selectarea limbii pe aplicație în setările sistemului
