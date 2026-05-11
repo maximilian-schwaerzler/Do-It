@@ -1,0 +1,682 @@
+<!--
+  ~ Copyright 2026 Maximilian Schwärzler
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translations Editor</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary: #6750A4;
+            --primary-container: #EADDFF;
+            --surface: #FFFBFE;
+            --surface-variant: #F3EFF4;
+            --outline: #CAC4D0;
+            --outline-variant: #E7E0EC;
+            --on-surface: #1C1B1F;
+            --on-surface-variant: #49454F;
+            --missing-bg: #FFF3E0;
+            --missing-text: #E65100;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--surface);
+            color: var(--on-surface);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ── Header ── */
+        .header {
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--primary);
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .header h1 { font-size: 18px; font-weight: 500; flex: 1; }
+
+        .saved-toast {
+            font-size: 13px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .saved-toast.visible { opacity: 1; }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--outline-variant);
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .btn-filled { background: var(--primary); color: #fff; }
+        .btn-filled:hover { background: #7965AF; }
+        .btn-filled:disabled { background: var(--outline); color: #fff; cursor: default; }
+        .btn-tonal { background: var(--primary-container); color: var(--primary); }
+        .btn-tonal:hover { background: #DDD6F3; }
+        .btn-tonal:disabled { background: var(--surface-variant); color: var(--outline); cursor: default; }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--outline);
+            font-size: 13px;
+            background: transparent;
+            color: var(--on-surface-variant);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .chip:hover { background: var(--surface-variant); }
+        .chip.active { background: var(--primary-container); border-color: var(--primary); color: var(--primary); }
+
+        .badge {
+            background: var(--missing-text);
+            color: #fff;
+            border-radius: 10px;
+            padding: 0 6px;
+            font-size: 11px;
+            font-weight: 600;
+            min-width: 18px;
+            text-align: center;
+        }
+        .chip.active .badge { background: var(--primary); }
+
+        .search-box {
+            flex: 1;
+            max-width: 260px;
+            padding: 8px 14px;
+            border: 1px solid var(--outline);
+            border-radius: 8px;
+            font-size: 14px;
+            background: var(--surface);
+            color: var(--on-surface);
+            outline: none;
+        }
+        .search-box:focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-container); }
+
+        .stats { margin-left: auto; font-size: 13px; color: var(--on-surface-variant); white-space: nowrap; }
+
+        /* ── Content ── */
+        .content { flex: 1; overflow: auto; position: relative; }
+
+        /* ── Empty state ── */
+        .empty-state {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            color: var(--on-surface-variant);
+            padding: 40px;
+        }
+        .empty-state .icon { font-size: 56px; opacity: 0.5; }
+        .empty-state p { font-size: 15px; text-align: center; line-height: 1.6; }
+        .empty-state .hint { font-size: 12px; color: #aaa; }
+
+        /* ── Table ── */
+        table { border-collapse: collapse; width: max-content; min-width: 100%; font-size: 14px; }
+
+        th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: var(--surface-variant);
+            border: 1px solid var(--outline-variant);
+            padding: 10px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--on-surface-variant);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        th.key-col, td.key-col { position: sticky; left: 0; z-index: 1; }
+        th.key-col { z-index: 3; }
+
+        td {
+            border: 1px solid var(--outline-variant);
+            vertical-align: top;
+        }
+
+        td.key-col {
+            background: var(--surface);
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 12px;
+            padding: 10px 16px;
+            color: var(--on-surface-variant);
+            white-space: nowrap;
+        }
+
+        .plural-qty {
+            font-size: 10px;
+            background: var(--primary-container);
+            color: var(--primary);
+            border-radius: 4px;
+            padding: 1px 5px;
+            margin-left: 4px;
+            font-family: sans-serif;
+        }
+
+        .cell { min-width: 200px; max-width: 340px; }
+
+        .cell-inner {
+            padding: 10px 16px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .cell-inner:hover { background: rgba(103,80,164,0.06); }
+
+        td.missing .cell-inner { background: var(--missing-bg); }
+        td.missing .cell-inner:hover { background: #FFE0B2; }
+
+        .missing-label { font-size: 12px; color: var(--missing-text); font-style: italic; }
+
+        td.non-translatable { background: var(--surface-variant); }
+        td.non-translatable .cell-inner { color: var(--on-surface-variant); cursor: default; font-size: 13px; }
+
+        td.plural-default { background: #F3F8FF; }
+
+        tr:hover td.key-col { background: #FAFAFA; }
+
+        /* ── Inline edit ── */
+        .cell-edit { padding: 6px 8px; }
+
+        textarea.cell-ta {
+            display: block;
+            width: 200px;
+            min-height: 58px;
+            max-height: 120px;
+            padding: 8px 10px;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            outline: none;
+            background: #fff;
+        }
+
+        .cell-edit-btns { display: flex; gap: 6px; margin-top: 4px; }
+        .cell-edit-btns button {
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .cell-edit-btns .ok { background: var(--primary); color: #fff; }
+        .cell-edit-btns .cx { background: var(--surface-variant); color: var(--on-surface); }
+
+        /* ── No FS API warning ── */
+        .no-api { color: #b71c1c; background: #ffebee; border: 1px solid #ffcdd2; border-radius: 8px; padding: 10px 16px; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Translations Editor</h1>
+    <span class="saved-toast" id="savedToast">✓ Saved</span>
+</div>
+
+<div class="toolbar">
+    <button class="btn btn-filled" id="openBtn" onclick="openDirectory()">Open res/</button>
+    <button class="btn btn-tonal" id="saveBtn" disabled onclick="saveAll()">Save all</button>
+    <button class="chip" id="missingChip" onclick="toggleFilter('missing')">
+        Missing only <span class="badge" id="missingBadge">0</span>
+    </button>
+    <button class="chip" id="hideChip" onclick="toggleFilter('hide')">
+        Hide non-translatable
+    </button>
+    <input class="search-box" type="search" id="searchBox" placeholder="Filter keys…" oninput="renderTable()">
+    <span class="stats" id="stats"></span>
+</div>
+
+<div class="content" id="content">
+    <div class="empty-state" id="emptyState">
+        <div class="icon">🌐</div>
+        <p>Open your project's <strong>res/</strong> folder<br>to start editing translations.</p>
+        <div id="apiWarning" style="display:none" class="no-api">
+            Your browser doesn't support the File System Access API.<br>
+            Please use <strong>Chrome</strong> or <strong>Edge</strong>.
+        </div>
+        <button class="btn btn-filled" id="openBtn2" onclick="openDirectory()">Open res/ folder</button>
+        <p class="hint">Works in Chrome and Edge · Ctrl+O to open · Ctrl+S to save</p>
+    </div>
+</div>
+
+<script>
+'use strict';
+
+// ── State ─────────────────────────────────────────────────────────────────────
+
+let locales   = [];      // ['de','es','fr', ...]  sorted
+let keyOrder  = [];      // keys in default file order
+let entries   = {};      // { key: { type, translatable, translations: { locale: value } } }
+let fileHandles = {};    // { locale: FileSystemFileHandle }
+let dirty     = new Set();
+let filters   = { missing: false, hide: false };
+let activeEdit = null;   // { td, key, locale, quantity }
+
+// ── Open ─────────────────────────────────────────────────────────────────────
+
+async function openDirectory() {
+    if (!window.showDirectoryPicker) {
+        document.getElementById('apiWarning').style.display = 'block';
+        return;
+    }
+    let dirHandle;
+    try {
+        dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+    } catch (e) {
+        if (e.name !== 'AbortError') alert('Could not open folder: ' + e.message);
+        return;
+    }
+
+    locales = []; keyOrder = []; entries = {}; fileHandles = {}; dirty = new Set();
+    document.getElementById('saveBtn').disabled = true;
+
+    // Collect all values* subdirectories
+    const dirs = {};
+    for await (const [name, handle] of dirHandle.entries()) {
+        if (handle.kind === 'directory' && name.startsWith('values')) dirs[name] = handle;
+    }
+
+    // Load default first (establishes key order)
+    if (dirs['values']) await loadLocale(dirs['values'], 'default');
+
+    // Load locale files alphabetically
+    for (const name of Object.keys(dirs).filter(n => n !== 'values').sort()) {
+        const locale = name.replace('values-', '');
+        await loadLocale(dirs[name], locale);
+        locales.push(locale);
+    }
+
+    renderTable();
+    updateStats();
+}
+
+async function loadLocale(dirHandle, locale) {
+    let fh;
+    try { fh = await dirHandle.getFileHandle('strings.xml'); } catch { return; }
+    fileHandles[locale] = fh;
+    const text = await (await fh.getFile()).text();
+    parseXml(text, locale);
+}
+
+function parseXml(text, locale) {
+    const doc = new DOMParser().parseFromString(text, 'text/xml');
+
+    for (const el of doc.querySelectorAll('resources > string')) {
+        const name = el.getAttribute('name');
+        const translatable = el.getAttribute('translatable') !== 'false';
+        if (!entries[name]) { entries[name] = { type: 'string', translatable, translations: {} }; keyOrder.push(name); }
+        entries[name].translations[locale] = el.textContent;
+    }
+
+    for (const el of doc.querySelectorAll('resources > plurals')) {
+        const name = el.getAttribute('name');
+        const items = {};
+        for (const item of el.querySelectorAll('item')) items[item.getAttribute('quantity')] = item.textContent;
+        if (!entries[name]) { entries[name] = { type: 'plurals', translatable: true, translations: {} }; keyOrder.push(name); }
+        entries[name].translations[locale] = items;
+    }
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+
+function renderTable() {
+    commitEdit();
+    const content = document.getElementById('content');
+
+    if (!keyOrder.length) {
+        content.innerHTML = '';
+        content.appendChild(buildEmptyState());
+        return;
+    }
+
+    const search = (document.getElementById('searchBox').value || '').toLowerCase();
+    const visibleKeys = keyOrder.filter(key => {
+        const e = entries[key];
+        if (search && !key.toLowerCase().includes(search)) return false;
+        if (filters.hide && e.translatable === false) return false;
+        if (filters.missing) {
+            if (e.translatable === false) return false;
+            return locales.some(l => {
+                if (e.type === 'string') return !e.translations[l];
+                return !e.translations[l] || Object.values(e.translations[l]).every(v => !v);
+            });
+        }
+        return true;
+    });
+
+    const table = document.createElement('table');
+    const thead = table.createTHead();
+    const hr = thead.insertRow();
+    th(hr, 'Key', 'key-col');
+    th(hr, 'Default (en)');
+    for (const l of locales) th(hr, l);
+
+    const tbody = table.createTBody();
+
+    for (const key of visibleKeys) {
+        const entry = entries[key];
+
+        if (entry.type === 'plurals') {
+            for (const qty of orderedQuantities(key)) {
+                const tr = tbody.insertRow();
+
+                const ktd = tr.insertCell(); ktd.className = 'key-col';
+                ktd.innerHTML = `${esc(key)} <span class="plural-qty">${qty}</span>`;
+
+                const dtd = tr.insertCell(); dtd.className = 'cell plural-default';
+                const dv = entry.translations['default']?.[qty] ?? '';
+                dtd.innerHTML = `<div class="cell-inner">${esc(dv)}</div>`;
+
+                for (const locale of locales) {
+                    const val = entry.translations[locale]?.[qty] ?? null;
+                    const td = tr.insertCell();
+                    td.className = `cell${val ? '' : ' missing'}`;
+                    td.innerHTML = val
+                        ? `<div class="cell-inner">${esc(val)}</div>`
+                        : `<div class="cell-inner"><span class="missing-label">Missing</span></div>`;
+                    td.onclick = () => openEdit(td, key, locale, val ?? '', qty);
+                }
+            }
+        } else {
+            const tr = tbody.insertRow();
+            const nt = entry.translatable === false;
+
+            const ktd = tr.insertCell(); ktd.className = 'key-col';
+            ktd.textContent = key;
+
+            const dtd = tr.insertCell(); dtd.className = nt ? 'cell non-translatable' : 'cell';
+            dtd.innerHTML = `<div class="cell-inner">${esc(entry.translations['default'] ?? '')}</div>`;
+
+            for (const locale of locales) {
+                const td = tr.insertCell();
+                if (nt) {
+                    td.className = 'cell non-translatable';
+                    td.innerHTML = `<div class="cell-inner">—</div>`;
+                } else {
+                    const val = entry.translations[locale] ?? null;
+                    td.className = `cell${val ? '' : ' missing'}`;
+                    td.innerHTML = val
+                        ? `<div class="cell-inner">${esc(val)}</div>`
+                        : `<div class="cell-inner"><span class="missing-label">Missing</span></div>`;
+                    td.onclick = () => openEdit(td, key, locale, val ?? '', null);
+                }
+            }
+        }
+    }
+
+    content.innerHTML = '';
+    content.appendChild(table);
+}
+
+function th(row, text, cls = '') {
+    const el = document.createElement('th');
+    el.textContent = text;
+    if (cls) el.className = cls;
+    row.appendChild(el);
+}
+
+function buildEmptyState() {
+    const div = document.createElement('div');
+    div.className = 'empty-state';
+    div.innerHTML = `
+        <div class="icon">🌐</div>
+        <p>Open your project's <strong>res/</strong> folder<br>to start editing translations.</p>
+        <button class="btn btn-filled" onclick="openDirectory()">Open res/ folder</button>
+        <p class="hint">Works in Chrome and Edge · Ctrl+O to open · Ctrl+S to save</p>`;
+    return div;
+}
+
+function orderedQuantities(key) {
+    const all = new Set();
+    const entry = entries[key];
+    for (const t of Object.values(entry.translations)) {
+        if (t && typeof t === 'object') Object.keys(t).forEach(q => all.add(q));
+    }
+    const order = ['zero','one','two','few','many','other'];
+    return [...all].sort((a, b) => {
+        const ia = order.indexOf(a), ib = order.indexOf(b);
+        return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+    });
+}
+
+// ── Edit ─────────────────────────────────────────────────────────────────────
+
+function openEdit(td, key, locale, currentValue, quantity) {
+    commitEdit();
+    activeEdit = { td, key, locale, quantity };
+
+    td.className = 'cell';
+    td.onclick = null;
+    td.innerHTML = '';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'cell-edit';
+
+    const ta = document.createElement('textarea');
+    ta.className = 'cell-ta';
+    ta.value = currentValue;
+    ta.onkeydown = e => {
+        if (e.key === 'Escape') { activeEdit = null; renderTable(); }
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitEdit(); renderTable(); }
+    };
+
+    const btns = document.createElement('div');
+    btns.className = 'cell-edit-btns';
+
+    const ok = document.createElement('button');
+    ok.textContent = 'Save'; ok.className = 'ok';
+    ok.onclick = () => { commitEdit(); renderTable(); };
+
+    const cx = document.createElement('button');
+    cx.textContent = 'Cancel'; cx.className = 'cx';
+    cx.onclick = () => { activeEdit = null; renderTable(); };
+
+    btns.append(ok, cx);
+    wrap.append(ta, btns);
+    td.appendChild(wrap);
+    ta.focus();
+    ta.select();
+}
+
+function commitEdit() {
+    if (!activeEdit) return;
+    const { td, key, locale, quantity } = activeEdit;
+    activeEdit = null;
+
+    const ta = td.querySelector('textarea');
+    if (!ta) return;
+    const val = ta.value;
+
+    if (quantity !== null) {
+        if (!entries[key].translations[locale]) entries[key].translations[locale] = {};
+        entries[key].translations[locale][quantity] = val;
+    } else {
+        entries[key].translations[locale] = val;
+    }
+
+    dirty.add(locale);
+    document.getElementById('saveBtn').disabled = false;
+    updateStats();
+}
+
+// ── Save ─────────────────────────────────────────────────────────────────────
+
+async function saveAll() {
+    commitEdit();
+    for (const locale of dirty) {
+        if (!fileHandles[locale]) continue;
+        try {
+            const w = await fileHandles[locale].createWritable();
+            await w.write(buildXml(locale));
+            await w.close();
+        } catch (e) {
+            alert(`Failed to save ${locale}: ${e.message}`); return;
+        }
+    }
+    dirty.clear();
+    document.getElementById('saveBtn').disabled = true;
+    showToast();
+    renderTable();
+}
+
+function buildXml(locale) {
+    const lines = [
+        '<?xml version="1.0" encoding="utf-8"?>',
+        '<!--',
+        '  ~ Copyright 2026 Maximilian Schwärzler',
+        '  ~',
+        '  ~    Licensed under the Apache License, Version 2.0 (the "License");',
+        '  ~    you may not use this file except in compliance with the License.',
+        '  ~    You may obtain a copy of the License at',
+        '  ~',
+        '  ~        http://www.apache.org/licenses/LICENSE-2.0',
+        '  ~',
+        '  ~    Unless required by applicable law or agreed to in writing, software',
+        '  ~    distributed under the License is distributed on an "AS IS" BASIS,',
+        '  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.',
+        '  ~    See the License for the specific language governing permissions and',
+        '  ~    limitations under the License.',
+        '  -->',
+        '',
+        '<resources>',
+    ];
+
+    for (const key of keyOrder) {
+        const entry = entries[key];
+        if (entry.translatable === false) continue;
+
+        if (entry.type === 'plurals') {
+            const vals = entry.translations[locale];
+            if (!vals) continue;
+            const hasAny = Object.values(vals).some(v => v);
+            if (!hasAny) continue;
+            lines.push(`    <plurals name="${key}">`);
+            for (const qty of orderedQuantities(key)) {
+                const v = vals[qty];
+                if (v) lines.push(`        <item quantity="${qty}">${escXml(v)}</item>`);
+            }
+            lines.push('    </plurals>');
+        } else {
+            const v = entry.translations[locale];
+            if (!v) continue;
+            lines.push(`    <string name="${key}">${escXml(v)}</string>`);
+        }
+    }
+
+    lines.push('</resources>', '');
+    return lines.join('\n');
+}
+
+// ── Filters & Stats ───────────────────────────────────────────────────────────
+
+function toggleFilter(name) {
+    filters[name] = !filters[name];
+    const ids = { missing: 'missingChip', hide: 'hideChip' };
+    document.getElementById(ids[name]).classList.toggle('active', filters[name]);
+    renderTable();
+}
+
+function updateStats() {
+    let total = 0, done = 0, missing = 0;
+    for (const key of keyOrder) {
+        const e = entries[key];
+        if (e.translatable === false || e.type !== 'string') continue;
+        for (const l of locales) {
+            total++;
+            if (e.translations[l]) done++; else missing++;
+        }
+    }
+    document.getElementById('stats').textContent = locales.length ? `${done} / ${total} translated` : '';
+    document.getElementById('missingBadge').textContent = missing;
+}
+
+function showToast() {
+    const t = document.getElementById('savedToast');
+    t.classList.add('visible');
+    setTimeout(() => t.classList.remove('visible'), 2500);
+}
+
+// ── Utils ─────────────────────────────────────────────────────────────────────
+
+function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function escXml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ── Keyboard shortcuts ────────────────────────────────────────────────────────
+
+document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'o') { e.preventDefault(); openDirectory(); }
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        if (!document.getElementById('saveBtn').disabled) saveAll();
+    }
+});
+</script>
+</body>
+</html>
