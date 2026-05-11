@@ -1,0 +1,52 @@
+name: Language Request
+description: Request support for a new language in the app
+labels: ["i18n"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping make Do It available in more languages!
+        Please fill in the details below so we can prioritize and track this request.
+
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      description: The full name of the language you are requesting.
+      placeholder: e.g. Japanese
+    validations:
+      required: true
+
+  - type: input
+    id: language_code
+    attributes:
+      label: Language code
+      description: The [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag (e.g. `ja`, `pt-BR`).
+      placeholder: e.g. ja
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this language important to you or your community?
+      placeholder: Tell us who would benefit and how widely the language is spoken.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      description: Are you willing to help with the translation?
+      options:
+        - label: I am willing to contribute the translation myself or help review it.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues and this language has not already been requested.
+          required: true
