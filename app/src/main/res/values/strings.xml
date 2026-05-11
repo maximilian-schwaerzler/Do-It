@@ -16,7 +16,10 @@
 
 <resources>
     <string name="app_name" translatable="false">Do It</string>
-    <string name="todos_selected_template">%1$d selected</string>
+    <plurals name="todos_selected_template">
+        <item quantity="one">%1$d selected</item>
+        <item quantity="many">%1$d selected</item>
+    </plurals>
     <string name="just_do_it_app_bar" translatable="false">Just do it!</string>
     <string name="add_new_todo_fab">Add a new TODO</string>
     <string name="you_did_everything_empty_text">You did everything! 🚀</string>

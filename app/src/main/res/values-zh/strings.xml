@@ -16,7 +16,9 @@
   -->
 
 <resources>
-    <string name="todos_selected_template">%1$d 已选中</string>
+    <plurals name="todos_selected_template">
+        <item quantity="other">%1$d 已选中</item>
+    </plurals>
     <string name="add_new_todo_fab">添加一个新待办事项</string>
     <string name="you_did_everything_empty_text">你太棒了！🚀</string>
     <string name="done_headline">完成</string>

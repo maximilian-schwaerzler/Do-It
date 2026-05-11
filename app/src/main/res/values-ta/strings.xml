@@ -16,7 +16,10 @@
   -->
 
 <resources>
-    <string name="todos_selected_template">%1$d தேர்ந்தெடுக்கப்பட்ட</string>
+    <plurals name="todos_selected_template">
+        <item quantity="one">%1$d தேர்ந்தெடுக்கப்பட்ட</item>
+        <item quantity="other">%1$d தேர்ந்தெடுக்கப்பட்ட</item>
+    </plurals>
     <string name="add_new_todo_fab">புதிய TODO-வைச் சேர்க்கவும்</string>
     <string name="you_did_everything_empty_text">நீங்கள் எல்லாவற்றையும் செய்தீர்கள்! 🚀</string>
     <string name="done_headline">முடிந்தது</string>
