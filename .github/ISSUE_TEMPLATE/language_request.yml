@@ -21,7 +21,7 @@ body:
     id: language_code
     attributes:
       label: Language code
-      description: The [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag (e.g. `ja`, `pt-BR`).
+      description: The [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language tag (e.g. `ja`, `nl`).
       placeholder: e.g. ja
     validations:
       required: true
