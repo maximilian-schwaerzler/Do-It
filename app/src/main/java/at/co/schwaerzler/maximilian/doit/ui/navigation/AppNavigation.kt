@@ -48,6 +48,9 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 },
                 onClickTodo = { todoId ->
                     navController.navigate(EditTodo(todoId = todoId))
+                },
+                onClickSettings = {
+                    navController.navigate(Settings)
                 }
             )
         }

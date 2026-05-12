@@ -68,6 +68,7 @@ import kotlin.time.Clock
 fun HomeScreen(
     onAddTodo: () -> Unit,
     onClickTodo: (id: Int) -> Unit,
+    onClickSettings: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
 ) {
@@ -104,6 +105,7 @@ fun HomeScreen(
             selectedTodos += openTodos.map { it.id }
             selectedTodos += doneTodos.map { it.id }
         },
+        onClickSettings = onClickSettings
     )
 }
 
@@ -115,6 +117,7 @@ private fun HomeScreenContent(
     doneTodos: List<TodoSummary>,
     onAddTodo: () -> Unit,
     onClickTodo: (id: Int) -> Unit,
+    onClickSettings: () -> Unit,
     toggleTodoItemSelection: (id: Int) -> Unit,
     onStateToggle: (TodoSummary) -> Unit,
     selectedTodos: Set<Int>,
@@ -178,7 +181,15 @@ private fun HomeScreenContent(
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceContainer
-                        )
+                        ),
+                        actions = {
+                            IconButton(onClick = onClickSettings) {
+                                Icon(
+                                    painterResource(R.drawable.settings_24px),
+                                    contentDescription = null
+                                )
+                            }
+                        }
                     )
                 }
             }
@@ -333,7 +344,8 @@ private fun HomeScreenEmptyPreview() {
             selectedTodos = emptySet(),
             onClearSelection = {},
             onSelectAll = {},
-            onDeleteSelection = {}
+            onDeleteSelection = {},
+            onClickSettings = {}
         )
     }
 }
@@ -352,7 +364,8 @@ private fun HomeScreenWithTodosPreview() {
             selectedTodos = emptySet(),
             onClearSelection = {},
             onSelectAll = {},
-            onDeleteSelection = {}
+            onDeleteSelection = {},
+            onClickSettings = {}
         )
     }
 }
@@ -371,7 +384,8 @@ private fun HomeScreenAllDonePreview() {
             selectedTodos = emptySet(),
             onClearSelection = {},
             onSelectAll = {},
-            onDeleteSelection = {}
+            onDeleteSelection = {},
+            onClickSettings = {}
         )
     }
 }
@@ -390,7 +404,8 @@ private fun HomeScreenSelectionPreview() {
             selectedTodos = setOf(1),
             onClearSelection = {},
             onSelectAll = {},
-            onDeleteSelection = {}
+            onDeleteSelection = {},
+            onClickSettings = {}
         )
     }
 }
