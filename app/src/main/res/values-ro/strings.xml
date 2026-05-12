@@ -50,4 +50,9 @@
     <string name="select_time">Selectează ora</string>
     <string name="clear_selection">Șterge selecția</string>
     <string name="select_all">Selectează tot</string>
+    <string name="settings_app_bar">Setări</string>
+    <string name="settings_section_about">Despre</string>
+    <string name="app_version">Versiune</string>
+    <string name="source_code">Cod sursă</string>
+    <string name="f_droid_package">Pachet F-Droid</string>
 </resources>

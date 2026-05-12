@@ -48,4 +48,9 @@
     <string name="select_time">选择时间</string>
     <string name="clear_selection">清除选中项</string>
     <string name="select_all">全选</string>
+    <string name="settings_app_bar">设置</string>
+    <string name="settings_section_about">关于</string>
+    <string name="app_version">版本</string>
+    <string name="source_code">源代码</string>
+    <string name="f_droid_package">F-Droid 软件包</string>
 </resources>

@@ -50,4 +50,9 @@
     <string name="select_time">Sélectionnez l\'heure</string>
     <string name="clear_selection">Effacer la sélection</string>
     <string name="select_all">Tout sélectionner</string>
+    <string name="settings_app_bar">Paramètres</string>
+    <string name="settings_section_about">À propos</string>
+    <string name="app_version">Version</string>
+    <string name="source_code">Code source</string>
+    <string name="f_droid_package">Paquet F-Droid</string>
 </resources>
