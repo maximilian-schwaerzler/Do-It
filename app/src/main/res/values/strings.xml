@@ -52,4 +52,11 @@
     <string name="select_time">Select time</string>
     <string name="clear_selection">Clear selection</string>
     <string name="select_all">Select all</string>
+    <string name="github_repo_url" translatable="false">https://github.com/maximilian-schwaerzler/Do-It</string>
+    <string name="fdroid_package_url" translatable="false">https://f-droid.org/packages/at.co.schwaerzler.maximilian.doit</string>
+    <string name="settings_app_bar">Settings</string>
+    <string name="settings_section_about">About</string>
+    <string name="app_version">Version</string>
+    <string name="source_code">Source Code</string>
+    <string name="f_droid_package">F-Droid Package</string>
 </resources>
