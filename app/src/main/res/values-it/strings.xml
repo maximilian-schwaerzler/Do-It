@@ -22,7 +22,7 @@
         <item quantity="other">%1$d selezionati</item>
     </plurals>
     <string name="add_new_todo_fab">Aggiungi una nuova attività</string>
-    <string name="you_did_everything_empty_text">Hai fatto tutto tu! 🚀</string>
+    <string name="you_did_everything_empty_text">Hai fatto tutto! 🚀</string>
     <string name="done_headline">Fatto</string>
     <string name="open_headline">Apri</string>
     <string name="nothing_to_do_empty_text">Niente da fare! 🥳</string>
