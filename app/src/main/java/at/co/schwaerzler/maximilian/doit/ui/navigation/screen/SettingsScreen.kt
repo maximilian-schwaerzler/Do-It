@@ -16,20 +16,38 @@
 
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import at.co.schwaerzler.maximilian.doit.R
+import at.co.schwaerzler.maximilian.doit.util.openUrl
+
+@Composable
+private fun SettingsSectionHeader(title: String, modifier: Modifier = Modifier) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp)
+    )
+}
 
 @Composable
 fun SettingsScreen(
@@ -48,6 +66,10 @@ fun SettingsScreenContent(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+    val githubUrl = stringResource(R.string.github_repo_url)
+    val fdroidUrl = stringResource(R.string.fdroid_package_url)
+
     Scaffold(
         modifier.fillMaxSize(),
         topBar = {
@@ -67,8 +89,27 @@ fun SettingsScreenContent(
             Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-
+            SettingsSectionHeader(stringResource(R.string.settings_section_about))
+            ListItem(
+                headlineContent = {
+                    Text(stringResource(R.string.source_code))
+                },
+                leadingContent = {
+                    Icon(painterResource(R.drawable.code_24px), contentDescription = null)
+                },
+                modifier = Modifier.clickable { context.openUrl(githubUrl) }
+            )
+            ListItem(
+                headlineContent = {
+                    Text(stringResource(R.string.f_droid_page))
+                },
+                leadingContent = {
+                    Icon(painterResource(R.drawable.fdroid), contentDescription = null)
+                },
+                modifier = Modifier.clickable { context.openUrl(fdroidUrl) }
+            )
         }
     }
 }
