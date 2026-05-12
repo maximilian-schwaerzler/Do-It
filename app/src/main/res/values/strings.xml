@@ -17,6 +17,7 @@
 <resources>
     <string name="app_name" translatable="false">Do It</string>
     <plurals name="todos_selected_template">
+        <item quantity="zero">%1$d selected</item>
         <item quantity="one">%1$d selected</item>
         <item quantity="many">%1$d selected</item>
     </plurals>
