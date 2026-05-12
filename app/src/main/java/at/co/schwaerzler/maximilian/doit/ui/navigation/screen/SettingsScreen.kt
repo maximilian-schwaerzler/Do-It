@@ -113,7 +113,7 @@ fun SettingsScreenContent(
             )
             ListItem(
                 headlineContent = {
-                    Text(stringResource(R.string.f_droid_page))
+                    Text(stringResource(R.string.f_droid_package))
                 },
                 leadingContent = {
                     Icon(painterResource(R.drawable.fdroid), contentDescription = null)
