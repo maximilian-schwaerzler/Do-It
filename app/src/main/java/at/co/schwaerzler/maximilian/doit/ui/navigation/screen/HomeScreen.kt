@@ -64,7 +64,6 @@ import at.co.schwaerzler.maximilian.doit.ui.component.TodoListItem
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import kotlin.time.Clock
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onAddTodo: () -> Unit,
@@ -107,6 +106,7 @@ fun HomeScreen(
         },
     )
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

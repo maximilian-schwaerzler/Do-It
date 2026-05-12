@@ -19,16 +19,55 @@ package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import at.co.schwaerzler.maximilian.doit.R
 
 @Composable
-fun SettingsScreen(modifier: Modifier = Modifier) {
-    Scaffold(modifier.fillMaxSize()) { innerPadding ->
-        Column(Modifier
-            .padding(innerPadding)
-            .fillMaxSize()) {
+fun SettingsScreen(
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    SettingsScreenContent(
+        onNavigateBack = onNavigateBack,
+        modifier = modifier
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SettingsScreenContent(
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Scaffold(
+        modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(stringResource(R.string.settings_app_bar))
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(painterResource(R.drawable.arrow_back_24px), contentDescription = null)
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        ) {
 
         }
     }

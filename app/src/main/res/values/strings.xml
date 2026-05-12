@@ -50,4 +50,5 @@
     <string name="select_time">Select time</string>
     <string name="clear_selection">Clear selection</string>
     <string name="select_all">Select all</string>
+    <string name="settings_app_bar">Settings</string>
 </resources>
