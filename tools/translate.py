@@ -16,6 +16,7 @@ Examples:
 
     python tools/translate.py fastlane --api-key KEY de fr
     python tools/translate.py fastlane --api-key KEY --force de
+    python tools/translate.py fastlane --api-key KEY --ignore title.txt de fr
 
 By default, files/strings that already exist in the target are left untouched
 so that hand-edited translations are never overwritten. Use --force to redo all.
@@ -310,11 +311,12 @@ _HTML_FILES = {"full_description.txt"}
 _SKIP_DIRS = {"images"}
 
 
-def _collect_source_files(source_locale_dir: Path) -> list[Path]:
+def _collect_source_files(source_locale_dir: Path, ignore: frozenset[str] = frozenset()) -> list[Path]:
     """Return all translatable .txt files under the source locale directory."""
     return [
         p for p in source_locale_dir.rglob("*.txt")
         if not any(part in _SKIP_DIRS for part in p.relative_to(source_locale_dir).parts)
+        and p.name not in ignore
     ]
 
 
@@ -324,6 +326,7 @@ def _translate_fastlane_language(
     metadata_dir: Path,
     locale: str,
     force: bool,
+    ignore: frozenset[str] = frozenset(),
 ) -> None:
     deepl_lang = _resolve_deepl_lang(locale)
     if deepl_lang is None:
@@ -331,7 +334,7 @@ def _translate_fastlane_language(
         return
 
     target_locale_dir = metadata_dir / locale
-    source_files = _collect_source_files(source_locale_dir)
+    source_files = _collect_source_files(source_locale_dir, ignore)
 
     to_translate: list[tuple[Path, str, bool]] = []  # (rel_path, text, is_html)
     for src in source_files:
@@ -391,9 +394,10 @@ def cmd_fastlane(args: argparse.Namespace) -> None:
         sys.exit(1)
 
     translator = deepl.Translator(args.api_key)
+    ignore = frozenset(args.ignore)
 
     for locale in args.languages:
-        _translate_fastlane_language(translator, source_locale_dir, metadata_dir, locale, args.force)
+        _translate_fastlane_language(translator, source_locale_dir, metadata_dir, locale, args.force, ignore)
 
 
 # ---------------------------------------------------------------------------
@@ -455,6 +459,13 @@ def main() -> None:
         default="en-US",
         metavar="LOCALE",
         help="Source locale folder name (default: en-US)",
+    )
+    p_fastlane.add_argument(
+        "--ignore",
+        nargs="+",
+        default=[],
+        metavar="FILE",
+        help="File names to skip, e.g. --ignore title.txt",
     )
     p_fastlane.set_defaults(func=cmd_fastlane)
 
