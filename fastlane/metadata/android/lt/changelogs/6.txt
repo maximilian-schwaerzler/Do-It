@@ -1,0 +1,5 @@
+- Naujas nustatymų ekranas su informacija apie programos versiją ir "F-Droid" nuoroda
+- Ištaisytas tamsusis režimas, kuris neatitiko sistemos nustatymų
+- Pridėti rumunų kalbos vertimai
+- Patobulinti italų kalbos vertimai
+- Įvairūs klaidų taisymai ir patobulinimai

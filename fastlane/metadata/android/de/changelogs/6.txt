@@ -1,0 +1,5 @@
+- Neuer Einstellungsbildschirm mit Informationen zur App-Version und F-Droid-Link
+- Dark Mode folgt jetzt der Systemeinstellung
+- Rumänische Übersetzungen hinzugefügt
+- Verbesserte italienische Übersetzungen
+- Verschiedene Fehlerbehebungen und Verbesserungen

@@ -1,0 +1,5 @@
+- Noul ecran Setări cu informații despre versiunea aplicației și link-ul F-Droid
+- Fix modul întunecat care nu urmează setarea sistemului
+- Adăugarea traducerilor în limba română
+- Îmbunătățirea traducerilor în italiană
+- Diverse remedieri de erori și îmbunătățiri

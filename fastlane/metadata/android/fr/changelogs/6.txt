@@ -1,0 +1,5 @@
+- Nouvel écran de réglages avec informations sur la version de l'application et lien F-Droid
+- Correction du mode sombre qui ne suit pas le réglage du système
+- Ajout de traductions en roumain
+- Amélioration des traductions en italien
+- Diverses corrections de bugs et améliorations
