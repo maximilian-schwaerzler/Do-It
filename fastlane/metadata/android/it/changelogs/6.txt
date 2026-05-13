@@ -1,0 +1,5 @@
+- Nuova schermata Impostazioni con informazioni sulla versione dell'app e collegamento a F-Droid
+- Corretta la modalità scura che non segue le impostazioni di sistema
+- Aggiunte le traduzioni in rumeno
+- Miglioramento delle traduzioni in italiano
+- Varie correzioni di bug e miglioramenti

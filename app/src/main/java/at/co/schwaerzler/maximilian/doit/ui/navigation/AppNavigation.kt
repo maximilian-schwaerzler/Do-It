@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import at.co.schwaerzler.maximilian.doit.ui.navigation.screen.EditTodoScreen
 import at.co.schwaerzler.maximilian.doit.ui.navigation.screen.HomeScreen
+import at.co.schwaerzler.maximilian.doit.ui.navigation.screen.SettingsScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -31,6 +32,9 @@ object Home
 
 @Serializable
 data class EditTodo(val todoId: Int? = null)
+
+@Serializable
+object Settings
 
 @Composable
 fun AppNavigation(modifier: Modifier = Modifier) {
@@ -44,6 +48,9 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 },
                 onClickTodo = { todoId ->
                     navController.navigate(EditTodo(todoId = todoId))
+                },
+                onClickSettings = {
+                    navController.navigate(Settings)
                 }
             )
         }
@@ -57,6 +64,14 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 }, onCancel = {
                     navController.popBackStack()
                 })
+        }
+
+        composable<Settings> {
+            SettingsScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

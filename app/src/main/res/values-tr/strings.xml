@@ -16,5 +16,42 @@
   -->
 
 <resources>
-    
+    <plurals name="todos_selected_template">
+        <item quantity="one">%1$d seçilmiş</item>
+        <item quantity="other">%1$d seçilmiş</item>
+    </plurals>
+    <string name="add_new_todo_fab">Yeni bir yapılacaklar listesi maddesi ekle</string>
+    <string name="you_did_everything_empty_text">Her şeyi sen yaptın! 🚀</string>
+    <string name="done_headline">Tamam</string>
+    <string name="open_headline">Aç</string>
+    <string name="nothing_to_do_empty_text">Yapacak bir şey yok! 🥳</string>
+    <string name="add_new_todo_button">Aşağıdaki düğmeyi kullanarak yeni bir yapılacaklar listesi maddesi ekleyin.</string>
+    <string name="discard_changes_question">Değişiklikleri silmek ister misiniz?</string>
+    <string name="unsaved_changes_lost">Kaydedilmemiş değişiklikleriniz silinecektir.</string>
+    <string name="discard">Sil</string>
+    <string name="keep_editing">Düzenlemeye devam et</string>
+    <string name="next">Sonraki</string>
+    <string name="cancel">İptal et</string>
+    <string name="done_fab">Tamam</string>
+    <string name="add_new_todo_app_bar">Yeni yapılacaklar listesi ekle</string>
+    <string name="edit_todo_app_bar">Düzenle - Yapılacaklar</string>
+    <string name="delete_todo">TODO\'yu sil</string>
+    <string name="share_todo">Paylaş Yapılacaklar</string>
+    <string name="title">Başlık</string>
+    <string name="required">Zorunlu</string>
+    <string name="description">Açıklama</string>
+    <string name="optional">İsteğe bağlı</string>
+    <string name="set_deadline">Son tarih belirle</string>
+    <string name="deadline">Son tarih</string>
+    <string name="select_this_todo">Bu yapılacak işi seç</string>
+    <string name="deadline_template">Son başvuru tarihi: %1$s</string>
+    <string name="title_is_required">Başlık zorunludur</string>
+    <string name="select_time">Zamanı seçin</string>
+    <string name="clear_selection">Seçimi temizle</string>
+    <string name="select_all">Tümünü seç</string>
+    <string name="settings_app_bar">Ayarlar</string>
+    <string name="settings_section_about">Hakkında</string>
+    <string name="app_version">Sürüm</string>
+    <string name="source_code">Kaynak Kodu</string>
+    <string name="f_droid_package">F-Droid Paketi</string>
 </resources>

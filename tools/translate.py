@@ -16,6 +16,7 @@ Examples:
 
     python tools/translate.py fastlane --api-key KEY de fr
     python tools/translate.py fastlane --api-key KEY --force de
+    python tools/translate.py fastlane --api-key KEY --ignore title.txt de fr
 
 By default, files/strings that already exist in the target are left untouched
 so that hand-edited translations are never overwritten. Use --force to redo all.
@@ -116,6 +117,43 @@ def _android_escape(text: str) -> str:
     return text
 
 
+def _android_unescape(text: str) -> str:
+    """Reverse Android string-resource backslash escaping."""
+    return text.replace("\\'", "'")
+
+
+# Canonical ordering for Android plural quantity categories.
+_PLURAL_QUANTITY_ORDER = ["zero", "one", "two", "few", "many", "other"]
+
+# Representative sample numbers used to give DeepL grammatical context per quantity.
+_QUANTITY_SAMPLE: dict[str, int] = {
+    "zero": 0, "one": 1, "two": 2, "few": 3, "many": 10, "other": 2,
+}
+
+
+def _prepare_plural_item(text: str, quantity: str) -> tuple[str, list[str]]:
+    """Replace placeholders with a representative number for the given quantity.
+
+    Returns the substituted text and the original placeholder list for restoration.
+    """
+    sample = str(_QUANTITY_SAMPLE.get(quantity, 2))
+    placeholders: list[str] = []
+
+    def _replace(m: re.Match) -> str:
+        placeholders.append(m.group())
+        return sample
+
+    return _PLACEHOLDER_RE.sub(_replace, text), placeholders
+
+
+def _restore_plural_item(text: str, quantity: str, placeholders: list[str]) -> str:
+    """Restore original placeholders after translation."""
+    if not placeholders:
+        return text
+    sample = re.escape(str(_QUANTITY_SAMPLE.get(quantity, 2)))
+    it = iter(placeholders)
+    return re.sub(r"(?<!\d)" + sample + r"(?!\d)", lambda _: next(it), text, count=len(placeholders))
+
 # ---------------------------------------------------------------------------
 # strings subcommand
 # ---------------------------------------------------------------------------
@@ -125,7 +163,29 @@ def _load_existing_strings(path: Path) -> dict[str, str]:
         return {}
     try:
         root = ET.parse(path).getroot()
-        return {el.get("name"): (el.text or "") for el in root.findall("string")}
+        return {
+            el.get("name"): _android_unescape(el.text or "")
+            for el in root.findall("string")
+        }
+    except ET.ParseError as exc:
+        print(f"Warning: could not parse {path}: {exc}", file=sys.stderr)
+        return {}
+
+
+def _load_existing_plurals(path: Path) -> dict[str, dict[str, str]]:
+    """Return {plurals_name: {quantity: unescaped_text}} for all <plurals> elements."""
+    if not path.exists():
+        return {}
+    try:
+        root = ET.parse(path).getroot()
+        result: dict[str, dict[str, str]] = {}
+        for el in root.findall("plurals"):
+            name = el.get("name")
+            result[name] = {
+                item.get("quantity"): _android_unescape(item.text or "")
+                for item in el.findall("item")
+            }
+        return result
     except ET.ParseError as exc:
         print(f"Warning: could not parse {path}: {exc}", file=sys.stderr)
         return {}
@@ -147,38 +207,79 @@ def _translate_strings_language(
     target_path = target_dir / "strings.xml"
     target_dir.mkdir(exist_ok=True)
 
-    existing = {} if force else _load_existing_strings(target_path)
+    existing_strings = {} if force else _load_existing_strings(target_path)
+    existing_plurals = {} if force else _load_existing_plurals(target_path)
 
-    to_translate: list[tuple[str, str]] = []
+    strings_to_translate: list[tuple[str, str]] = []
     for el in source_root.findall("string"):
         name = el.get("name")
         if el.get("translatable") == "false":
             continue
-        if name not in existing:
-            to_translate.append((name, el.text or ""))
+        if name not in existing_strings:
+            strings_to_translate.append((name, el.text or ""))
 
-    if to_translate:
-        print(f"[{locale}] Translating {len(to_translate)} string(s)…")
-        protected = [_protect_placeholders(t) for _, t in to_translate]
-        results = translator.translate_text(
-            protected,
-            source_lang="EN",
-            target_lang=deepl_lang,
-            tag_handling="xml",
-            ignore_tags=["ph"],
-        )
-        for (name, _), result in zip(to_translate, results):
-            existing[name] = _restore_placeholders(result.text)
-    else:
+    plurals_to_translate: list[tuple[str, str, str]] = []
+    for el in source_root.findall("plurals"):
+        name = el.get("name")
+        if el.get("translatable") == "false":
+            continue
+        existing_items = existing_plurals.get(name, {})
+        for item in el.findall("item"):
+            quantity = item.get("quantity")
+            if quantity not in existing_items:
+                plurals_to_translate.append((name, quantity, item.text or ""))
+
+    total = len(strings_to_translate) + len(plurals_to_translate)
+    if total == 0:
         print(f"[{locale}] Nothing new to translate.")
+    else:
+        print(f"[{locale}] Translating {len(strings_to_translate)} string(s) and {len(plurals_to_translate)} plural item(s)…")
+
+        if strings_to_translate:
+            protected = [_protect_placeholders(t) for _, t in strings_to_translate]
+            results = translator.translate_text(
+                protected,
+                source_lang="EN",
+                target_lang=deepl_lang,
+                tag_handling="xml",
+                ignore_tags=["ph"],
+            )
+            for (name, _), result in zip(strings_to_translate, results):
+                existing_strings[name] = _restore_placeholders(result.text)
+
+        if plurals_to_translate:
+            prepared: list[str] = []
+            restore_data: list[tuple[str, list[str]]] = []
+            for _, quantity, text in plurals_to_translate:
+                subst, placeholders = _prepare_plural_item(text, quantity)
+                prepared.append(subst)
+                restore_data.append((quantity, placeholders))
+            results = translator.translate_text(
+                prepared,
+                source_lang="EN",
+                target_lang=deepl_lang,
+            )
+            for (name, quantity, _), result, (q, placeholders) in zip(plurals_to_translate, results, restore_data):
+                if name not in existing_plurals:
+                    existing_plurals[name] = {}
+                existing_plurals[name][quantity] = _restore_plural_item(result.text, q, placeholders)
 
     lines: list[str] = [_XML_LICENSE_HEADER, "<resources>\n"]
-    for el in source_root.findall("string"):
+    for el in source_root:
         name = el.get("name")
         if el.get("translatable") == "false":
             continue
-        value = _android_escape(existing.get(name, ""))
-        lines.append(f'    <string name="{name}">{value}</string>\n')
+        if el.tag == "string":
+            value = _android_escape(existing_strings.get(name, ""))
+            lines.append(f'    <string name="{name}">{value}</string>\n')
+        elif el.tag == "plurals":
+            items = existing_plurals.get(name, {})
+            lines.append(f'    <plurals name="{name}">\n')
+            for quantity in _PLURAL_QUANTITY_ORDER:
+                if quantity in items:
+                    value = _android_escape(items[quantity])
+                    lines.append(f'        <item quantity="{quantity}">{value}</item>\n')
+            lines.append(f'    </plurals>\n')
     lines.append("</resources>\n")
 
     target_path.write_text("".join(lines), encoding="utf-8")
@@ -210,11 +311,12 @@ _HTML_FILES = {"full_description.txt"}
 _SKIP_DIRS = {"images"}
 
 
-def _collect_source_files(source_locale_dir: Path) -> list[Path]:
+def _collect_source_files(source_locale_dir: Path, ignore: frozenset[str] = frozenset()) -> list[Path]:
     """Return all translatable .txt files under the source locale directory."""
     return [
         p for p in source_locale_dir.rglob("*.txt")
         if not any(part in _SKIP_DIRS for part in p.relative_to(source_locale_dir).parts)
+        and p.name not in ignore
     ]
 
 
@@ -224,6 +326,7 @@ def _translate_fastlane_language(
     metadata_dir: Path,
     locale: str,
     force: bool,
+    ignore: frozenset[str] = frozenset(),
 ) -> None:
     deepl_lang = _resolve_deepl_lang(locale)
     if deepl_lang is None:
@@ -231,7 +334,7 @@ def _translate_fastlane_language(
         return
 
     target_locale_dir = metadata_dir / locale
-    source_files = _collect_source_files(source_locale_dir)
+    source_files = _collect_source_files(source_locale_dir, ignore)
 
     to_translate: list[tuple[Path, str, bool]] = []  # (rel_path, text, is_html)
     for src in source_files:
@@ -291,9 +394,10 @@ def cmd_fastlane(args: argparse.Namespace) -> None:
         sys.exit(1)
 
     translator = deepl.Translator(args.api_key)
+    ignore = frozenset(args.ignore)
 
     for locale in args.languages:
-        _translate_fastlane_language(translator, source_locale_dir, metadata_dir, locale, args.force)
+        _translate_fastlane_language(translator, source_locale_dir, metadata_dir, locale, args.force, ignore)
 
 
 # ---------------------------------------------------------------------------
@@ -355,6 +459,13 @@ def main() -> None:
         default="en-US",
         metavar="LOCALE",
         help="Source locale folder name (default: en-US)",
+    )
+    p_fastlane.add_argument(
+        "--ignore",
+        nargs="+",
+        default=[],
+        metavar="FILE",
+        help="File names to skip, e.g. --ignore title.txt",
     )
     p_fastlane.set_defaults(func=cmd_fastlane)
 

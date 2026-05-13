@@ -48,4 +48,9 @@
     <string name="select_time">시간 선택</string>
     <string name="clear_selection">선택 취소</string>
     <string name="select_all">모두 선택</string>
+    <string name="settings_app_bar">설정</string>
+    <string name="settings_section_about">소개</string>
+    <string name="app_version">버전</string>
+    <string name="source_code">소스 코드</string>
+    <string name="f_droid_package">F-Droid 패키지</string>
 </resources>

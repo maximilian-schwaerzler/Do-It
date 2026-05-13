@@ -49,4 +49,9 @@
     <string name="select_time">நேரத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="clear_selection">தெளிவான தேர்வு</string>
     <string name="select_all">அனைத்தையும் தேர்ந்தெடுக்கவும்</string>
+    <string name="settings_app_bar">அமைப்புகள்</string>
+    <string name="settings_section_about">பற்றி</string>
+    <string name="app_version">பதிப்பு</string>
+    <string name="source_code">மூலக் குறியீடு</string>
+    <string name="f_droid_package">எஃப்-ட்ராயிட் தொகுப்பு</string>
 </resources>

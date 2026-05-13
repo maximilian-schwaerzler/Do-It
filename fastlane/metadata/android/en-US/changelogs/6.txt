@@ -1,0 +1,5 @@
+- New Settings screen with app version info and F-Droid link
+- Fixed dark mode not following the system setting
+- Add Romanian translations
+- Improved Italian translations
+- Various bug fixes and improvements
