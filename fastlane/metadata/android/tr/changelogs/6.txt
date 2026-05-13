@@ -1,0 +1,5 @@
+- Uygulama sürüm bilgisi ve F-Droid bağlantısı içeren yeni Ayarlar ekranı
+- Karanlık modun sistem ayarını takip etmemesi düzeltildi
+- Romence çeviriler ekleyin
+- Geliştirilmiş İtalyanca çeviriler
+- Çeşitli hata düzeltmeleri ve iyileştirmeler

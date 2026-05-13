@@ -1,0 +1,1 @@
+Модерна апликација за обављање задатака изграђена уз Jetpack Compose и Material Design 3.

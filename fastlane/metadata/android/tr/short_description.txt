@@ -1,0 +1,1 @@
+Jetpack Compose ve Material Design 3 ile oluşturulmuş modern bir yapılacaklar uygulaması.

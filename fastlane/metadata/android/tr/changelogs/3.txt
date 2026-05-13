@@ -1,0 +1,3 @@
+- Uzun basarak yapılacakları çoklu seçme, ardından toplu silme veya tümünü seçme
+- Liste boş olduğunda veya tamamı bittiğinde motive edici boş durum mesajları
+- Çeşitli hata düzeltmeleri ve kullanıcı arayüzü iyileştirmeleri

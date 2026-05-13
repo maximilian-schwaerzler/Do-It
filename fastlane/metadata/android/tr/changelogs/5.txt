@@ -1,0 +1,3 @@
+- Yeni bir yapılacak eklenirken başlık alanı otomatik olarak odaklanır
+- Seçim araç çubuğu artık Tümünü Seç ve Tümünün Seçimini Kaldır arasında geçiş yapıyor
+- Birden fazla dil için çeviri ekleyin

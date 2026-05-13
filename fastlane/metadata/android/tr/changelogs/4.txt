@@ -1,0 +1,2 @@
+- Almanca için çeviriler ekleyin
+- Sistem ayarlarında uygulama başına dil seçimini etkinleştirin
