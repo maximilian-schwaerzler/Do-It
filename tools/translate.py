@@ -69,7 +69,8 @@ DEEPL_LANG_MAP: dict[str, str] = {
     "zh": "ZH",
     "zh-rTW": "ZH-HANT",
     "zh-TW": "ZH-HANT",
-    "ta": "TA"
+    "ta": "TA",
+    "sr": "SR"
 }
 
 _XML_LICENSE_HEADER = """\
