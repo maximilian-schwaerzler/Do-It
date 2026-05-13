@@ -25,9 +25,11 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
   - Lithuanian
   - Polish
   - Romanian
+  - Serbian
   - Tamil
-  - Chinese (simplified), thanks to Emily!
-  - Add an [issue](https://github.com/maximilian-schwaerzler/Do-It/issues) or a [pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls) to request or add your language!
+  - Turkish
+  - Chinese (simplified), thank you, Emily, for proofreading!
+  - Add an [issue](https://github.com/maximilian-schwaerzler/Do-It/issues/new?template=language_request.yml) or a [pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls) to request or add your language!
 
 ## Tech Stack
 
@@ -96,13 +98,16 @@ app/src/main/java/at/co/schwaerzler/maximilian/doit/
     │   ├── AppNavigation.kt
     │   └── screen/
     │       ├── HomeScreen.kt
-    │       └── EditTodoScreen.kt
+    │       ├── EditTodoScreen.kt
+    │       └── SettingsScreen.kt
     ├── component/
     │   ├── MaxWidthLayout.kt
     │   └── TodoListItem.kt
     └── theme/
         ├── Color.kt
         └── Theme.kt
+└── util/
+    └── IntentUtils.kt
 ```
 
 ## Architecture
