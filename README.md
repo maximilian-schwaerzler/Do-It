@@ -69,12 +69,6 @@ Clone the repository and open it in Android Studio, or build from the command li
 ./gradlew lint                   # Run lint checks
 ```
 
-Build command for reproducible builds:
-
-```bash
-sudo docker run --rm -v "$PWD":/build registry.gitlab.com/fdroid/fdroidserver:buildserver bash -c ". /etc/profile && export PATH="$fdroidserver:$PATH" PYTHONPATH="$fdroidserver" && export JAVA_HOME=$(java -XshowSettings:properties -version 2>&1 > /dev/null | grep 'java.home' | awk -F'=' '{print $2}' | tr -d ' ') && cd /build && ./gradlew assembleRelease"
-```
-
 ## Project Structure
 
 Single-module project (`:app`). Package root: `at.co.schwaerzler.maximilian.doit`.
@@ -98,16 +92,13 @@ app/src/main/java/at/co/schwaerzler/maximilian/doit/
     │   ├── AppNavigation.kt
     │   └── screen/
     │       ├── HomeScreen.kt
-    │       ├── EditTodoScreen.kt
-    │       └── SettingsScreen.kt
+    │       └── EditTodoScreen.kt
     ├── component/
     │   ├── MaxWidthLayout.kt
     │   └── TodoListItem.kt
     └── theme/
         ├── Color.kt
         └── Theme.kt
-└── util/
-    └── IntentUtils.kt
 ```
 
 ## Architecture
