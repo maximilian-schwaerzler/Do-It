@@ -19,6 +19,7 @@
     <plurals name="todos_selected_template">
         <item quantity="zero">%1$d selected</item>
         <item quantity="one">%1$d selected</item>
+        <item quantity="few">%1$d selected</item>
         <item quantity="many">%1$d selected</item>
         <item quantity="other">%1$d selected</item>
     </plurals>
