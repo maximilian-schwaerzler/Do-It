@@ -26,7 +26,7 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
   - Polish
   - Romanian
   - Tamil
-  - Chinese (simplified)
+  - Chinese (simplified), thanks to Emily!
   - Add an [issue](https://github.com/maximilian-schwaerzler/Do-It/issues) or a [pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls) to request or add your language!
 
 ## Tech Stack
