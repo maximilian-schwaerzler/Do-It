@@ -49,6 +49,9 @@
     <string name="select_time">Zamanı seçin</string>
     <string name="clear_selection">Seçimi temizle</string>
     <string name="select_all">Tümünü seç</string>
+    <string name="settings_language">Dil</string>
+    <string name="settings_language_dialog_title">Dili seçin</string>
+    <string name="settings_language_system_default">Sistem varsayılanı</string>
     <string name="settings_app_bar">Ayarlar</string>
     <string name="settings_section_about">Hakkında</string>
     <string name="app_version">Sürüm</string>

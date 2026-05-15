@@ -50,6 +50,9 @@
     <string name="select_time">Selectează ora</string>
     <string name="clear_selection">Șterge selecția</string>
     <string name="select_all">Selectează tot</string>
+    <string name="settings_language">Limba</string>
+    <string name="settings_language_dialog_title">Selectează limba</string>
+    <string name="settings_language_system_default">Setarea implicită a sistemului</string>
     <string name="settings_app_bar">Setări</string>
     <string name="settings_section_about">Despre</string>
     <string name="app_version">Versiune</string>

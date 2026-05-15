@@ -48,6 +48,9 @@
     <string name="select_time">시간 선택</string>
     <string name="clear_selection">선택 취소</string>
     <string name="select_all">모두 선택</string>
+    <string name="settings_language">언어</string>
+    <string name="settings_language_dialog_title">언어 선택</string>
+    <string name="settings_language_system_default">시스템 기본값</string>
     <string name="settings_app_bar">설정</string>
     <string name="settings_section_about">소개</string>
     <string name="app_version">버전</string>

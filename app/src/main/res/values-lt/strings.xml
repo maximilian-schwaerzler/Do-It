@@ -51,6 +51,9 @@
     <string name="select_time">Pasirinkite laiką</string>
     <string name="clear_selection">Išvalyti pasirinkimą</string>
     <string name="select_all">Pažymėti viską</string>
+    <string name="settings_language">Kalba</string>
+    <string name="settings_language_dialog_title">Pasirinkite kalbą</string>
+    <string name="settings_language_system_default">Sistemos numatytasis nustatymas</string>
     <string name="settings_app_bar">Nustatymai</string>
     <string name="settings_section_about">Apie</string>
     <string name="app_version">Versija</string>
