@@ -1,0 +1,8 @@
+services:
+  fdroid-build:
+    image: registry.gitlab.com/fdroid/fdroidserver:buildserver-trixie
+    volumes:
+      - .:/build
+    working_dir: /build
+    entrypoint: ["/build/scripts/docker-entrypoint.sh"]
+    command: ["./gradlew", "assembleRelease"]
