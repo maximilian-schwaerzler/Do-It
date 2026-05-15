@@ -17,4 +17,6 @@
 <resources>
     <string name="nothing_to_do_empty_text">Nüt z\'tue! 🫕</string>
     <string name="you_did_everything_empty_text">Du hesch alles gmacht! 🚀</string>
+    <string name="settings_app_bar">Ihstellige</string>
+    <string name="set_deadline">Frist setze</string>
 </resources>
