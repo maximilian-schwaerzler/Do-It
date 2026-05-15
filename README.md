@@ -16,20 +16,23 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 - Motivational empty-state messages when the list is empty or everything is done
 - Edge-to-edge UI following Material Design 3 guidelines
 - Full app translations into multiple languages:
-  - English
-  - German
-  - Spanish
-  - French
-  - Italian
-  - Korean
-  - Lithuanian
-  - Polish
-  - Romanian
-  - Serbian
-  - Tamil
-  - Turkish
-  - Chinese (simplified), thank you, Emily, for proofreading!
-  - Add an [issue](https://github.com/maximilian-schwaerzler/Do-It/issues/new?template=language_request.yml) or a [pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls) to request or add your language!
+    - English
+    - German
+    - Spanish
+    - French
+    - Italian
+    - Korean
+    - Lithuanian
+    - Polish
+    - Romanian
+    - Serbian
+    - Tamil
+    - Turkish
+    - Chinese (simplified), thank you, Emily, for proofreading!
+    - Add
+      an [issue](https://github.com/maximilian-schwaerzler/Do-It/issues/new?template=language_request.yml)
+      or a [pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls) to request or add
+      your language!
 
 ## Tech Stack
 
@@ -55,7 +58,9 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 
 [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/at.co.schwaerzler.maximilian.doit)
 
-Download the app on the [F-Droid App Store](https://f-droid.org/packages/at.co.schwaerzler.maximilian.doit) or directly from the [Releases](https://github.com/maximilian-schwaerzler/Do-It/releases) here.
+Download the app on
+the [F-Droid App Store](https://f-droid.org/packages/at.co.schwaerzler.maximilian.doit) or directly
+from the [Releases](https://github.com/maximilian-schwaerzler/Do-It/releases) here.
 
 ## Getting Started
 
@@ -69,11 +74,11 @@ Clone the repository and open it in Android Studio, or build from the command li
 ./gradlew lint                   # Run lint checks
 ```
 
-Build command for reproducible builds:
+# For reproducible builds:
 
-```bash
-sudo docker run --rm -v "$PWD":/build registry.gitlab.com/fdroid/fdroidserver:buildserver bash -c ". /etc/profile && export PATH="$fdroidserver:$PATH" PYTHONPATH="$fdroidserver" && export JAVA_HOME=$(java -XshowSettings:properties -version 2>&1 > /dev/null | grep 'java.home' | awk -F'=' '{print $2}' | tr -d ' ') && cd /build && ./gradlew assembleRelease"
-```
+Either use the `F-Droid Build` run config in IDEA-based IDEs like Android Studio or run
+`docker compose run --rm fdroid-build` from the project's root directory. Make sure you have
+a [Docker](https://www.docker.com/) version supporting Docker Compose installed.
 
 ## Project Structure
 
