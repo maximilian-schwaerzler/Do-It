@@ -18,4 +18,5 @@
 . /etc/profile
 export PATH="$fdroidserver:$PATH" PYTHONPATH="$fdroidserver"
 export JAVA_HOME=$(java -XshowSettings:properties -version 2>&1 > /dev/null | grep 'java.home' | awk -F'=' '{print $2}' | tr -d ' ')
+chmod -R a+rw /build/app/build 2>/dev/null || true
 exec "$@"
