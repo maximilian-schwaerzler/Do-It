@@ -51,6 +51,9 @@
     <string name="select_time">Wybierz godzinę</string>
     <string name="clear_selection">Wyczyść wybór</string>
     <string name="select_all">Zaznacz wszystko</string>
+    <string name="settings_language">Język</string>
+    <string name="settings_language_dialog_title">Wybierz język</string>
+    <string name="settings_language_system_default">Ustawienia domyślne systemu</string>
     <string name="settings_app_bar">Ustawienia</string>
     <string name="settings_section_about">O nas</string>
     <string name="app_version">Wersja</string>

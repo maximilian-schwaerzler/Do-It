@@ -17,5 +17,5 @@
 <resources>
     <string name="nothing_to_do_empty_text">Nix mehr z\'tuan! 🥳</string>
     <string name="you_did_everything_empty_text">Ois gschofft! 🚀</string>
-    <string name="title_is_required">Heast! A Überschrift brauchst scho, Deppata.</string>
+<!--    <string name="title_is_required">Heast! A Überschrift brauchst scho, Deppata.</string>-->
 </resources>

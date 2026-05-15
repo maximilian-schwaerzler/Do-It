@@ -48,6 +48,9 @@
     <string name="select_time">选择时间</string>
     <string name="clear_selection">清除选中项</string>
     <string name="select_all">全选</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_language_dialog_title">选择语言</string>
+    <string name="settings_language_system_default">系统默认</string>
     <string name="settings_app_bar">设置</string>
     <string name="settings_section_about">关于</string>
     <string name="app_version">版本</string>
