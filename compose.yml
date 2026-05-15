@@ -3,6 +3,7 @@ services:
     image: registry.gitlab.com/fdroid/fdroidserver:buildserver-trixie
     volumes:
       - .:/build
+      - ./local.properties.docker:/build/local.properties
     working_dir: /build
     entrypoint: ["/build/scripts/docker-entrypoint.sh"]
-    command: ["./gradlew", "assembleRelease"]
+    command: ["./gradlew", "assembleRelease", "--no-daemon", "--no-configuration-cache"]
