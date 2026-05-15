@@ -146,14 +146,6 @@ private fun HomeScreenContent(
                                 )
                             )
                         },
-//                        navigationIcon = {
-//                            IconButton(onClick = onClearSelection) {
-//                                Icon(
-//                                    painterResource(R.drawable.close_24px),
-//                                    contentDescription = null
-//                                )
-//                            }
-//                        },
                         actions = {
                             IconButton(onClick = onDeleteSelection) {
                                 Icon(
