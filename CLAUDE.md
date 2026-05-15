@@ -20,14 +20,17 @@ To run a single test class:
 
 ## Project Overview
 
-"DoIt" is an Android to-do app. The main app navigation has been added. Some screens still need to be implemented.
+"DoIt" is an Android to-do app with a Room-backed todo list. Core screens (home, add/edit todo, settings) are fully implemented.
 
 ## Tech Stack
 
 - **Language:** Kotlin 2.3.21
-- **UI:** Jetpack Compose (BOM 2026.04.01) with Material Design 3
+- **UI:** Jetpack Compose (BOM 2026.05.00) with Material Design 3
 - **Navigation:** Navigation Compose 2.9.8 with type-safe routes (`kotlinx-serialization-json`)
-- **Serialization:** `kotlinx-serialization-json` 1.7.3
+- **Serialization:** `kotlinx-serialization-json` 1.11.0
+- **Persistence:** Room 2.8.4 (via KSP 2.3.7)
+- **Date/Time:** `kotlinx-datetime` 0.8.0 (`kotlin.time.Instant` for timestamps)
+- **Async:** Kotlin Coroutines + `StateFlow` / `Flow`
 - **Min SDK:** 24 (Android 7.0+), **Target/Compile SDK:** 36
 - **Java compatibility:** VERSION_11
 - **Build system:** Gradle with Kotlin DSL (`build.gradle.kts`) and version catalog (`gradle/libs.versions.toml`)
@@ -38,19 +41,31 @@ To run a single test class:
 Single-module project (`:app`). Package root: `at.co.schwaerzler.maximilian.doit`.
 
 Current source files:
+- `DoItApplication.kt` — custom `Application` subclass, lazily initializes the Room database
 - `MainActivity.kt` — single `ComponentActivity` entry point, sets Compose content
-- `ui/theme/` — `Color.kt`, `Theme.kt`, `Type.kt` (Material3 theme)
+- `data/HomeViewModel.kt` — ViewModel for home screen; exposes open/done todo lists via `Flow`
+- `data/EditTodoViewModel.kt` — ViewModel for add/edit screen; manages form state and `isModified` flag
+- `data/db/TodoDatabase.kt` — Room database (singleton via `getDatabase`)
+- `data/db/dao/TodoDao.kt` — Room DAO with CRUD and state-update queries
+- `data/db/entity/Todo.kt` — `@Entity` with `TodoState` enum (`OPEN`, `IN_PROGRESS`, `DONE`)
+- `data/db/entity/TodoSummary.kt` — lightweight projection used in list views
+- `data/db/Converters.kt` — Room `TypeConverter` for `kotlin.time.Instant`
+- `ui/theme/` — `Color.kt`, `Theme.kt` (Material3 theme)
+- `ui/component/MaxWidthLayout.kt` — layout helper that constrains width on large screens
+- `ui/component/TodoListItem.kt` — reusable list item composable
 - `ui/navigation/AppNavigation.kt` — `NavHost` with all type-safe routes
-- `ui/navigation/screen/HomeScreen.kt` — todo list screen (stub)
-- `ui/navigation/screen/EditTodoScreen.kt` — add/edit screen (stub), reused for both modes via nullable `todoId`
+- `ui/navigation/screen/HomeScreen.kt` — todo list screen
+- `ui/navigation/screen/EditTodoScreen.kt` — add/edit screen, reused for both modes via nullable `todoId`
+- `ui/navigation/screen/SettingsScreen.kt` — settings screen (app version, GitHub, F-Droid links)
+- `util/IntentUtils.kt` — extension to open URLs via `Intent`
 
 ## Architecture Notes
 
 Follow standard Android patterns:
 - **MVVM** with `ViewModel` from `androidx.lifecycle`
-- **Unidirectional data flow** using Compose `State`/`StateFlow`
-- Persistence via **Room** if local storage is needed
-- **Hilt** for dependency injection if the app grows beyond trivial complexity
+- **Unidirectional data flow** using Compose `StateFlow`/`Flow` collected via `collectAsStateWithLifecycle`
+- **Room** for local persistence (already wired up via `DoItApplication`)
+- **No Hilt** — ViewModels use `ViewModelProvider.Factory` (companion `Factory` property pattern); keep this approach unless complexity grows significantly
 - **Navigation Compose** with type-safe `@Serializable` route objects
 
 ### Navigation conventions
