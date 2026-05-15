@@ -330,7 +330,8 @@ private val previewTodos = listOf(
     TodoSummary(3, "Fix the bug", null, TodoState.DONE, Clock.System.now()),
 )
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, name = "Locale Default")
+@Preview(showBackground = true, locale = "de-rCH", name = "Locale de-CH")
 @Composable
 private fun HomeScreenEmptyPreview() {
     DoItTheme {
