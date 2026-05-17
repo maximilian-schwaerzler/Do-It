@@ -41,6 +41,18 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.time.Instant
 
+/**
+ * A single row in the todo list.
+ *
+ * Displays the todo title, optional deadline, and a completion checkbox. Supports selection
+ * mode: long-press enters selection, tapping in selection mode toggles the item.
+ *
+ * @param todo Data to display.
+ * @param onStateToggle Called when the checkbox is toggled; receives the new checked state.
+ * @param onClick Called on a normal tap (navigate to detail or toggle selection in selection mode).
+ * @param onLongClick Called on long-press to enter selection mode.
+ * @param selected Whether this item is currently selected (highlighted with [secondaryContainer][androidx.compose.material3.ColorScheme.secondaryContainer]).
+ */
 @Composable
 fun TodoListItem(
     todo: TodoSummary,

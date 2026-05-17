@@ -80,6 +80,17 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.time.Instant
 
+/**
+ * Screen for creating a new todo or editing an existing one.
+ *
+ * When [todoId] is `null` the screen is in "add" mode; otherwise it loads the todo and
+ * switches to "edit" mode (showing a delete button and tracking unsaved changes).
+ * If the user navigates back with unsaved changes, a discard-changes dialog is shown.
+ *
+ * @param todoId Primary key of the todo to edit, or `null` to create a new one.
+ * @param navigateBack Called after successfully saving to pop the back stack.
+ * @param onCancel Called when the user cancels without saving (discard confirmed or no changes).
+ */
 @Composable
 fun EditTodoScreen(
     todoId: Int?,

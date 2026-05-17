@@ -26,26 +26,41 @@ import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import kotlinx.coroutines.flow.Flow
 
+/** Room DAO for all [Todo] CRUD operations. */
 @Dao
 interface TodoDao {
+    /** Returns all todos ordered by deadline (nulls last), then by deadline ascending. */
     @Query("SELECT * FROM todos ORDER BY deadline_timestamp IS NULL ASC, deadline_timestamp ASC")
     fun getAll(): Flow<List<Todo>>
 
+    /** Returns all open todos ordered by deadline (nulls last), then by deadline ascending. */
     @Query("SELECT * FROM todos WHERE state = 'OPEN' ORDER BY deadline_timestamp IS NULL ASC, deadline_timestamp ASC")
     fun getOpen(): Flow<List<Todo>>
 
+    /** Returns all done todos ordered by creation time descending. */
     @Query("SELECT * FROM todos WHERE state = 'DONE' ORDER BY creation_timestamp DESC")
     fun getDone(): Flow<List<Todo>>
 
+    /**
+     * Returns [TodoSummary] projections of open todos, ordered by deadline (nulls last),
+     * then by deadline ascending. Prefer this over [getOpen] in list views to avoid loading
+     * the full [Todo.description] for every row.
+     */
     @Query("SELECT id, title, deadline_timestamp, state, creation_timestamp FROM todos WHERE state = 'OPEN' ORDER BY deadline_timestamp IS NULL ASC, deadline_timestamp ASC")
     fun getOpenSummaries(): Flow<List<TodoSummary>>
 
+    /**
+     * Returns [TodoSummary] projections of done todos, ordered by creation time descending.
+     * Prefer this over [getDone] in list views.
+     */
     @Query("SELECT id, title, deadline_timestamp, state, creation_timestamp FROM todos WHERE state = 'DONE' ORDER BY creation_timestamp DESC")
     fun getDoneSummaries(): Flow<List<TodoSummary>>
 
+    /** Returns the todo with the given [id], or `null` if it does not exist. */
     @Query("SELECT * FROM todos WHERE id = :id")
     suspend fun getById(id: Int): Todo?
 
+    /** Updates only the [state] column for the todo with the given [id]. */
     @Query("UPDATE todos SET state = :state WHERE id = :id")
     suspend fun updateState(id: Int, state: TodoState)
 
@@ -61,6 +76,7 @@ interface TodoDao {
     @Delete
     suspend fun delete(vararg todo: Todo)
 
+    /** Deletes all todos whose primary keys are in [ids]. */
     @Query("DELETE FROM todos WHERE id IN (:ids)")
     suspend fun deleteByIds(ids: List<Int>)
 }

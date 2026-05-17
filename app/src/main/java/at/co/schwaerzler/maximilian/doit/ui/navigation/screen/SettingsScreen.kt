@@ -62,6 +62,11 @@ private fun SettingsSectionHeader(title: String, modifier: Modifier = Modifier) 
     )
 }
 
+/**
+ * Settings screen showing app version, theme selector, and external links (GitHub, F-Droid).
+ *
+ * @param onNavigateBack Called when the user taps the back navigation icon.
+ */
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit,

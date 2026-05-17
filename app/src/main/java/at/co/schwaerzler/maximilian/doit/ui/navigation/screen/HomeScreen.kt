@@ -64,6 +64,16 @@ import at.co.schwaerzler.maximilian.doit.ui.component.TodoListItem
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import kotlin.time.Clock
 
+/**
+ * Home screen showing open and done todo lists.
+ *
+ * Long-pressing a list item enters selection mode; the top bar then switches to a contextual
+ * toolbar with delete and select-all actions. Pressing back exits selection mode.
+ *
+ * @param onAddTodo Called when the user taps the FAB to create a new todo.
+ * @param onClickTodo Called when the user taps a todo item outside of selection mode; receives its id.
+ * @param onClickSettings Called when the user taps the settings icon.
+ */
 @Composable
 fun HomeScreen(
     onAddTodo: () -> Unit,

@@ -27,15 +27,28 @@ import at.co.schwaerzler.maximilian.doit.ui.navigation.screen.HomeScreen
 import at.co.schwaerzler.maximilian.doit.ui.navigation.screen.SettingsScreen
 import kotlinx.serialization.Serializable
 
+/** Navigation route for the home/list screen. */
 @Serializable
 object Home
 
+/**
+ * Navigation route for the add/edit screen.
+ *
+ * @property todoId Primary key of the todo to edit, or `null` to create a new one.
+ */
 @Serializable
 data class EditTodo(val todoId: Int? = null)
 
+/** Navigation route for the settings screen. */
 @Serializable
 object Settings
 
+/**
+ * Root composable that sets up the [NavHost] with all app destinations.
+ *
+ * Navigation actions are passed into each screen as callbacks; the [NavController][androidx.navigation.NavController] is not
+ * exposed outside this function.
+ */
 @Composable
 fun AppNavigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()

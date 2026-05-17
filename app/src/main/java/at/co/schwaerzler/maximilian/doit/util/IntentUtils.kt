@@ -20,6 +20,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.net.toUri
 
+/**
+ * Opens [url] in the device's default browser or handler.
+ *
+ * [Intent.FLAG_ACTIVITY_NEW_TASK] is required when starting an activity from a non-activity context.
+ */
 fun Context.openUrl(url: String) {
     startActivity(Intent(Intent.ACTION_VIEW, url.toUri()).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

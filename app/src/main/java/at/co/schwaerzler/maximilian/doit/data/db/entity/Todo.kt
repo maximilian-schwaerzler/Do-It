@@ -22,6 +22,16 @@ import androidx.room.PrimaryKey
 import kotlin.time.Clock
 import kotlin.time.Instant
 
+/**
+ * Room entity representing a single to-do item stored in the `todos` table.
+ *
+ * @property id Auto-generated primary key.
+ * @property title Short, required label for the item.
+ * @property description Optional longer text with details.
+ * @property deadlineDateTime Optional point in time by which the item should be completed.
+ * @property state Current lifecycle state; defaults to [TodoState.OPEN].
+ * @property creationDateTime When the item was created; defaults to the current instant.
+ */
 @Entity(tableName = "todos")
 data class Todo(
     @PrimaryKey(autoGenerate = true)
@@ -36,8 +46,12 @@ data class Todo(
     val creationDateTime: Instant = Clock.System.now()
 )
 
+/** Lifecycle state of a [Todo] item. */
 enum class TodoState {
+    /** The item has not been started yet. */
     OPEN,
+    /** The item is actively being worked on. */
     IN_PROGRESS,
+    /** The item has been completed. */
     DONE
 }

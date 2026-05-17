@@ -20,6 +20,11 @@ import androidx.room.TypeConverter
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import kotlin.time.Instant
 
+/**
+ * Room [TypeConverter]s for types that have no native SQLite representation.
+ *
+ * Converts [Instant] ↔ epoch seconds (`LONG`) and [TodoState] ↔ its enum name (`TEXT`).
+ */
 class Converters {
     @TypeConverter
     fun fromTimestamp(value: Long?): Instant? = value?.let { Instant.fromEpochSeconds(it) }

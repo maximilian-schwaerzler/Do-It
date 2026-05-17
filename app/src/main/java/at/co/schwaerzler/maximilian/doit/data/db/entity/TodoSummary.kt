@@ -19,6 +19,18 @@ package at.co.schwaerzler.maximilian.doit.data.db.entity
 import androidx.room.ColumnInfo
 import kotlin.time.Instant
 
+/**
+ * Lightweight projection of [Todo] used in list views.
+ *
+ * Contains only the fields needed to render a list item, avoiding loading [Todo.description]
+ * for every row when it is not displayed.
+ *
+ * @property id Primary key of the corresponding [Todo].
+ * @property title Short label of the item.
+ * @property deadlineDateTime Optional deadline timestamp.
+ * @property state Current lifecycle state.
+ * @property creationDateTime When the item was created.
+ */
 data class TodoSummary(
     val id: Int,
     val title: String,

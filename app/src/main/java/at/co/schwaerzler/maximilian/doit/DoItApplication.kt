@@ -19,6 +19,7 @@ package at.co.schwaerzler.maximilian.doit
 import android.app.Application
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 
+/** Application subclass that lazily initializes the Room database singleton. */
 class DoItApplication : Application() {
     val database: TodoDatabase by lazy {
         TodoDatabase.getDatabase(this)

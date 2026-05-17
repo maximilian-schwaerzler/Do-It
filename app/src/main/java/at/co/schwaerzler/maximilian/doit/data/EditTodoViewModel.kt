@@ -36,11 +36,19 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Instant
 
+/**
+ * ViewModel for the add/edit screen.
+ *
+ * Handles both creating a new todo (`id == null`) and editing an existing one (`id != null`).
+ * The original field values are stored on [loadTodo] so that [isModified] can detect unsaved changes.
+ */
 class EditTodoViewModel(
     private val appContext: Context,
     private val db: TodoDatabase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<EditTodoUiState>(EditTodoUiState())
+
+    /** Current form state exposed to the UI. */
     val uiState = _uiState.asStateFlow()
 
     private var originalTodo: Todo? = null
@@ -48,6 +56,11 @@ class EditTodoViewModel(
     private var originalDescription = ""
     private var originalDeadline: Instant? = null
 
+    /**
+     * `true` when any form field differs from the values loaded by [loadTodo].
+     *
+     * Always `false` for a new todo (nothing has been persisted yet).
+     */
     val isModified = uiState.map { state ->
         state.title != originalTitle ||
                 state.description != originalDescription ||
@@ -78,6 +91,14 @@ class EditTodoViewModel(
         }
     }
 
+    /**
+     * Persists the current form state.
+     *
+     * Inserts a new todo when [id] is `null`, or updates the existing one otherwise.
+     *
+     * @param id Primary key of the todo to update, or `null` to create a new one.
+     * @return `true` on success, `false` if validation failed or the original todo could not be found.
+     */
     fun saveTodo(id: Int?): Boolean {
         if (_uiState.value.title.isBlank()) {
             _uiState.update { it.copy(titleError = appContext.getString(R.string.title_is_required)) }
@@ -111,6 +132,7 @@ class EditTodoViewModel(
         }
     }
 
+    /** Deletes the todo that was loaded via [loadTodo]. No-op if no todo has been loaded. */
     fun deleteTodo() {
         val todo = originalTodo ?: return
         viewModelScope.launch {
@@ -118,6 +140,11 @@ class EditTodoViewModel(
         }
     }
 
+    /**
+     * Loads the todo with the given [id] from the database and populates the form state.
+     *
+     * Also stores the original values so [isModified] can compare against them.
+     */
     fun loadTodo(id: Int) {
         viewModelScope.launch {
             val todo = db.todoDao().getById(id) ?: return@launch
@@ -149,6 +176,12 @@ class EditTodoViewModel(
         }
     }
 
+    /**
+     * Immutable snapshot of the add/edit form.
+     *
+     * @property titleError Non-null when the title field has a validation error to display.
+     * @property descriptionError Non-null when the description field has a validation error to display.
+     */
     data class EditTodoUiState(
         val title: String = "",
         val description: String = "",

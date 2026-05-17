@@ -26,6 +26,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.dao.TodoDao
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 
+/**
+ * Room database for the app, containing the [Todo] entity.
+ *
+ * Obtain the singleton instance via [getDatabase] rather than constructing directly.
+ */
 @Database(
     entities = [Todo::class],
     version = 2,
@@ -39,6 +44,11 @@ abstract class TodoDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: TodoDatabase? = null
 
+        /**
+         * Returns the singleton [TodoDatabase] instance, creating it if necessary.
+         *
+         * Thread-safe via double-checked locking.
+         */
         fun getDatabase(context: Context): TodoDatabase {
             return INSTANCE ?: synchronized(this) {
                 Room.databaseBuilder(
@@ -51,6 +61,7 @@ abstract class TodoDatabase : RoomDatabase() {
             }
         }
 
+        /** Adds the `state` column introduced in schema version 2, defaulting to `'OPEN'`. */
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE todos ADD COLUMN state TEXT NOT NULL DEFAULT 'OPEN'")

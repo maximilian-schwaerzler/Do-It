@@ -29,6 +29,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
 
+/**
+ * Centers [content] horizontally and constrains its width to 600 dp on medium-or-larger windows,
+ * leaving it unconstrained on compact windows (phones in portrait).
+ */
 @Composable
 fun MaxWidthLayout(
     modifier: Modifier = Modifier,

@@ -29,14 +29,25 @@ import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
+/** ViewModel for the home screen, exposing the todo lists and bulk-action operations. */
 class HomeViewModel(
     private val db: TodoDatabase
 ) : ViewModel() {
+    /**
+     * Combined flow of open and done [TodoSummary] lists.
+     *
+     * Emits a new [Pair] whenever either list changes.
+     */
     val todos = combine(
         db.todoDao().getOpenSummaries(),
         db.todoDao().getDoneSummaries()
     ) { open, done -> Pair(open, done) }
 
+    /**
+     * Toggles [todo] between [TodoState.OPEN] and [TodoState.DONE].
+     *
+     * Items in any other state (e.g. [TodoState.IN_PROGRESS]) are treated the same as [TodoState.OPEN].
+     */
     fun toggleTodoDone(todo: TodoSummary) {
         viewModelScope.launch {
             val newState = if (todo.state == TodoState.OPEN) TodoState.DONE else TodoState.OPEN
@@ -44,6 +55,7 @@ class HomeViewModel(
         }
     }
 
+    /** Permanently deletes all todos whose primary keys are in [ids]. */
     fun deleteTodosByIds(ids: List<Int>) {
         viewModelScope.launch {
             db.todoDao().deleteByIds(ids)
