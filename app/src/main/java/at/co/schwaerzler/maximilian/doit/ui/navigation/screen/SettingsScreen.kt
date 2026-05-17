@@ -36,11 +36,13 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,7 +55,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
+import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
+import at.co.schwaerzler.maximilian.doit.util.getAppTheme
 import at.co.schwaerzler.maximilian.doit.util.openUrl
+import at.co.schwaerzler.maximilian.doit.util.setAppTheme
 import java.util.Locale
 
 @Composable
@@ -107,6 +112,13 @@ fun SettingsScreenContent(
         }
     }
 
+    val currentThemeMode = remember {
+        context.getAppTheme()
+    }
+
+    var showThemeDialog by remember { mutableStateOf(false) }
+
+
     val currentLanguageDisplay = if (currentTag.isEmpty()) {
         stringResource(R.string.settings_language_system_default)
     } else {
@@ -135,6 +147,19 @@ fun SettingsScreenContent(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
+            ListItem(
+                headlineContent = {
+                    Text("Theme")
+                },
+                supportingContent = {
+                    Text(stringResource(currentThemeMode.labelRes))
+                },
+                leadingContent = {
+                    Icon(painterResource(currentThemeMode.iconRes), contentDescription = null)
+                },
+                modifier = Modifier.clickable { showThemeDialog = true }
+            )
+
             ListItem(
                 headlineContent = {
                     Text(stringResource(R.string.settings_language))
@@ -192,6 +217,19 @@ fun SettingsScreenContent(
             }
         )
     }
+
+    if (showThemeDialog) {
+        ThemePickerDialog(
+            currentThemeMode,
+            onDismiss = {
+                showThemeDialog = false
+            },
+            onSelection = { mode ->
+                context.setAppTheme(mode)
+                showThemeDialog = false
+            }
+        )
+    }
 }
 
 @Composable
@@ -243,6 +281,59 @@ private fun LanguagePickerDialog(
             }
         },
         confirmButton = {}
+    )
+}
+
+@Composable
+fun ThemePickerDialog(
+    currentThemeMode: AppThemeMode,
+    onDismiss: () -> Unit,
+    onSelection: (AppThemeMode) -> Unit,
+) {
+    var currentSelection by rememberSaveable {
+        mutableStateOf(currentThemeMode)
+    }
+    AlertDialog(
+        icon = {
+            Icon(painterResource(R.drawable.colors_24px), contentDescription = null)
+        },
+        title = {
+            Text("Theme")
+        },
+        text = {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                AppThemeMode.entries.forEach { mode ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { currentSelection = mode }
+                            .padding(end = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(selected = currentSelection == mode, onClick = null)
+                        Text(
+                            stringResource(mode.labelRes),
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    }
+                }
+            }
+        },
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = { onSelection(currentSelection) }) {
+                Text("OK")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
     )
 }
 
