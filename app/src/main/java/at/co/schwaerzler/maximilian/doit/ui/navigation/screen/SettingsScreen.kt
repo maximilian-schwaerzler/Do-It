@@ -46,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -98,23 +99,7 @@ fun SettingsScreenContent(
         if (currentLocales.isEmpty) "" else currentLocales.toLanguageTags().split(",").first()
             .trim()
 
-    val supportedLocaleTags = listOf(
-        "de",
-        "de-AT",
-        "de-CH",
-        "en",
-        "es",
-        "fr",
-        "it",
-        "ko",
-        "lt",
-        "pl",
-        "ro",
-        "sr",
-        "ta",
-        "tr",
-        "zh"
-    )
+    val supportedLocaleTags = stringArrayResource(R.array.supported_locales)
     val supportedLocales: List<Pair<String, String>> = remember {
         supportedLocaleTags.map { tag ->
             val locale = Locale.forLanguageTag(tag)
