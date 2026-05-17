@@ -34,6 +34,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -46,9 +47,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import at.co.schwaerzler.maximilian.doit.R
+import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import at.co.schwaerzler.maximilian.doit.util.openUrl
 import java.util.Locale
 
@@ -191,55 +194,87 @@ fun SettingsScreenContent(
     }
 
     if (showLanguageDialog) {
-        val systemDefaultLabel = stringResource(R.string.settings_language_system_default)
-        AlertDialog(
-            onDismissRequest = { showLanguageDialog = false },
-            title = { Text(stringResource(R.string.settings_language_dialog_title)) },
-            text = {
-                Column(modifier = Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        LanguagePickerDialog(
+            currentTag = currentTag,
+            supportedLocales = supportedLocales,
+            onDismiss = { showLanguageDialog = false },
+            onSelectTag = { tag ->
+                AppCompatDelegate.setApplicationLocales(
+                    if (tag.isEmpty()) LocaleListCompat.getEmptyLocaleList()
+                    else LocaleListCompat.forLanguageTags(tag)
+                )
+                showLanguageDialog = false
+            }
+        )
+    }
+}
+
+@Composable
+private fun LanguagePickerDialog(
+    currentTag: String,
+    supportedLocales: List<Pair<String, String>>,
+    onDismiss: () -> Unit,
+    onSelectTag: (String) -> Unit,
+) {
+    val systemDefaultLabel = stringResource(R.string.settings_language_system_default)
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.settings_language_dialog_title)) },
+        text = {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onSelectTag("") }
+                        .padding(end = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(selected = currentTag.isEmpty(), onClick = null)
+                    Text(
+                        text = systemDefaultLabel,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
+                }
+                supportedLocales.forEach { (tag, name) ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable {
-                                AppCompatDelegate.setApplicationLocales(
-                                    LocaleListCompat.getEmptyLocaleList()
-                                )
-                                showLanguageDialog = false
-                            }
+                            .clickable { onSelectTag(tag) }
                             .padding(end = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        RadioButton(selected = currentTag.isEmpty(), onClick = null)
+                        RadioButton(selected = tag == currentTag, onClick = null)
                         Text(
-                            text = systemDefaultLabel,
+                            text = name,
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(start = 4.dp)
                         )
                     }
-                    supportedLocales.forEach { (tag, name) ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    AppCompatDelegate.setApplicationLocales(
-                                        LocaleListCompat.forLanguageTags(tag)
-                                    )
-                                    showLanguageDialog = false
-                                }
-                                .padding(end = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(selected = tag == currentTag, onClick = null)
-                            Text(
-                                text = name,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(start = 4.dp)
-                            )
-                        }
-                    }
                 }
-            },
-            confirmButton = {}
-        )
+            }
+        },
+        confirmButton = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SettingsScreenPreview() {
+    DoItTheme {
+        SettingsScreenContent(onNavigateBack = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SettingsScreenDarkPreview() {
+    DoItTheme(darkTheme = true) {
+        Surface {
+            SettingsScreenContent(onNavigateBack = {})
+        }
     }
 }
