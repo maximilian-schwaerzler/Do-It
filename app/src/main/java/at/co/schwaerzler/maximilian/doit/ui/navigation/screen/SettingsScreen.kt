@@ -117,7 +117,7 @@ fun SettingsScreenContent(
     }
 
     val appPreferences = remember { (context.applicationContext as DoItApplication).appPreferences }
-    val currentThemeMode by appPreferences.themeFlow()
+    val currentThemeMode by remember { appPreferences.themeFlow() }
         .collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
     val coroutineScope = rememberCoroutineScope()
 

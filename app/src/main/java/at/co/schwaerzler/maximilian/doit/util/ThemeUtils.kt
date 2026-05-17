@@ -16,13 +16,8 @@
 
 package at.co.schwaerzler.maximilian.doit.util
 
-import android.app.UiModeManager
-import android.content.Context
-import android.os.Build
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatDelegate
 import at.co.schwaerzler.maximilian.doit.R
 import kotlinx.serialization.Serializable
 

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val appPreferences =
                 remember { (this.applicationContext as DoItApplication).appPreferences }
-            val currentThemeMode by appPreferences.themeFlow()
+            val currentThemeMode by remember { appPreferences.themeFlow() }
                 .collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
             DoItTheme(
                 darkTheme = when (currentThemeMode) {
