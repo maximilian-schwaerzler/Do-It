@@ -17,11 +17,18 @@
 package at.co.schwaerzler.maximilian.doit
 
 import android.app.Application
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
+import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 
 /** Application subclass that lazily initializes the Room database singleton. */
 class DoItApplication : Application() {
     val database: TodoDatabase by lazy {
         TodoDatabase.getDatabase(this)
+    }
+
+    val appPreferences: DataStore<Preferences> by lazy {
+        appPreferencesDataStore
     }
 }

@@ -42,6 +42,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -53,12 +54,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
-import at.co.schwaerzler.maximilian.doit.util.getAppTheme
 import at.co.schwaerzler.maximilian.doit.util.openUrl
-import at.co.schwaerzler.maximilian.doit.util.setAppTheme
+import at.co.schwaerzler.maximilian.doit.util.setTheme
+import at.co.schwaerzler.maximilian.doit.util.themeFlow
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Composable
@@ -112,9 +116,10 @@ fun SettingsScreenContent(
         }
     }
 
-    val currentThemeMode = remember {
-        context.getAppTheme()
-    }
+    val appPreferences = remember { (context.applicationContext as DoItApplication).appPreferences }
+    val currentThemeMode by appPreferences.themeFlow()
+        .collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
+    val coroutineScope = rememberCoroutineScope()
 
     var showThemeDialog by remember { mutableStateOf(false) }
 
@@ -225,7 +230,9 @@ fun SettingsScreenContent(
                 showThemeDialog = false
             },
             onSelection = { mode ->
-                context.setAppTheme(mode)
+                coroutineScope.launch {
+                    appPreferences.setTheme(mode)
+                }
                 showThemeDialog = false
             }
         )
@@ -303,7 +310,7 @@ fun ThemePickerDialog(
         text = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 AppThemeMode.entries.forEach { mode ->
                     Row(
