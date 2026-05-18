@@ -26,6 +26,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,6 +40,7 @@ import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import kotlin.time.Clock
 import kotlin.time.Instant
 
 /**
@@ -67,6 +69,12 @@ fun TodoListItem(
         DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(local)
     }
 
+    val deadlineColor = todo.deadlineDateTime?.let {
+        if (it <= Clock.System.now()) {
+            MaterialTheme.colorScheme.error
+        } else Color.Unspecified
+    } ?: Color.Unspecified
+
     ListItem(
         modifier = modifier
             .fillMaxWidth()
@@ -87,7 +95,7 @@ fun TodoListItem(
             )
         },
         supportingContent = if (deadlineText != null) {
-            { Text(stringResource(R.string.deadline_template, deadlineText)) }
+            { Text(stringResource(R.string.deadline_template, deadlineText), color = deadlineColor) }
         } else null,
         trailingContent = {
             Checkbox(todo.state == TodoState.DONE, onCheckedChange = {
