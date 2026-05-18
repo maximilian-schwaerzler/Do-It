@@ -113,7 +113,7 @@ template.
 
 - `tools/translations-editor.html` — browser-based editor for reviewing and editing translation
   strings side-by-side.
-- `tools/translate.py` — script that uses the [DeepL API](https://www.deepl.com/pro-api) to
+- `tools/translate.py` — script that uses the [DeepL API](https://developers.deepl.com/api-reference/translate) to
   auto-translate missing strings. Run `python tools/translate.py --help` for usage.
 
 After updating translations, open a pull request as described above.
