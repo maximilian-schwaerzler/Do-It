@@ -37,8 +37,8 @@
     <string name="cancel">Откажи</string>
     <string name="done_fab">Готово</string>
     <string name="add_new_todo_app_bar">Додај нови задатак</string>
-    <string name="edit_todo_app_bar">Уреди TODO</string>
-    <string name="delete_todo">Избриши TODO</string>
+    <string name="edit_todo_app_bar">Уреди задатак</string>
+    <string name="delete_todo">Избриши задатак</string>
     <string name="share_todo">Подели задатак</string>
     <string name="title">Наслов</string>
     <string name="required">Обавезно</string>
