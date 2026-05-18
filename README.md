@@ -54,6 +54,16 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 - JDK 11+
 - Android device or emulator running API 26+
 
+## App translation
+
+Translating the app and descriptions into as many languages as possible is one of my goals.
+Currently, most strings are machine-translated using a [custom script](/tools/translate.py) using
+the DeepL API. I try to check the translations for English and German, as I am native in those. If
+you see some strings in your language that don't make sense at all, or you have an idea
+for a better translation, please don't be shy and open a 
+[pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls) to improve them. **Thank you
+very much!**
+
 ## Installation
 
 [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/at.co.schwaerzler.maximilian.doit)
