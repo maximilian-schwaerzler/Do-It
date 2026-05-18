@@ -152,9 +152,10 @@ fun SettingsScreenContent(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
+            SettingsSectionHeader("General")
             ListItem(
                 headlineContent = {
-                    Text("Theme")
+                    Text(stringResource(R.string.theme))
                 },
                 supportingContent = {
                     Text(stringResource(currentThemeMode.labelRes))
@@ -253,7 +254,7 @@ private fun LanguagePickerDialog(
         text = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Row(
                     modifier = Modifier
