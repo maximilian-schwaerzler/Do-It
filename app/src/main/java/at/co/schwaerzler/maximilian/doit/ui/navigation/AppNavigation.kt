@@ -16,6 +16,12 @@
 
 package at.co.schwaerzler.maximilian.doit.ui.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -68,7 +74,12 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             )
         }
 
-        composable<EditTodo> { backStackEntry ->
+        composable<EditTodo>(
+            enterTransition = { slideInHorizontally { it } },
+            exitTransition = { slideOutHorizontally { -it / 3 } },
+            popEnterTransition = { slideInHorizontally { -it / 3 } },
+            popExitTransition = { slideOutHorizontally { it } },
+        ) { backStackEntry ->
             val route = backStackEntry.toRoute<EditTodo>()
             EditTodoScreen(
                 route.todoId,
@@ -79,7 +90,10 @@ fun AppNavigation(modifier: Modifier = Modifier) {
                 })
         }
 
-        composable<Settings> {
+        composable<Settings>(
+            enterTransition = { fadeIn() + scaleIn(initialScale = 0.92f) },
+            popExitTransition = { fadeOut() + scaleOut(targetScale = 0.92f) }
+        ) {
             SettingsScreen(
                 onNavigateBack = {
                     navController.popBackStack()
