@@ -54,8 +54,12 @@
     <string name="settings_language_dialog_title">Изаберите језик</string>
     <string name="settings_language_system_default">Системска подразумевана вредност</string>
     <string name="settings_app_bar">Подешавања</string>
+    <string name="theme_light">Лагано</string>
+    <string name="theme_dark">Тамно</string>
+    <string name="theme_follow_system">Пратите систем</string>
     <string name="settings_section_about">О</string>
     <string name="app_version">Верзија</string>
     <string name="source_code">Изворни код</string>
     <string name="f_droid_package">F-Droid пакет</string>
+    <string name="theme">Тема</string>
 </resources>

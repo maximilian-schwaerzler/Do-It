@@ -53,8 +53,12 @@
     <string name="settings_language_dialog_title">Dili seçin</string>
     <string name="settings_language_system_default">Sistem varsayılanı</string>
     <string name="settings_app_bar">Ayarlar</string>
+    <string name="theme_light">Işık</string>
+    <string name="theme_dark">Karanlık</string>
+    <string name="theme_follow_system">Takip sistemi</string>
     <string name="settings_section_about">Hakkında</string>
     <string name="app_version">Sürüm</string>
     <string name="source_code">Kaynak Kodu</string>
     <string name="f_droid_package">F-Droid Paketi</string>
+    <string name="theme">Tema</string>
 </resources>

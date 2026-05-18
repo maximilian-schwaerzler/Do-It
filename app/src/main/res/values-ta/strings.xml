@@ -53,8 +53,12 @@
     <string name="settings_language_dialog_title">மொழியைத் தேர்ந்தெடுக்கவும்</string>
     <string name="settings_language_system_default">அமைப்பு இயல்புநிலை</string>
     <string name="settings_app_bar">அமைப்புகள்</string>
+    <string name="theme_light">இலகுவான</string>
+    <string name="theme_dark">இருள்</string>
+    <string name="theme_follow_system">பின்தொடர் அமைப்பு</string>
     <string name="settings_section_about">பற்றி</string>
     <string name="app_version">பதிப்பு</string>
     <string name="source_code">மூலக் குறியீடு</string>
     <string name="f_droid_package">எஃப்-ட்ராயிட் தொகுப்பு</string>
+    <string name="theme">தலைப்பு</string>
 </resources>

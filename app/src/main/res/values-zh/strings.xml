@@ -52,8 +52,12 @@
     <string name="settings_language_dialog_title">选择语言</string>
     <string name="settings_language_system_default">系统默认</string>
     <string name="settings_app_bar">设置</string>
+    <string name="theme_light">光</string>
+    <string name="theme_dark">黑暗</string>
+    <string name="theme_follow_system">关注系统</string>
     <string name="settings_section_about">关于</string>
     <string name="app_version">版本</string>
     <string name="source_code">源代码</string>
     <string name="f_droid_package">F-Droid 软件包</string>
+    <string name="theme">主题</string>
 </resources>

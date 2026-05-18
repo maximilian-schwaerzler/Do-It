@@ -52,8 +52,12 @@
     <string name="settings_language_dialog_title">언어 선택</string>
     <string name="settings_language_system_default">시스템 기본값</string>
     <string name="settings_app_bar">설정</string>
+    <string name="theme_light">빛</string>
+    <string name="theme_dark">어둠</string>
+    <string name="theme_follow_system">팔로우 시스템</string>
     <string name="settings_section_about">소개</string>
     <string name="app_version">버전</string>
     <string name="source_code">소스 코드</string>
     <string name="f_droid_package">F-Droid 패키지</string>
+    <string name="theme">주제</string>
 </resources>

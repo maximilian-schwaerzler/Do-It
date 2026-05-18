@@ -54,8 +54,12 @@
     <string name="settings_language_dialog_title">Seleziona la lingua</string>
     <string name="settings_language_system_default">Impostazioni predefinite del sistema</string>
     <string name="settings_app_bar">Impostazioni</string>
+    <string name="theme_light">Luce</string>
+    <string name="theme_dark">Buio</string>
+    <string name="theme_follow_system">Sistema di tracciamento</string>
     <string name="settings_section_about">Informazioni su</string>
     <string name="app_version">Versione</string>
     <string name="source_code">Codice sorgente</string>
     <string name="f_droid_package">Pacchetto F-Droid</string>
+    <string name="theme">Tema</string>
 </resources>

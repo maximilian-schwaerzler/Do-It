@@ -53,8 +53,12 @@
     <string name="settings_language_dialog_title">Sprache auswählen</string>
     <string name="settings_language_system_default">Systemstandard</string>
     <string name="settings_app_bar">Einstellungen</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
+    <string name="theme_follow_system">Automatisch</string>
     <string name="settings_section_about">Über</string>
     <string name="app_version">Version</string>
     <string name="source_code">Quellcode</string>
     <string name="f_droid_package">F-Droid-Paket</string>
+    <string name="theme">Thema</string>
 </resources>

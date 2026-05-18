@@ -55,8 +55,12 @@
     <string name="settings_language_dialog_title">Pasirinkite kalbą</string>
     <string name="settings_language_system_default">Sistemos numatytasis nustatymas</string>
     <string name="settings_app_bar">Nustatymai</string>
+    <string name="theme_light">Šviesa</string>
+    <string name="theme_dark">Tamsus</string>
+    <string name="theme_follow_system">Sekimo sistema</string>
     <string name="settings_section_about">Apie</string>
     <string name="app_version">Versija</string>
     <string name="source_code">Šaltinio kodas</string>
     <string name="f_droid_package">„F-Droid“ paketas</string>
+    <string name="theme">Tema</string>
 </resources>
