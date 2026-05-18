@@ -24,6 +24,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
+import androidx.glance.appwidget.updateAll
+import at.co.schwaerzler.maximilian.doit.OverviewWidget
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
@@ -115,6 +119,7 @@ class EditTodoViewModel(
                         deadlineDateTime = uiState.value.deadline
                     )
                 )
+                withContext(NonCancellable) { OverviewWidget().updateAll(appContext) }
             }
             return true
         } else {
@@ -127,6 +132,7 @@ class EditTodoViewModel(
                         deadlineDateTime = uiState.value.deadline
                     )
                 )
+                withContext(NonCancellable) { OverviewWidget().updateAll(appContext) }
             }
             return true
         }
@@ -137,6 +143,7 @@ class EditTodoViewModel(
         val todo = originalTodo ?: return
         viewModelScope.launch {
             db.todoDao().delete(todo)
+            withContext(NonCancellable) { OverviewWidget().updateAll(appContext) }
         }
     }
 

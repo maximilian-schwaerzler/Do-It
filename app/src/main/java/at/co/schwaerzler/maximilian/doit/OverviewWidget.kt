@@ -18,12 +18,12 @@ package at.co.schwaerzler.maximilian.doit
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
+import androidx.glance.LocalContext
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -58,6 +58,7 @@ class OverviewWidget : GlanceAppWidget() {
 
     @Composable
     private fun Content(todos: List<TodoSummary>) {
+        val context = LocalContext.current
         Column(
             modifier = GlanceModifier
                 .fillMaxSize()
@@ -67,7 +68,7 @@ class OverviewWidget : GlanceAppWidget() {
                 .clickable(actionStartActivity<MainActivity>())
         ) {
             Text(
-                text = stringResource(R.string.open_headline),
+                text = context.getString(R.string.open_headline),
                 style = TextStyle(
                     color = GlanceTheme.colors.onSurface,
                     fontWeight = FontWeight.Bold,
@@ -80,7 +81,7 @@ class OverviewWidget : GlanceAppWidget() {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = stringResource(R.string.nothing_to_do_empty_text),
+                        text = context.getString(R.string.nothing_to_do_empty_text),
                         style = TextStyle(color = GlanceTheme.colors.onSurface)
                     )
                 }
