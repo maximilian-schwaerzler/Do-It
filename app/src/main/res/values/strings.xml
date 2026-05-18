@@ -68,4 +68,5 @@
     <string name="f_droid_package">F-Droid Package</string>
     <string name="theme">Theme</string>
     <string name="settings_section_general">General</string>
+    <string name="overview_widget_description">Overview of your open TODOs</string>
 </resources>
