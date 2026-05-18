@@ -17,6 +17,10 @@
 
 <resources>
     <plurals name="todos_selected_template">
+        <item quantity="zero">%1$d 선택됨</item>
+        <item quantity="one">%1$d 선택됨</item>
+        <item quantity="few">%1$d 선택됨</item>
+        <item quantity="many">%1$d개 선택</item>
         <item quantity="other">%1$d 선택됨</item>
     </plurals>
     <string name="add_new_todo_fab">새 할 일 추가</string>
@@ -60,4 +64,5 @@
     <string name="source_code">소스 코드</string>
     <string name="f_droid_package">F-Droid 패키지</string>
     <string name="theme">주제</string>
+    <string name="settings_section_general">일반</string>
 </resources>

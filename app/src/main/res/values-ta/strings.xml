@@ -17,7 +17,10 @@
 
 <resources>
     <plurals name="todos_selected_template">
+        <item quantity="zero">%1$d தேர்ந்தெடுக்கப்பட்டது</item>
         <item quantity="one">%1$d தேர்ந்தெடுக்கப்பட்ட</item>
+        <item quantity="few">%1$d தேர்ந்தெடுக்கப்பட்டன</item>
+        <item quantity="many">%1$d தேர்ந்தெடுக்கப்பட்டன</item>
         <item quantity="other">%1$d தேர்ந்தெடுக்கப்பட்ட</item>
     </plurals>
     <string name="add_new_todo_fab">புதிய TODO-வைச் சேர்க்கவும்</string>
@@ -61,4 +64,5 @@
     <string name="source_code">மூலக் குறியீடு</string>
     <string name="f_droid_package">எஃப்-ட்ராயிட் தொகுப்பு</string>
     <string name="theme">தலைப்பு</string>
+    <string name="settings_section_general">பொதுவான</string>
 </resources>

@@ -67,4 +67,5 @@
     <string name="source_code">Source Code</string>
     <string name="f_droid_package">F-Droid Package</string>
     <string name="theme">Theme</string>
+    <string name="settings_section_general">General</string>
 </resources>

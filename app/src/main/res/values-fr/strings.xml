@@ -17,7 +17,9 @@
 
 <resources>
     <plurals name="todos_selected_template">
+        <item quantity="zero">%1$d sélectionné</item>
         <item quantity="one">%1$d sélectionné</item>
+        <item quantity="few">%1$d sélectionnés</item>
         <item quantity="many">%1$d sélectionnés</item>
         <item quantity="other">%1$d sélectionnés</item>
     </plurals>
@@ -62,4 +64,5 @@
     <string name="source_code">Code source</string>
     <string name="f_droid_package">Paquet F-Droid</string>
     <string name="theme">Thème</string>
+    <string name="settings_section_general">Généralités</string>
 </resources>

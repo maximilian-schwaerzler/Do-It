@@ -152,7 +152,7 @@ fun SettingsScreenContent(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            SettingsSectionHeader("General")
+            SettingsSectionHeader(stringResource(R.string.settings_section_general))
             ListItem(
                 headlineContent = {
                     Text(stringResource(R.string.theme))
