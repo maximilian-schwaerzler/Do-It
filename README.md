@@ -41,8 +41,8 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 | Language    | Kotlin 2.3.21                                 |
 | UI          | Jetpack Compose (BOM 2026.05.00) + Material 3 |
 | Navigation  | Navigation Compose 2.9.8 (type-safe routes)   |
-| Persistence | Room 2.8.4                                    |
-| Async       | Kotlinx Coroutines 1.10.2                     |
+| Persistence | Room 2.8.4 · DataStore Preferences 1.2.1      |
+| Async       | Kotlinx Coroutines 1.11.0                     |
 | Date/time   | Kotlinx Datetime 0.8.0                        |
 | Min SDK     | 26 (Android 8.0)                              |
 | Target SDK  | 36 (Android 15)                               |
