@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
@@ -103,7 +104,8 @@ class OverviewWidget : GlanceAppWidget() {
                     Image(
                         ImageProvider(R.drawable.check_circle_24px),
                         modifier = GlanceModifier.size(35.dp).padding(bottom = 8.dp),
-                        contentDescription = null
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurface)
                     )
                     Text(
                         text = context.getString(R.string.nothing_to_do_empty_text),
