@@ -80,7 +80,16 @@ class OverviewWidget : GlanceAppWidget() {
             titleBar = {
                 TitleBar(
                     title = context.getString(R.string.app_name),
-                    startIcon = ImageProvider(R.drawable.check_24px)
+                    startIcon = ImageProvider(R.drawable.check_24px),
+                    // TODO: Implement deep link to add new todo
+//                    actions = {
+//                        CircleIconButton(
+//                            ImageProvider(R.drawable.add_24px),
+//                            null,
+//                            actionStartActivity<MainActivity>(),
+//                            backgroundColor = null
+//                        )
+//                    }
                 )
             },
             modifier = GlanceModifier.clickable(actionStartActivity<MainActivity>())
