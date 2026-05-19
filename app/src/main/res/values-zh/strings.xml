@@ -65,4 +65,5 @@
     <string name="f_droid_package">F-Droid 软件包</string>
     <string name="theme">主题</string>
     <string name="settings_section_general">概述</string>
+    <string name="overview_widget_description">待办事项概览</string>
 </resources>

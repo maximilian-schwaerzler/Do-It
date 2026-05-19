@@ -65,4 +65,5 @@
     <string name="f_droid_package">F-Droid пакет</string>
     <string name="theme">Тема</string>
     <string name="settings_section_general">Опште</string>
+    <string name="overview_widget_description">Преглед ваших отворених задатака</string>
 </resources>

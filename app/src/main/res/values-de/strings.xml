@@ -65,4 +65,5 @@
     <string name="f_droid_package">F-Droid-Paket</string>
     <string name="theme">Thema</string>
     <string name="settings_section_general">Allgemein</string>
+    <string name="overview_widget_description">Übersicht über deine offenen Aufgaben</string>
 </resources>
