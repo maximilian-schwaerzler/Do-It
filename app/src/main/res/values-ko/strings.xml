@@ -66,4 +66,5 @@
     <string name="theme">주제</string>
     <string name="settings_section_general">일반</string>
     <string name="overview_widget_description">미완료 할 일 목록 개요</string>
+    <string name="new_todo_shortcut_short_label">새 할 일</string>
 </resources>

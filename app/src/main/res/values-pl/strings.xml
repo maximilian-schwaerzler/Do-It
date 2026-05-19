@@ -66,4 +66,5 @@
     <string name="theme">Temat</string>
     <string name="settings_section_general">Ogólne</string>
     <string name="overview_widget_description">Przegląd Twoich otwartych zadań</string>
+    <string name="new_todo_shortcut_short_label">Nowe zadanie do wykonania</string>
 </resources>

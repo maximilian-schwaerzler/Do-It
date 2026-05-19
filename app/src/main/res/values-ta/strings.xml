@@ -66,4 +66,5 @@
     <string name="theme">தலைப்பு</string>
     <string name="settings_section_general">பொதுவான</string>
     <string name="overview_widget_description">உங்கள் திறந்த செய்ய வேண்டியவைகளின் கண்ணோட்டம்</string>
+    <string name="new_todo_shortcut_short_label">புதிய செய்ய வேண்டியவை</string>
 </resources>

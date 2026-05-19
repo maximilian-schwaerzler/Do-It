@@ -66,4 +66,5 @@
     <string name="theme">Тема</string>
     <string name="settings_section_general">Опште</string>
     <string name="overview_widget_description">Преглед ваших отворених задатака</string>
+    <string name="new_todo_shortcut_short_label">Нови задаци</string>
 </resources>

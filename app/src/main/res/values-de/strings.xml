@@ -66,4 +66,5 @@
     <string name="theme">Thema</string>
     <string name="settings_section_general">Allgemein</string>
     <string name="overview_widget_description">Übersicht über deine offenen Aufgaben</string>
+    <string name="new_todo_shortcut_short_label">Neue Aufgabe</string>
 </resources>
