@@ -2,7 +2,7 @@ Do-It è un&#x27;app per le cose da fare dal design pulito e priva di distrazion
 
 <b>Caratteristiche</b>
 
-: - Visualizza le attività in sospeso e quelle completate in sezioni separate
+- Visualizza le attività aperte e completate in sezioni separate
 - Aggiungi e modifica le attività con un titolo, una descrizione facoltativa e una scadenza facoltativa
 - Contrassegna le attività come completate o incomplete con un solo tocco
 - Seleziona più attività tramite pressione prolungata, quindi elimina in blocco o seleziona tutto

@@ -2,7 +2,7 @@ Do-It to przejrzysta aplikacja do zarządzania zadaniami, która pomaga Ci trzym
 
 <b>Funkcje</b>
 
-: - Wyświetlanie otwartych i wykonanych zadań w osobnych sekcjach
+- Wyświetlanie otwartych i wykonanych zadań w osobnych sekcjach
 - Dodawanie i edytowanie zadań wraz z tytułem, opcjonalnym opisem i opcjonalnym terminem
 - Oznaczanie zadań jako wykonanych lub niewykonanych jednym dotknięciem
 - Wybieraj wiele zadań poprzez długie naciśnięcie, a następnie usuwaj je zbiorczo lub zaznacz wszystkie
@@ -16,4 +16,4 @@ Do-It to przejrzysta aplikacja do zarządzania zadaniami, która pomaga Ci trzym
 
 <b>Open Source</b>
 
-Do-It to bezpłatne oprogramowanie typu open source, na licencji Apache License 2.0. Bez reklam, bez śledzenia, bez konieczności zakładania konta.
+Do-It to darmowe oprogramowanie typu open source, na licencji Apache License 2.0. Bez reklam, bez śledzenia, bez konieczności zakładania konta.

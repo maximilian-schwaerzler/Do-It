@@ -3,7 +3,7 @@ Do-It est une application de gestion des tâches épurée et sans distraction qu
 <b>Fonctionnalités</b>
 
 - Affichez les tâches en cours et terminées dans des sections distinctes
-- Ajoutez et modifiez des tâches en leur attribuant un titre, une description (facultative) et une date limite (facultative)
+- Ajoutez et modifiez des tâches en leur attribuant un titre, une description facultative et une date limite facultative
 - Marquez les tâches comme terminées ou en cours d&#x27;un simple geste
 - Sélectionnez plusieurs tâches en appuyant longuement, puis supprimez-les en bloc ou sélectionnez-les toutes
 - Les tâches en retard sont mises en évidence pour qu&#x27;aucune ne passe inaperçue
@@ -12,7 +12,7 @@ Do-It est une application de gestion des tâches épurée et sans distraction qu
 - Sélection de thème dans l&#x27;application (clair, foncé ou par défaut du système)
 - Sélection de la langue dans l&#x27;application
 - Messages de motivation lorsque la liste est vide ou que tout est terminé
-- Interface utilisateur bord à bord conforme aux directives Material Design 3
+- Interface utilisateur bord à bord conforme aux directives de Material Design 3
 
 <b>Open Source</b>
 

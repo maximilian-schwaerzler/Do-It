@@ -1,4 +1,4 @@
-Do-It este o aplicație de sarcini simplă și fără elemente care să-ți distragă atenția, care te ajută să ții pasul cu sarcinile tale.
+Do-It este o aplicație de gestionare a sarcinilor simplă și fără elemente care să-ți distragă atenția, care te ajută să ții pasul cu sarcinile tale.
 
 <b>Caracteristici</b>
 
@@ -16,4 +16,4 @@ Do-It este o aplicație de sarcini simplă și fără elemente care să-ți dist
 
 <b>Open Source</b>
 
-Do-It este un software gratuit și open-source, licențiat sub Licența Apache 2.0. Fără reclame, fără urmărire, fără conturi necesare.
+Do-It este un software gratuit și open-source, licențiat sub licența Apache 2.0. Fără reclame, fără urmărire, fără conturi necesare.

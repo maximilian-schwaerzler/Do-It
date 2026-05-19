@@ -2,7 +2,7 @@ Do-It es una aplicación de tareas sencilla y sin distracciones que te ayuda a m
 
 <b>Características</b>
 
-: - Visualiza las tareas pendientes y completadas en secciones separadas
+- Visualiza las tareas pendientes y completadas en secciones separadas
 - Añade y edita tareas con un título, una descripción opcional y una fecha límite opcional
 - Marca las tareas como completadas o pendientes con un solo toque
 - Selecciona varias tareas a la vez manteniendo pulsado, y luego elimínalas en bloque o selecciónalas todas

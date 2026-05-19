@@ -1,9 +1,9 @@
-Do-It, görevlerinizi eksiksiz takip etmenize yardımcı olan, sade ve dikkat dağıtıcı unsurlar içermeyen bir yapılacaklar listesi uygulamasıdır.
+Do-It, görevlerinizi düzenli bir şekilde takip etmenize yardımcı olan, sade ve dikkat dağıtıcı unsurlar içermeyen bir yapılacaklar listesi uygulamasıdır.
 
 <b>Özellikler</b>
 
 - Açık ve tamamlanmış görevleri ayrı bölümlerde görüntüleyin
-- Başlık, isteğe bağlı açıklama ve isteğe bağlı son tarih ekleyerek görevler ekleyin ve düzenleyin
+- Başlık, isteğe bağlı açıklama ve isteğe bağlı son tarih ile görev ekleyin ve düzenleyin
 - Tek bir dokunuşla görevleri tamamlanmış veya tamamlanmamış olarak işaretleyin
 - Uzun basarak görevleri toplu olarak seçin, ardından toplu silme veya tümünü seçme işlemlerini gerçekleştirin
 - Gecikmiş görevler vurgulanır, böylece hiçbir şey gözden kaçmaz
@@ -16,4 +16,4 @@ Do-It, görevlerinizi eksiksiz takip etmenize yardımcı olan, sade ve dikkat da
 
 <b>Açık Kaynak</b>
 
-Do-It, Apache Lisansı 2.0 altında lisanslanan ücretsiz ve açık kaynaklı bir yazılımdır. Reklam yok, izleme yok, hesap gerekmiyor.
+Do-It, Apache Lisansı 2.0 altında lisanslanan ücretsiz ve açık kaynaklı bir yazılımdır. Reklam yok, izleme yok, hesap gerektirmiyor.
