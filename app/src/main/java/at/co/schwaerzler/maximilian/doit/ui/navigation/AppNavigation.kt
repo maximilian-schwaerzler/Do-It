@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import at.co.schwaerzler.maximilian.doit.ui.navigation.screen.EditTodoScreen
 import at.co.schwaerzler.maximilian.doit.ui.navigation.screen.HomeScreen
@@ -79,6 +80,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             exitTransition = { slideOutHorizontally { -it / 3 } },
             popEnterTransition = { slideInHorizontally { -it / 3 } },
             popExitTransition = { slideOutHorizontally { it } },
+            deepLinks = listOf(navDeepLink<EditTodo>(basePath = "doit://todo")),
         ) { backStackEntry ->
             val route = backStackEntry.toRoute<EditTodo>()
             EditTodoScreen(
