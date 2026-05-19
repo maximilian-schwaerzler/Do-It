@@ -27,11 +27,10 @@ import androidx.glance.LocalContext
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.appWidgetBackground
+import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
-import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -59,54 +58,54 @@ class OverviewWidget : GlanceAppWidget() {
     @Composable
     private fun Content(todos: List<TodoSummary>) {
         val context = LocalContext.current
-        Column(
-            modifier = GlanceModifier
-                .fillMaxSize()
-                .background(GlanceTheme.colors.widgetBackground)
-                .appWidgetBackground()
-                .padding(16.dp)
-                .clickable(actionStartActivity<MainActivity>())
-        ) {
-            Text(
-                text = context.getString(R.string.open_headline),
-                style = TextStyle(
-                    color = GlanceTheme.colors.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                )
-            )
-            if (todos.isEmpty()) {
-                Box(
-                    modifier = GlanceModifier.defaultWeight().fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = context.getString(R.string.nothing_to_do_empty_text),
-                        style = TextStyle(color = GlanceTheme.colors.onSurface)
+        Scaffold {
+            Column(
+                modifier = GlanceModifier
+                    .fillMaxSize()
+                    .clickable(actionStartActivity<MainActivity>())
+            ) {
+                Text(
+                    text = context.getString(R.string.open_headline),
+                    style = TextStyle(
+                        color = GlanceTheme.colors.onSurface,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
                     )
-                }
-            } else {
-                LazyColumn(
-                    modifier = GlanceModifier
-                        .defaultWeight()
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    items(todos) { todo ->
+                )
+                if (todos.isEmpty()) {
+                    Box(
+                        modifier = GlanceModifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
                         Text(
-                            text = "- ${todo.title}",
-                            maxLines = 1,
-                            style = TextStyle(
-                                color = GlanceTheme.colors.onSurface,
-                                fontSize = 14.sp,
-                            ),
-                            modifier = GlanceModifier
-                                .fillMaxWidth()
-                                .padding(vertical = 4.dp)
+                            text = context.getString(R.string.nothing_to_do_empty_text),
+                            style = TextStyle(color = GlanceTheme.colors.onSurface)
                         )
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = GlanceModifier
+                            .defaultWeight()
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                    ) {
+                        items(todos) { todo ->
+                            Text(
+                                text = "- ${todo.title}",
+                                maxLines = 1,
+                                style = TextStyle(
+                                    color = GlanceTheme.colors.onSurface,
+                                    fontSize = 14.sp,
+                                ),
+                                modifier = GlanceModifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp)
+                            )
+                        }
                     }
                 }
             }
         }
+
     }
 }
