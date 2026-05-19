@@ -1,0 +1,7 @@
+- Adăugați o comandă rapidă pe ecranul de pornire pentru a crea rapid un nou todo
+- Adăugați un widget pe ecranul de pornire pentru a vedea dintr-o privire noutățile deschise
+- Adăugați selectarea temei în aplicație (ușoară, întunecată, implicită în sistem)
+- Adăugarea selecției limbii în aplicație
+- Cererile întârziate sunt acum evidențiate în roșu
+- Tranzițiile de navigare utilizează acum animații Material Motion
+- Diverse remedieri de erori și îmbunătățiri

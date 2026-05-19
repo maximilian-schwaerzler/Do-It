@@ -2,12 +2,17 @@ Do-It ist eine übersichtliche, ablenkungsfreie To-Do-App, die dir hilft, den Ü
 
 <b>Funktionen</b>
 
-- Anzeige offener und erledigter Aufgaben in separaten Bereichen
-- Hinzufügen und Bearbeiten von Aufgaben mit Titel, optionaler Beschreibung und optionalem Fälligkeitsdatum
-- Markieren von Aufgaben als erledigt oder offen mit einem einzigen Fingertipp
-- Mehrfachauswahl von Aufgaben durch langes Drücken, anschliessend Sammellöschung oder „Alle auswählen“
-- Motivierende Meldungen, wenn die Liste leer ist oder alles erledigt ist
-- Randlose Benutzeroberfläche gemäss den Richtlinien von Material Design 3
+– Anzeige offener und erledigter Aufgaben in separaten Bereichen
+– Hinzufügen und Bearbeiten von Aufgaben mit Titel, optionaler Beschreibung und optionalem Fälligkeitsdatum
+– Markieren von Aufgaben als erledigt oder offen mit einem einzigen Fingertipp
+- Mehrfachauswahl von Aufgaben durch langes Drücken, anschließend Sammellöschung oder „Alle auswählen“
+- Überfällige Aufgaben werden hervorgehoben, damit nichts übersehen wird
+- Startbildschirm-Widget, um deine offenen Aufgaben auf einen Blick zu sehen
+- Startbildschirm-Verknüpfung, um sofort eine neue Aufgabe zu erstellen
+- Auswahl des Designs in der App (hell, dunkel oder Systemstandard)
+- Sprachauswahl in der App
+- Motivierende Meldungen bei leerer Liste oder wenn alles erledigt ist
+- Randlose Benutzeroberfläche gemäß den Richtlinien von Material Design 3
 
 <b>Open Source</b>
 

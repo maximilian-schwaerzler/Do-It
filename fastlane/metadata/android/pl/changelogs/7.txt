@@ -1,0 +1,7 @@
+- Dodaj skrót do ekranu głównego, aby szybko utworzyć nowe zadanie do wykonania
+- Dodanie widżetu na ekranie głównym, aby wyświetlać otwarte zadania na pierwszy rzut oka.
+- Dodanie wyboru motywu w aplikacji (jasny, ciemny, domyślny systemowy)
+- Dodano wybór języka w aplikacji
+- Zaległe zadania są teraz podświetlone na czerwono.
+- Przejścia nawigacji wykorzystują teraz animacje Material Motion
+- Różne poprawki błędów i ulepszenia

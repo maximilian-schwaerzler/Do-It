@@ -1,0 +1,7 @@
+- Startbildschirm-Verknüpfung hinzufügen, um schnell ein neues ToDo zu erstellen
+- Hinzufügen eines Widgets für den Startbildschirm, um Ihre offenen Aufgaben auf einen Blick zu sehen
+- Auswahl des Themas in der App (hell, dunkel, Systemstandard)
+- Auswahl der Sprache in der App hinzufügen
+- Überfällige ToDo's werden nun rot hervorgehoben
+- Navigationsübergänge verwenden jetzt Material Motion-Animationen
+- Verschiedene Fehlerbehebungen und Verbesserungen

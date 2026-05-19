@@ -1,0 +1,7 @@
+- Ajout d'un raccourci sur l'écran d'accueil pour créer rapidement une nouvelle tâche
+- Ajout d'un widget sur l'écran d'accueil pour voir vos tâches en cours d'un seul coup d'œil
+- Ajout d'un thème dans l'application (clair, foncé, système par défaut)
+- Ajout d'une sélection de langue dans l'application
+- Les tâches en retard sont désormais surlignées en rouge
+- Les transitions de navigation utilisent désormais les animations Material Motion
+- Diverses corrections de bugs et améliorations

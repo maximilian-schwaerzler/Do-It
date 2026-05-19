@@ -1,0 +1,7 @@
+- Aggiunta di una scorciatoia per la schermata iniziale per creare rapidamente un nuovo todo
+- Aggiunta di un widget per la schermata iniziale per vedere i todos aperti a colpo d'occhio
+- Aggiunta della selezione del tema all'interno dell'app (chiaro, scuro, predefinito dal sistema)
+- Aggiunta della selezione della lingua all'interno dell'app
+- I todos scaduti sono ora evidenziati in rosso
+- Le transizioni di navigazione ora utilizzano le animazioni Material Motion
+- Varie correzioni di bug e miglioramenti

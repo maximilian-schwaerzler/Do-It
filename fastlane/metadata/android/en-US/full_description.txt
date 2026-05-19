@@ -6,6 +6,11 @@ Do-It is a clean, distraction-free to-do app that helps you stay on top of your 
 - Add and edit todos with a title, optional description, and optional deadline
 - Mark todos complete or incomplete with a single tap
 - Multi-select todos via long-press, then bulk-delete or select all
+- Overdue todos are highlighted so nothing slips through the cracks
+- Home screen widget to see your open todos at a glance
+- Home screen shortcut to create a new todo instantly
+- In-app theme selection (light, dark, or system default)
+- In-app language selection
 - Motivational empty-state messages when the list is empty or everything is done
 - Edge-to-edge UI following Material Design 3 guidelines
 
