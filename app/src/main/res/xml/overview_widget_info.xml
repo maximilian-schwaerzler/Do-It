@@ -23,8 +23,8 @@
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"
-    android:targetCellWidth="4"
+    android:targetCellWidth="3"
     android:targetCellHeight="2"
-    android:maxResizeWidth="250dp"
-    android:maxResizeHeight="300dp"
+    android:maxResizeWidth="400dp"
+    android:maxResizeHeight="600dp"
     tools:targetApi="31" />

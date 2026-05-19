@@ -26,24 +26,26 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
+import androidx.glance.Image
+import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.components.Scaffold
+import androidx.glance.appwidget.components.TitleBar
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.items
 import androidx.glance.appwidget.provideContent
 import androidx.glance.layout.Alignment
-import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
+import androidx.glance.layout.size
 import androidx.glance.preview.ExperimentalGlancePreviewApi
 import androidx.glance.preview.Preview
-import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import at.co.schwaerzler.maximilian.doit.data.TodoRepository
@@ -59,36 +61,41 @@ class OverviewWidget : GlanceAppWidget() {
         provideContent {
             GlanceTheme {
                 val context = LocalContext.current
-                val repo = remember { TodoRepository(context, TodoDatabase.getDatabase(context).todoDao()) }
+                val repo = remember {
+                    TodoRepository(
+                        context,
+                        TodoDatabase.getDatabase(context).todoDao()
+                    )
+                }
                 val todos by repo.getOpenSummaries().collectAsState(emptyList())
                 OverviewWidgetContent(todos)
             }
         }
     }
-}
 
-@Composable
-internal fun OverviewWidgetContent(todos: List<TodoSummary>) {
-    val context = LocalContext.current
-    Scaffold(GlanceModifier.fillMaxSize().padding(8.dp)) {
-        Column(
-            modifier = GlanceModifier
-                .fillMaxSize()
-                .clickable(actionStartActivity<MainActivity>())
-        ) {
-            Text(
-                text = context.getString(R.string.app_name),
-                style = TextStyle(
-                    color = GlanceTheme.colors.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
+    @Composable
+    fun OverviewWidgetContent(todos: List<TodoSummary>) {
+        val context = LocalContext.current
+        Scaffold(
+            titleBar = {
+                TitleBar(
+                    title = context.getString(R.string.app_name),
+                    startIcon = ImageProvider(R.drawable.check_24px)
                 )
-            )
+            },
+            modifier = GlanceModifier.clickable(actionStartActivity<MainActivity>())
+        ) {
             if (todos.isEmpty()) {
-                Box(
+                Column(
                     modifier = GlanceModifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Image(
+                        ImageProvider(R.drawable.check_circle_24px),
+                        modifier = GlanceModifier.size(35.dp).padding(bottom = 8.dp),
+                        contentDescription = null
+                    )
                     Text(
                         text = context.getString(R.string.nothing_to_do_empty_text),
                         style = TextStyle(color = GlanceTheme.colors.onSurface)
@@ -97,7 +104,6 @@ internal fun OverviewWidgetContent(todos: List<TodoSummary>) {
             } else {
                 LazyColumn(
                     modifier = GlanceModifier
-                        .defaultWeight()
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                 ) {
@@ -121,11 +127,11 @@ internal fun OverviewWidgetContent(todos: List<TodoSummary>) {
 }
 
 @OptIn(ExperimentalGlancePreviewApi::class)
-@Preview(widthDp = 200, heightDp = 100)
+@Preview(widthDp = 250, heightDp = 250)
 @Composable
 fun OverviewWidgetPreview() {
     GlanceTheme {
-        OverviewWidgetContent(
+        OverviewWidget().OverviewWidgetContent(
             todos = listOf(
                 TodoSummary(1, "Buy milk", null, TodoState.OPEN, Clock.System.now()),
                 TodoSummary(2, "Write code", null, TodoState.OPEN, Clock.System.now())
@@ -135,10 +141,10 @@ fun OverviewWidgetPreview() {
 }
 
 @OptIn(ExperimentalGlancePreviewApi::class)
-@Preview(widthDp = 200, heightDp = 100)
+@Preview(widthDp = 250, heightDp = 250)
 @Composable
 fun OverviewWidgetEmptyPreview() {
     GlanceTheme {
-        OverviewWidgetContent(todos = emptyList())
+        OverviewWidget().OverviewWidgetContent(todos = emptyList())
     }
 }
