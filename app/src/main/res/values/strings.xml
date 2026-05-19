@@ -69,4 +69,5 @@
     <string name="theme">Theme</string>
     <string name="settings_section_general">General</string>
     <string name="overview_widget_description">Overview of your open TODOs</string>
+    <string name="new_todo_shortcut_short_label">New TODO</string>
 </resources>
