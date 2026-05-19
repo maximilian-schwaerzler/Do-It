@@ -65,4 +65,5 @@
     <string name="f_droid_package">„F-Droid“ paketas</string>
     <string name="theme">Tema</string>
     <string name="settings_section_general">Bendrieji</string>
+    <string name="overview_widget_description">Jūsų nebaigtų užduočių apžvalga</string>
 </resources>
