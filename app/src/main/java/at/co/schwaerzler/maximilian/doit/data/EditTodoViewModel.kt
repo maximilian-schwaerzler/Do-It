@@ -25,7 +25,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.R
-import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -44,7 +43,7 @@ import kotlin.time.Instant
  */
 class EditTodoViewModel(
     private val appContext: Context,
-    private val db: TodoDatabase
+    private val repository: TodoRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<EditTodoUiState>(EditTodoUiState())
 
@@ -107,7 +106,7 @@ class EditTodoViewModel(
 
         if (id == null) {
             viewModelScope.launch {
-                db.todoDao().insert(
+                repository.insert(
                     Todo(
                         id = 0,
                         uiState.value.title,
@@ -120,7 +119,7 @@ class EditTodoViewModel(
         } else {
             val original = originalTodo ?: return false
             viewModelScope.launch {
-                db.todoDao().update(
+                repository.update(
                     original.copy(
                         title = uiState.value.title,
                         description = uiState.value.description.ifBlank { null },
@@ -136,7 +135,7 @@ class EditTodoViewModel(
     fun deleteTodo() {
         val todo = originalTodo ?: return
         viewModelScope.launch {
-            db.todoDao().delete(todo)
+            repository.delete(todo)
         }
     }
 
@@ -147,7 +146,7 @@ class EditTodoViewModel(
      */
     fun loadTodo(id: Int) {
         viewModelScope.launch {
-            val todo = db.todoDao().getById(id) ?: return@launch
+            val todo = repository.getById(id) ?: return@launch
             originalTodo = todo
             originalTitle = todo.title
             originalDescription = todo.description ?: ""
@@ -165,12 +164,10 @@ class EditTodoViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val db =
-                    (this[APPLICATION_KEY] as DoItApplication).database
-                val appContext = (this[APPLICATION_KEY] as DoItApplication).applicationContext
+                val app = this[APPLICATION_KEY] as DoItApplication
                 EditTodoViewModel(
-                    appContext = appContext,
-                    db = db
+                    appContext = app.applicationContext,
+                    repository = app.repository
                 )
             }
         }

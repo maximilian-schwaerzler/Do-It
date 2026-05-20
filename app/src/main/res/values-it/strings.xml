@@ -65,4 +65,6 @@
     <string name="f_droid_package">Pacchetto F-Droid</string>
     <string name="theme">Tema</string>
     <string name="settings_section_general">Informazioni generali</string>
+    <string name="overview_widget_description">Panoramica delle attività in sospeso</string>
+    <string name="new_todo_shortcut_short_label">Nuovo da fare</string>
 </resources>

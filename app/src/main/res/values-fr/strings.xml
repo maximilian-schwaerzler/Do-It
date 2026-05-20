@@ -65,4 +65,6 @@
     <string name="f_droid_package">Paquet F-Droid</string>
     <string name="theme">Thème</string>
     <string name="settings_section_general">Généralités</string>
+    <string name="overview_widget_description">Aperçu de vos tâches en attente</string>
+    <string name="new_todo_shortcut_short_label">Nouvelle tâche</string>
 </resources>

@@ -65,4 +65,6 @@
     <string name="f_droid_package">Pachet F-Droid</string>
     <string name="theme">Tema</string>
     <string name="settings_section_general">Generalități</string>
+    <string name="overview_widget_description">Prezentare generală a sarcinilor tale restante</string>
+    <string name="new_todo_shortcut_short_label">Nouă sarcină</string>
 </resources>

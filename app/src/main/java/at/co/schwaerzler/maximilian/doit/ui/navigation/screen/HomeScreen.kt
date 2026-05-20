@@ -16,6 +16,7 @@
 
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -36,15 +38,20 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -53,15 +60,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import at.co.schwaerzler.maximilian.doit.DoItApplication
+import at.co.schwaerzler.maximilian.doit.OverviewWidget
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.HomeViewModel
+import at.co.schwaerzler.maximilian.doit.data.OverviewWidgetReceiver
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.component.TodoListItem
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
+import at.co.schwaerzler.maximilian.doit.util.doNotShowWidgetDialogAgain
+import at.co.schwaerzler.maximilian.doit.util.doNotShowWidgetDialogAgainFlow
+import at.co.schwaerzler.maximilian.doit.util.todosDoneCountFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlin.time.Clock
 
 /**
@@ -138,6 +154,41 @@ private fun HomeScreenContent(
 ) {
     val selectionToolbar = selectedTodos.isNotEmpty()
     val isAllSelected = selectedTodos.size == openTodos.size + doneTodos.size
+    var showWidgetPinIncentiveDialog by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    val appPreferences = remember {
+        (context.applicationContext as DoItApplication).appPreferences
+    }
+    val doNotShowWidgetPinDialog by remember { appPreferences.doNotShowWidgetDialogAgainFlow() }.collectAsStateWithLifecycle(
+        false
+    )
+    val todosDoneCount by remember { appPreferences.todosDoneCountFlow() }.collectAsStateWithLifecycle(0)
+
+    val coroutineScope = rememberCoroutineScope()
+    fun widgetDialogDismissDoNotShowAgain() {
+        coroutineScope.launch {
+            appPreferences.doNotShowWidgetDialogAgain()
+        }
+    }
+
+    LaunchedEffect(todosDoneCount, doNotShowWidgetPinDialog) {
+        if (todosDoneCount < 1) {
+            Log.d("WidgetIncentive", "Dialog not shown: no todos completed yet (count=$todosDoneCount)")
+            return@LaunchedEffect
+        }
+        if (doNotShowWidgetPinDialog) {
+            Log.d("WidgetIncentive", "Dialog not shown: user opted out")
+            return@LaunchedEffect
+        }
+        val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(OverviewWidget::class.java)
+        if (glanceIds.isNotEmpty()) {
+            Log.d("WidgetIncentive", "Dialog not shown: widget already pinned (ids=$glanceIds)")
+            return@LaunchedEffect
+        }
+        Log.d("WidgetIncentive", "Showing dialog (todosDoneCount=$todosDoneCount)")
+        showWidgetPinIncentiveDialog = true
+    }
 
     Scaffold(
         modifier.fillMaxSize(), topBar = {
@@ -323,7 +374,59 @@ private fun HomeScreenContent(
                 }
             }
         }
+
+        if (showWidgetPinIncentiveDialog) {
+            WidgetPinIncentiveDialog(
+                coroutineScope,
+                onDismissRequest = {
+                    if (it) {
+                        widgetDialogDismissDoNotShowAgain()
+                    }
+                    showWidgetPinIncentiveDialog = false
+                }
+            )
+        }
     }
+}
+
+@Composable
+fun WidgetPinIncentiveDialog(
+    coroutineScope: CoroutineScope,
+    modifier: Modifier = Modifier,
+    onDismissRequest: (doNotShowAgain: Boolean) -> Unit
+) {
+    val context = LocalContext.current
+    AlertDialog(
+        onDismissRequest = {
+            onDismissRequest(false)
+        },
+        confirmButton = {
+            TextButton(onClick = {
+                coroutineScope.launch {
+                    GlanceAppWidgetManager(context).requestPinGlanceAppWidget(
+                        receiver = OverviewWidgetReceiver::class.java,
+                        preview = OverviewWidget()
+                    )
+                }.invokeOnCompletion {
+                    onDismissRequest(true)
+                }
+            }) {
+                Text(stringResource(R.string.yes_dialog))
+            }
+        },
+        modifier = modifier,
+        dismissButton = {
+            TextButton(onClick = { onDismissRequest(true) }) {
+                Text(stringResource(R.string.do_not_ask_again_dialog), color = MaterialTheme.colorScheme.error)
+            }
+        },
+        title = {
+            Text(stringResource(R.string.add_widget_dialog))
+        },
+        text = {
+            Text(stringResource(R.string.add_widget_dialog_text))
+        }
+    )
 }
 
 private val previewTodos = listOf(

@@ -6,6 +6,11 @@ Do-It, görevlerinizi düzenli bir şekilde takip etmenize yardımcı olan, sade
 - Başlık, isteğe bağlı açıklama ve isteğe bağlı son tarih ile görev ekleyin ve düzenleyin
 - Tek bir dokunuşla görevleri tamamlanmış veya tamamlanmamış olarak işaretleyin
 - Uzun basarak görevleri toplu olarak seçin, ardından toplu silme veya tümünü seçme işlemlerini gerçekleştirin
+- Gecikmiş görevler vurgulanır, böylece hiçbir şey gözden kaçmaz
+- Açık görevlerinizi bir bakışta görebileceğiniz ana ekran widget&#x27;ı
+- Anında yeni bir görev oluşturmak için ana ekran kısayolu
+- Uygulama içi tema seçimi (açık, koyu veya sistem varsayılanı)
+- Uygulama içi dil seçimi
 - Liste boş olduğunda veya her şey tamamlandığında motivasyonel boş durum mesajları
 - Material Design 3 yönergelerine uygun kenardan kenara kullanıcı arayüzü
 

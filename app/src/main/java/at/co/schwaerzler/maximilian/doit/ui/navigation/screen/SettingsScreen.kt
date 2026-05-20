@@ -99,6 +99,7 @@ fun SettingsScreenContent(
 ) {
     val context = LocalContext.current
     val githubUrl = stringResource(R.string.github_repo_url)
+    val githubReleasesBaseUrl = stringResource(R.string.github_releases_base_url)
     val fdroidUrl = stringResource(R.string.fdroid_package_url)
     val versionName = context.packageManager.getPackageInfo(context.packageName, 0).versionName
 
@@ -186,7 +187,12 @@ fun SettingsScreenContent(
                 supportingContent = versionName?.let { version -> { Text(version) } },
                 leadingContent = {
                     Icon(painterResource(R.drawable.info_24px), contentDescription = null)
-                }
+                },
+                modifier = versionName?.let { version ->
+                    Modifier.clickable {
+                        context.openUrl("$githubReleasesBaseUrl/v$version")
+                    }
+                } ?: Modifier
             )
             ListItem(
                 headlineContent = {

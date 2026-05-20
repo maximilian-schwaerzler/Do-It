@@ -6,6 +6,11 @@ Do-It es una aplicación de tareas sencilla y sin distracciones que te ayuda a m
 - Añade y edita tareas con un título, una descripción opcional y una fecha límite opcional
 - Marca las tareas como completadas o pendientes con un solo toque
 - Selecciona varias tareas a la vez manteniendo pulsado, y luego elimínalas en bloque o selecciónalas todas
+- Las tareas vencidas se resaltan para que no se te pase nada por alto
+- Widget en la pantalla de inicio para ver tus tareas pendientes de un vistazo
+- Acceso directo en la pantalla de inicio para crear una nueva tarea al instante
+- Selección de temas dentro de la app (claro, oscuro o predeterminado del sistema)
+- Selección de idioma dentro de la aplicación
 - Mensajes motivadores cuando la lista está vacía o todo está hecho
 - Interfaz de usuario de borde a borde siguiendo las directrices de Material Design 3
 

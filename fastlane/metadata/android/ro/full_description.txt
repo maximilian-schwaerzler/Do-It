@@ -6,8 +6,13 @@ Do-It este o aplicație de gestionare a sarcinilor simplă și fără elemente c
 - Adaugă și editează sarcini cu titlu, descriere opțională și termen limită opțional
 - Marchează sarcinile ca finalizate sau nefinalizate cu o singură atingere
 - Selectați mai multe sarcini prin apăsare lungă, apoi ștergeți în bloc sau selectați totul
-- Mesaje motivaționale atunci când lista este goală sau totul este finalizat
-- Interfață de la margine la margine, conformă cu liniile directoare Material Design 3
+- Sarcinile restante sunt evidențiate, astfel încât nimic să nu vă scape
+- Widget pe ecranul de start pentru a vedea sarcinile deschise dintr-o privire
+- Comandă rapidă pe ecranul de start pentru a crea instantaneu o nouă sarcină
+- Selectarea temei în aplicație (deschisă, întunecată sau implicită)
+- Selectare limbă în aplicație
+- Mesaje motivaționale de stare goală când lista este goală sau totul este finalizat
+- Interfață de la margine la margine conform ghidurilor Material Design 3
 
 <b>Open Source</b>
 

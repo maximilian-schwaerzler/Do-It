@@ -65,4 +65,6 @@
     <string name="f_droid_package">Paquete de F-Droid</string>
     <string name="theme">Tema</string>
     <string name="settings_section_general">General</string>
+    <string name="overview_widget_description">Resumen de tus tareas pendientes</string>
+    <string name="new_todo_shortcut_short_label">Nueva tarea pendiente</string>
 </resources>

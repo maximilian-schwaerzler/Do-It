@@ -65,4 +65,6 @@
     <string name="f_droid_package">F-Droid Paketi</string>
     <string name="theme">Tema</string>
     <string name="settings_section_general">Genel</string>
+    <string name="overview_widget_description">Açık görevlerinize genel bakış</string>
+    <string name="new_todo_shortcut_short_label">Yeni Yapılacaklar</string>
 </resources>

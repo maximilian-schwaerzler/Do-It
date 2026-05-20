@@ -16,6 +16,8 @@
 
 package at.co.schwaerzler.maximilian.doit.data
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -23,15 +25,16 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
-import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
+import at.co.schwaerzler.maximilian.doit.util.incrementTodosDoneCount
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 /** ViewModel for the home screen, exposing the todo lists and bulk-action operations. */
 class HomeViewModel(
-    private val db: TodoDatabase
+    private val repository: TodoRepository,
+    private val appPreferences: DataStore<Preferences>
 ) : ViewModel() {
     /**
      * Combined flow of open and done [TodoSummary] lists.
@@ -39,8 +42,8 @@ class HomeViewModel(
      * Emits a new [Pair] whenever either list changes.
      */
     val todos = combine(
-        db.todoDao().getOpenSummaries(),
-        db.todoDao().getDoneSummaries()
+        repository.getOpenSummaries(),
+        repository.getDoneSummaries()
     ) { open, done -> Pair(open, done) }
 
     /**
@@ -51,24 +54,27 @@ class HomeViewModel(
     fun toggleTodoDone(todo: TodoSummary) {
         viewModelScope.launch {
             val newState = if (todo.state == TodoState.OPEN) TodoState.DONE else TodoState.OPEN
-            db.todoDao().updateState(todo.id, newState)
+            repository.updateState(todo.id, newState)
+            if (newState == TodoState.DONE) {
+                appPreferences.incrementTodosDoneCount()
+            }
         }
     }
 
     /** Permanently deletes all todos whose primary keys are in [ids]. */
     fun deleteTodosByIds(ids: List<Int>) {
         viewModelScope.launch {
-            db.todoDao().deleteByIds(ids)
+            repository.deleteByIds(ids)
         }
     }
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val db =
-                    (this[APPLICATION_KEY] as DoItApplication).database
+                val app = this[APPLICATION_KEY] as DoItApplication
                 HomeViewModel(
-                    db = db
+                    repository = app.repository,
+                    appPreferences = app.appPreferences
                 )
             }
         }

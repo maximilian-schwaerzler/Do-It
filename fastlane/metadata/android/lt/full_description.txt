@@ -6,6 +6,11 @@
 - Pridėkite ir redaguokite užduotis, nurodydami pavadinimą, pasirinktinį aprašymą ir pasirinktinį terminą
 - Vienu bakstelėjimu pažymėkite užduotis kaip atliktas arba nebaigtas
 - Pasirinkite kelis užduotis ilgai spausdami, tada ištrinkite jas visas arba pasirinkite visas
+- Vėluojančios užduotys yra paryškintos, kad niekas nepasislėptų
+- Pagrindinio ekrano valdiklis, leidžiantis iš karto pamatyti atviras užduotis
+- Pagrindinio ekrano nuoroda, leidžianti akimirksniu sukurti naują užduotį
+- Temos pasirinkimas programoje (šviesus, tamsus arba sistemos numatytasis)
+- Kalbos pasirinkimas programoje
 - Motyvuojantys pranešimai, kai sąrašas tuščias arba viskas atlikta
 - Nuo krašto iki krašto vartotojo sąsaja, atitinkanti „Material Design 3“ gaires
 

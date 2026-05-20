@@ -1,0 +1,7 @@
+- Hızlıca yeni bir yapılacak iş oluşturmak için ana ekran kısayolu ekleyin
+- Açık yapılacak işlerinizi bir bakışta görmek için ana ekran widget'ı ekleyin
+- Uygulama içi tema seçimi ekleyin (açık, koyu, sistem varsayılanı)
+- Uygulama içi dil seçimi ekleyin
+- Gecikmiş yapılacaklar artık kırmızı renkle vurgulanıyor
+- Navigasyon geçişleri artık Material Motion animasyonlarını kullanıyor
+- Çeşitli hata düzeltmeleri ve iyileştirmeler

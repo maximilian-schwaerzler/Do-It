@@ -19,7 +19,9 @@ package at.co.schwaerzler.maximilian.doit.util
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +31,8 @@ val Context.appPreferencesDataStore: DataStore<Preferences> by preferencesDataSt
 
 object AppPreferenceKeys {
     val THEME = stringPreferencesKey("theme")
+    val DO_NOT_SHOW_WIDGET_PIN_DIALOG = booleanPreferencesKey("do_not_show_widget_pin_dialog")
+    val TODOS_DONE_COUNT = intPreferencesKey("todos_done_count")
 }
 
 suspend fun DataStore<Preferences>.setTheme(themeMode: AppThemeMode) {
@@ -44,4 +48,22 @@ fun DataStore<Preferences>.themeFlow(): Flow<AppThemeMode> =
                 AppThemeMode.FOLLOW_SYSTEM
             }
         } ?: AppThemeMode.FOLLOW_SYSTEM
+    }
+
+suspend fun DataStore<Preferences>.doNotShowWidgetDialogAgain() {
+    edit { it[AppPreferenceKeys.DO_NOT_SHOW_WIDGET_PIN_DIALOG] = true }
+}
+
+fun DataStore<Preferences>.doNotShowWidgetDialogAgainFlow(): Flow<Boolean> =
+    data.map { preferences ->
+        preferences[AppPreferenceKeys.DO_NOT_SHOW_WIDGET_PIN_DIALOG] ?: false
+    }
+
+suspend fun DataStore<Preferences>.incrementTodosDoneCount() {
+    edit { it[AppPreferenceKeys.TODOS_DONE_COUNT] = (it[AppPreferenceKeys.TODOS_DONE_COUNT] ?: 0) + 1 }
+}
+
+fun DataStore<Preferences>.todosDoneCountFlow(): Flow<Int> =
+    data.map { preferences ->
+        preferences[AppPreferenceKeys.TODOS_DONE_COUNT] ?: 0
     }

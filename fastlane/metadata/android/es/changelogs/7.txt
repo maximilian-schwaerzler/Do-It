@@ -1,0 +1,7 @@
+- Añade un acceso directo en la pantalla de inicio para crear rápidamente una nueva tarea.
+- Añade un widget en la pantalla de inicio para ver tus tareas abiertas de un vistazo.
+- Añadir selección de tema en la aplicación (claro, oscuro, predeterminado del sistema)
+- Añadir selección de idioma en la aplicación
+- Las tareas pendientes ahora se resaltan en rojo.
+- Las transiciones de navegación utilizan ahora animaciones Material Motion.
+- Varias correcciones de errores y mejoras

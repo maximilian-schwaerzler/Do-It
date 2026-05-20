@@ -1,0 +1,7 @@
+- Pridėti namų ekrano nuorodą, kad galėtumėte greitai sukurti naują užduotį
+- Pridėti pagrindinio ekrano valdiklį, kad iš karto matytumėte atidarytus "todos".
+- Pridėti programėlėje pasirinktą temą (šviesią, tamsią, sistemos numatytąją)
+- Programėlėje pasirinkite kalbą
+- Pavėluotai atlikti užduotys dabar paryškintos raudona spalva
+- Navigacijos perėjimai dabar naudoja "Material Motion" animaciją
+- Įvairūs klaidų taisymai ir patobulinimai

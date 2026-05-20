@@ -1,0 +1,7 @@
+- Add home screen shortcut to quickly create a new todo
+- Add home screen widget to see your open todos at a glance
+- Add in-app theme selection (light, dark, system default)
+- Add in-app language selection
+- Overdue todos are now highlighted in red
+- Navigation transitions now use Material Motion animations
+- Various bug fixes and improvements

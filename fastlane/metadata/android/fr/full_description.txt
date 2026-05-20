@@ -6,6 +6,11 @@ Do-It est une application de gestion des tâches épurée et sans distraction qu
 - Ajoutez et modifiez des tâches en leur attribuant un titre, une description facultative et une date limite facultative
 - Marquez les tâches comme terminées ou en cours d&#x27;un simple geste
 - Sélectionnez plusieurs tâches en appuyant longuement, puis supprimez-les en bloc ou sélectionnez-les toutes
+- Les tâches en retard sont mises en évidence pour qu&#x27;aucune ne passe inaperçue
+- Widget sur l&#x27;écran d&#x27;accueil pour voir vos tâches en cours d&#x27;un seul coup d&#x27;œil
+- Raccourci sur l&#x27;écran d&#x27;accueil pour créer instantanément une nouvelle tâche
+- Sélection de thème dans l&#x27;application (clair, foncé ou par défaut du système)
+- Sélection de la langue dans l&#x27;application
 - Messages de motivation lorsque la liste est vide ou que tout est terminé
 - Interface utilisateur bord à bord conforme aux directives de Material Design 3
 
