@@ -19,3 +19,17 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Glance AppWidget: keep subclasses and all their members. The framework resolves
+# the receiver by class name (manifest lookup) and dispatches into the subclass via
+# virtual calls from pre-compiled library bytecode (getGlanceAppWidget, provideGlance).
+# Without { *; }, R8 can rename or prune those members even when the class name is kept,
+# silently breaking widget loading on obfuscated release builds.
+-keep class * extends androidx.glance.appwidget.GlanceAppWidget { *; }
+-keep class * extends androidx.glance.appwidget.GlanceAppWidgetReceiver { *; }
+
+# WorkManager InputMerger: Glance schedules widget updates via WorkManager, which
+# instantiates InputMerger subclasses (e.g. OverwritingInputMerger) reflectively via
+# Class.forName() + Class.newInstance(). WorkManager's bundled consumer rules keep the
+# class name but do not protect the no-arg constructor, so R8 removes it.
+-keep class * extends androidx.work.InputMerger { <init>(); }
