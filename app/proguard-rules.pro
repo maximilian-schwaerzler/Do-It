@@ -27,3 +27,9 @@
 # silently breaking widget loading on obfuscated release builds.
 -keep class * extends androidx.glance.appwidget.GlanceAppWidget { *; }
 -keep class * extends androidx.glance.appwidget.GlanceAppWidgetReceiver { *; }
+
+# WorkManager InputMerger: Glance schedules widget updates via WorkManager, which
+# instantiates InputMerger subclasses (e.g. OverwritingInputMerger) reflectively via
+# Class.forName() + Class.newInstance(). WorkManager's bundled consumer rules keep the
+# class name but do not protect the no-arg constructor, so R8 removes it.
+-keep class * extends androidx.work.InputMerger { <init>(); }
