@@ -67,4 +67,8 @@
     <string name="settings_section_general">概述</string>
     <string name="overview_widget_description">待办事项概览</string>
     <string name="new_todo_shortcut_short_label">新待办事项</string>
+    <string name="yes_dialog">是的</string>
+    <string name="do_not_ask_again_dialog">别再问了</string>
+    <string name="add_widget_dialog">添加小工具</string>
+    <string name="add_widget_dialog_text">您想在主屏幕上添加一个小工具，以便查看所有未完成任务的概览吗？</string>
 </resources>

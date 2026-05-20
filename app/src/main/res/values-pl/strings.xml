@@ -67,4 +67,8 @@
     <string name="settings_section_general">Ogólne</string>
     <string name="overview_widget_description">Przegląd Twoich otwartych zadań</string>
     <string name="new_todo_shortcut_short_label">Nowe zadanie do wykonania</string>
+    <string name="yes_dialog">Tak</string>
+    <string name="do_not_ask_again_dialog">Nie pytaj o to ponownie</string>
+    <string name="add_widget_dialog">Dodaj widżet</string>
+    <string name="add_widget_dialog_text">Czy chcesz dodać na ekran główny widżet zawierający przegląd wszystkich Twoich otwartych zadań?</string>
 </resources>

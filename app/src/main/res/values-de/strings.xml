@@ -67,4 +67,8 @@
     <string name="settings_section_general">Allgemein</string>
     <string name="overview_widget_description">Übersicht über deine offenen Aufgaben</string>
     <string name="new_todo_shortcut_short_label">Neue Aufgabe</string>
+    <string name="yes_dialog">Ja</string>
+    <string name="do_not_ask_again_dialog">Nicht nochmal fragen</string>
+    <string name="add_widget_dialog">Widget hinzufügen</string>
+    <string name="add_widget_dialog_text">Möchten Sie ein Widget mit einer Übersicht über alle Ihre offenen Aufgaben auf Ihrem Startbildschirm hinzufügen?</string>
 </resources>

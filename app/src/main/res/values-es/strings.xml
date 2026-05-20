@@ -67,4 +67,8 @@
     <string name="settings_section_general">General</string>
     <string name="overview_widget_description">Resumen de tus tareas pendientes</string>
     <string name="new_todo_shortcut_short_label">Nueva tarea pendiente</string>
+    <string name="yes_dialog">Sí</string>
+    <string name="do_not_ask_again_dialog">No me lo vuelvas a preguntar</string>
+    <string name="add_widget_dialog">Añadir widget</string>
+    <string name="add_widget_dialog_text">¿Te gustaría añadir a tu pantalla de inicio un widget con un resumen de todas tus tareas pendientes?</string>
 </resources>
