@@ -20,7 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Glance AppWidget: keep subclasses because the framework and internal WorkManager
-# workers resolve them by class name at runtime via reflection.
--keep class * extends androidx.glance.appwidget.GlanceAppWidget
--keep class * extends androidx.glance.appwidget.GlanceAppWidgetReceiver
+# Glance AppWidget: keep subclasses and all their members. The framework resolves
+# the receiver by class name (manifest lookup) and dispatches into the subclass via
+# virtual calls from pre-compiled library bytecode (getGlanceAppWidget, provideGlance).
+# Without { *; }, R8 can rename or prune those members even when the class name is kept,
+# silently breaking widget loading on obfuscated release builds.
+-keep class * extends androidx.glance.appwidget.GlanceAppWidget { *; }
+-keep class * extends androidx.glance.appwidget.GlanceAppWidgetReceiver { *; }
