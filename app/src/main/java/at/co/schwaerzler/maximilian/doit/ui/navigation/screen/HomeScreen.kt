@@ -16,6 +16,7 @@
 
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
@@ -172,12 +173,21 @@ private fun HomeScreenContent(
     }
 
     LaunchedEffect(todosDoneCount, doNotShowWidgetPinDialog) {
-        if (todosDoneCount >= 1 && !doNotShowWidgetPinDialog) {
-            val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(OverviewWidget::class.java)
-            if (glanceIds.isEmpty()) {
-                showWidgetPinIncentiveDialog = true
-            }
+        if (todosDoneCount < 1) {
+            Log.d("WidgetIncentive", "Dialog not shown: no todos completed yet (count=$todosDoneCount)")
+            return@LaunchedEffect
         }
+        if (doNotShowWidgetPinDialog) {
+            Log.d("WidgetIncentive", "Dialog not shown: user opted out")
+            return@LaunchedEffect
+        }
+        val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(OverviewWidget::class.java)
+        if (glanceIds.isNotEmpty()) {
+            Log.d("WidgetIncentive", "Dialog not shown: widget already pinned (ids=$glanceIds)")
+            return@LaunchedEffect
+        }
+        Log.d("WidgetIncentive", "Showing dialog (todosDoneCount=$todosDoneCount)")
+        showWidgetPinIncentiveDialog = true
     }
 
     Scaffold(
