@@ -89,15 +89,6 @@ class OverviewWidget : GlanceAppWidget() {
                 TitleBar(
                     title = context.getString(R.string.app_name),
                     startIcon = ImageProvider(R.drawable.check_24px),
-                    // TODO: Not sure if this is necessary with the shortcut
-//                    actions = {
-//                        CircleIconButton(
-//                            ImageProvider(R.drawable.add_24px),
-//                            null,
-//                            actionStartActivity(Intent(Intent.ACTION_VIEW, "doit://todo".toUri())),
-//                            backgroundColor = null
-//                        )
-//                    }
                 )
             },
             modifier = GlanceModifier.clickable(actionStartActivity<MainActivity>())
