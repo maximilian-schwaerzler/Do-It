@@ -375,7 +375,6 @@ private fun HomeScreenContent(
             }
         }
 
-        val coroutineScope = rememberCoroutineScope()
         if (showWidgetPinIncentiveDialog) {
             WidgetPinIncentiveDialog(
                 coroutineScope,
@@ -412,20 +411,20 @@ fun WidgetPinIncentiveDialog(
                     onDismissRequest(true)
                 }
             }) {
-                Text("Yes")
+                Text(stringResource(R.string.yes_dialog))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = { onDismissRequest(true) }) {
-                Text("Don't ask again", color = MaterialTheme.colorScheme.error)
+                Text(stringResource(R.string.do_not_ask_again_dialog), color = MaterialTheme.colorScheme.error)
             }
         },
         title = {
-            Text("Add widget")
+            Text(stringResource(R.string.add_widget_dialog))
         },
         text = {
-            Text("Would you like to add a widget with an overview of all your open tasks to your home screen?")
+            Text(stringResource(R.string.add_widget_dialog_text))
         }
     )
 }
