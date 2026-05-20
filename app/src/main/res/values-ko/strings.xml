@@ -67,4 +67,8 @@
     <string name="settings_section_general">일반</string>
     <string name="overview_widget_description">미완료 할 일 목록 개요</string>
     <string name="new_todo_shortcut_short_label">새 할 일</string>
+    <string name="yes_dialog">네</string>
+    <string name="do_not_ask_again_dialog">다시는 묻지 마</string>
+    <string name="add_widget_dialog">위젯 추가</string>
+    <string name="add_widget_dialog_text">홈 화면에 진행 중인 모든 작업의 개요를 보여주는 위젯을 추가하시겠습니까?</string>
 </resources>

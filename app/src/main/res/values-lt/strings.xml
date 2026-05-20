@@ -67,4 +67,8 @@
     <string name="settings_section_general">Bendrieji</string>
     <string name="overview_widget_description">Jūsų nebaigtų užduočių apžvalga</string>
     <string name="new_todo_shortcut_short_label">Naujas užduotis</string>
+    <string name="yes_dialog">Taip</string>
+    <string name="do_not_ask_again_dialog">Daugiau neklausk</string>
+    <string name="add_widget_dialog">Pridėti valdiklį</string>
+    <string name="add_widget_dialog_text">Ar norėtumėte pagrindiniame ekrane įdėti valdiklį, kuriame būtų pateikta visų jūsų neatliktų užduočių apžvalga?</string>
 </resources>

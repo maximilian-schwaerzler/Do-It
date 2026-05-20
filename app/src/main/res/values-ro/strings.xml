@@ -67,4 +67,8 @@
     <string name="settings_section_general">Generalități</string>
     <string name="overview_widget_description">Prezentare generală a sarcinilor tale restante</string>
     <string name="new_todo_shortcut_short_label">Nouă sarcină</string>
+    <string name="yes_dialog">Da</string>
+    <string name="do_not_ask_again_dialog">Nu mai întreba</string>
+    <string name="add_widget_dialog">Adaugă un widget</string>
+    <string name="add_widget_dialog_text">Doriți să adăugați pe ecranul de start un widget care să vă ofere o imagine de ansamblu asupra tuturor sarcinilor dvs. deschise?</string>
 </resources>

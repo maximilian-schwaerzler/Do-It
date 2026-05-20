@@ -67,4 +67,8 @@
     <string name="settings_section_general">Опште</string>
     <string name="overview_widget_description">Преглед ваших отворених задатака</string>
     <string name="new_todo_shortcut_short_label">Нови задаци</string>
+    <string name="yes_dialog">Да</string>
+    <string name="do_not_ask_again_dialog">Не питај поново</string>
+    <string name="add_widget_dialog">Додај виџет</string>
+    <string name="add_widget_dialog_text">Да ли бисте желели да на почетни екран додате виџет са прегледом свих ваших отворених задатака?</string>
 </resources>

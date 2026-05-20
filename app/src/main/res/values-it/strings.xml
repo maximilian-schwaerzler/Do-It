@@ -67,4 +67,8 @@
     <string name="settings_section_general">Informazioni generali</string>
     <string name="overview_widget_description">Panoramica delle attività in sospeso</string>
     <string name="new_todo_shortcut_short_label">Nuovo da fare</string>
+    <string name="yes_dialog">Sì</string>
+    <string name="do_not_ask_again_dialog">Non chiedermelo di nuovo</string>
+    <string name="add_widget_dialog">Aggiungi widget</string>
+    <string name="add_widget_dialog_text">Ti piacerebbe aggiungere alla schermata iniziale un widget con una panoramica di tutte le tue attività in corso?</string>
 </resources>

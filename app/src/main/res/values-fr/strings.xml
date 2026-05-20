@@ -67,4 +67,8 @@
     <string name="settings_section_general">Généralités</string>
     <string name="overview_widget_description">Aperçu de vos tâches en attente</string>
     <string name="new_todo_shortcut_short_label">Nouvelle tâche</string>
+    <string name="yes_dialog">Oui</string>
+    <string name="do_not_ask_again_dialog">Ne me le redemande pas</string>
+    <string name="add_widget_dialog">Ajouter un widget</string>
+    <string name="add_widget_dialog_text">Souhaitez-vous ajouter à votre écran d\'accueil un widget présentant un aperçu de toutes vos tâches en cours ?</string>
 </resources>

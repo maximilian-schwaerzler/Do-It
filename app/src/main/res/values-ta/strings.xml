@@ -67,4 +67,8 @@
     <string name="settings_section_general">பொதுவான</string>
     <string name="overview_widget_description">உங்கள் திறந்த செய்ய வேண்டியவைகளின் கண்ணோட்டம்</string>
     <string name="new_todo_shortcut_short_label">புதிய செய்ய வேண்டியவை</string>
+    <string name="yes_dialog">ஆம்</string>
+    <string name="do_not_ask_again_dialog">மீண்டும் கேட்காதே</string>
+    <string name="add_widget_dialog">விட்ஜெட்டைச் சேர்</string>
+    <string name="add_widget_dialog_text">உங்கள் திறந்திருக்கும் அனைத்துப் பணிகளின் கண்ணோட்டத்துடன் கூடிய ஒரு விட்ஜெட்டை உங்கள் முகப்புத் திரையில் சேர்க்க விரும்புகிறீர்களா?</string>
 </resources>

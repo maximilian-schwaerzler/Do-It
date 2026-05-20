@@ -67,4 +67,8 @@
     <string name="settings_section_general">Genel</string>
     <string name="overview_widget_description">Açık görevlerinize genel bakış</string>
     <string name="new_todo_shortcut_short_label">Yeni Yapılacaklar</string>
+    <string name="yes_dialog">Evet</string>
+    <string name="do_not_ask_again_dialog">Bir daha sorma</string>
+    <string name="add_widget_dialog">Widget ekle</string>
+    <string name="add_widget_dialog_text">Ana ekranınıza, tüm açık görevlerinize genel bir bakış sunan bir widget eklemek ister misiniz?</string>
 </resources>
