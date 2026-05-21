@@ -17,10 +17,8 @@
 
 <resources>
     <plurals name="todos_selected_template">
-        <item quantity="zero">%1$d selectat</item>
         <item quantity="one">%1$d selectată</item>
         <item quantity="few">%1$d selectate</item>
-        <item quantity="many">%1$d selectate</item>
         <item quantity="other">%1$d selectate</item>
     </plurals>
     <string name="add_new_todo_fab">Adaugă o nouă sarcină</string>

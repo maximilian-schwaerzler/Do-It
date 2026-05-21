@@ -17,10 +17,7 @@
 
 <resources>
     <plurals name="todos_selected_template">
-        <item quantity="zero">%1$d ausgewählt</item>
         <item quantity="one">%1$d ausgewählt</item>
-        <item quantity="few">%1$d ausgewählt</item>
-        <item quantity="many">%1$d ausgewählt</item>
         <item quantity="other">%1$d ausgewählt</item>
     </plurals>
     <string name="add_new_todo_fab">Neue Aufgabe</string>

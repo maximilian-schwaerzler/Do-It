@@ -17,10 +17,8 @@
 
 <resources>
     <plurals name="todos_selected_template">
-        <item quantity="zero">%1$d изабрано</item>
         <item quantity="one">%1$d изабрано</item>
         <item quantity="few">%1$d одабрана</item>
-        <item quantity="many">%1$d одабрано</item>
         <item quantity="other">%1$d одабрана</item>
     </plurals>
     <string name="add_new_todo_fab">Додајте нови задатак</string>

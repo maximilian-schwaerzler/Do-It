@@ -17,10 +17,6 @@
 
 <resources>
     <plurals name="todos_selected_template">
-        <item quantity="zero">%1$d 선택됨</item>
-        <item quantity="one">%1$d 선택됨</item>
-        <item quantity="few">%1$d 선택됨</item>
-        <item quantity="many">%1$d개 선택</item>
         <item quantity="other">%1$d 선택됨</item>
     </plurals>
     <string name="add_new_todo_fab">새 할 일 추가</string>

@@ -17,7 +17,6 @@
 
 <resources>
     <plurals name="todos_selected_template">
-        <item quantity="zero">%1$d wybranych</item>
         <item quantity="one">%1$d wybrane</item>
         <item quantity="few">%1$d wybrane</item>
         <item quantity="many">%1$d wybranych</item>
