@@ -13,9 +13,7 @@
   ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~    See the License for the specific language governing permissions and
   ~    limitations under the License.
-  -->
-
-<resources>
+  --><resources>
     <plurals name="todos_selected_template">
         <item quantity="one">%1$d ausgewählt</item>
         <item quantity="other">%1$d ausgewählt</item>
@@ -27,7 +25,7 @@
     <string name="nothing_to_do_empty_text">Alles erledigt! 🥳</string>
     <string name="add_new_todo_button">Neue Aufgabe unten hinzufügen</string>
     <string name="discard_changes_question">Änderungen verwerfen?</string>
-    <string name="unsaved_changes_lost">Alle ungespeicherten Änderungen werden verworfen</string>
+    <string name="unsaved_changes_lost">Alle ungespeicherten Änderungen werden verworfen.</string>
     <string name="discard">Verwerfen</string>
     <string name="keep_editing">Weitermachen</string>
     <string name="next">Weiter</string>
