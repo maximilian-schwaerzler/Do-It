@@ -2,8 +2,7 @@
 
 ![F-Droid Version](https://img.shields.io/f-droid/v/at.co.schwaerzler.maximilian.doit)
 ![GitHub Release](https://img.shields.io/github/v/release/maximilian-schwaerzler/Do-It)
-<a href="https://weblate.maximilian.schwaerzler.co.at/engage/do-it/"><img src="https://weblate.maximilian.schwaerzler.co.at/widget/do-it/svg-badge.svg" alt="Translation status"></a>
-
+[![Translation status](https://weblate.maximilian.schwaerzler.co.at/widget/do-it/svg-badge.svg)](https://weblate.maximilian.schwaerzler.co.at/engage/do-it/)
 # Do-It
 
 A modern Android to-do app built with Jetpack Compose and Material Design 3.
