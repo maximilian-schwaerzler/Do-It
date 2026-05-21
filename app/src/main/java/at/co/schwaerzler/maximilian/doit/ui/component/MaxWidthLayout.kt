@@ -25,9 +25,11 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
+import at.co.schwaerzler.maximilian.doit.R
 
 /**
  * Centers [content] horizontally and constrains its width to 600 dp on medium-or-larger windows,
@@ -41,7 +43,7 @@ fun MaxWidthLayout(
     val windowAdaptiveInfo = currentWindowAdaptiveInfo()
     val maxWidth =
         if (windowAdaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND)) {
-            600.dp
+            dimensionResource(R.dimen.content_max_width)
         } else {
             Dp.Unspecified
         }
