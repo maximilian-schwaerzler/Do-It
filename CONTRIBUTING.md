@@ -9,12 +9,12 @@ For a general overview of the project see the [README](README.md).
 
 ## Ways to Contribute
 
-| Type                      | How                                                                           |
-|---------------------------|-------------------------------------------------------------------------------|
-| Bug report                | Open a [GitHub issue](https://github.com/maximilian-schwaerzler/Do-It/issues) |
-| Feature request           | Open a [GitHub issue](https://github.com/maximilian-schwaerzler/Do-It/issues) |
-| New / updated translation | See [Translations](#translations) below                                       |
-| Code change               | Fork → branch → PR (see [Pull Requests](#submitting-a-pull-request))          |
+| Type                      | How                                                                                                                           |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| Bug report                | Open a [GitHub issue](https://github.com/maximilian-schwaerzler/Do-It/issues)                                                 |
+| Feature request           | Open a [GitHub issue](https://github.com/maximilian-schwaerzler/Do-It/issues)                                                 |
+| New / updated translation | Translate on [Weblate](https://weblate.maximilian.schwaerzler.co.at/engage/do-it/) or see [Translations](#translations) below |
+| Code change               | Fork → branch → PR (see [Pull Requests](#submitting-a-pull-request))                                                          |
 
 ---
 
@@ -103,20 +103,16 @@ at the end of the subject line where applicable (`fixes #42`).
 
 ## Translations
 
-The app is localized using Android string resources under `app/src/main/res/`.
+The app is localized using Android string resources under `app/src/main/res/`. Translations are
+managed on [Weblate](https://weblate.maximilian.schwaerzler.co.at/engage/do-it/).
+
+**Contribute or update a translation** — sign up on Weblate and suggest or improve strings directly
+in your browser. Weblate automatically opens a pull request with your changes once they are
+approved.
 
 **Request a new language** — open an issue using
 the [Language Request](https://github.com/maximilian-schwaerzler/Do-It/issues/new?template=language_request.yml)
-template.
-
-**Contribute or update a translation** — two helper tools are available in the `tools/` directory:
-
-- `tools/translations-editor.html` — browser-based editor for reviewing and editing translation
-  strings side-by-side.
-- `tools/translate.py` — script that uses the [DeepL API](https://developers.deepl.com/api-reference/translate) to
-  auto-translate missing strings. Run `python tools/translate.py --help` for usage.
-
-After updating translations, open a pull request as described above.
+template, or request the language directly on Weblate.
 
 ---
 

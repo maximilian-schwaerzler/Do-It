@@ -29,10 +29,8 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
     - Tamil
     - Turkish
     - Chinese (simplified), thank you, Emily, for proofreading!
-    - Add
-      an [issue](https://github.com/maximilian-schwaerzler/Do-It/issues/new?template=language_request.yml)
-      or a [pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls) to request or add
-      your language!
+    - Want to add your language? Contribute on [Weblate](https://weblate.maximilian.schwaerzler.co.at/engage/do-it/) or open
+      an [issue](https://github.com/maximilian-schwaerzler/Do-It/issues/new?template=language_request.yml)!
 
 ## Tech Stack
 
@@ -56,12 +54,13 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 
 ## App translation
 
-Translating the app and descriptions into as many languages as possible is one of my goals.
-Currently, most strings are machine-translated using a [custom script](/tools/translate.py) using
-the DeepL API. I try to check the translations for English and German, as I am native in those. If
-you see some strings in your language that don't make sense at all, or you have an idea
-for a better translation, please don't be shy and open a 
-[pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls) to improve them. **Thank you
+Translating the app into as many languages as possible is one of my goals. Translations are managed
+on [Weblate](https://weblate.maximilian.schwaerzler.co.at/engage/do-it/) — the easiest way to
+contribute is to sign up there and suggest or improve strings directly in your browser. No Git
+knowledge required!
+
+If you spot a translation that doesn't make sense, please don't be shy — open a translation on
+Weblate or a [pull request](https://github.com/maximilian-schwaerzler/Do-It/pulls). **Thank you
 very much!**
 
 ## Installation
