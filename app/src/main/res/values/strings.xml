@@ -71,4 +71,5 @@
     <string name="do_not_ask_again_dialog">Don\'t ask again</string>
     <string name="add_widget_dialog">Add widget</string>
     <string name="add_widget_dialog_text">Would you like to add a widget with an overview of all your open tasks to your home screen?</string>
+    <string name="permission_granted">Notification permission granted</string>
 </resources>

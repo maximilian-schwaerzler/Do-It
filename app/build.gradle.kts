@@ -114,6 +114,7 @@ androidComponents {
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.accompanist.permissions)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
