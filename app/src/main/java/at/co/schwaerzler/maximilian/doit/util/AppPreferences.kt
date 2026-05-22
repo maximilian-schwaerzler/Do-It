@@ -64,6 +64,10 @@ suspend fun DataStore<Preferences>.doNotShowNotificationDialogAgain() {
     edit { it[AppPreferenceKeys.DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] = true }
 }
 
+suspend fun DataStore<Preferences>.resetDoNotShowNotificationDialog() {
+    edit { it.remove(AppPreferenceKeys.DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG) }
+}
+
 fun DataStore<Preferences>.doNotShowNotificationDialogAgainFlow(): Flow<Boolean> =
     data.map { preferences ->
         preferences[AppPreferenceKeys.DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] ?: false

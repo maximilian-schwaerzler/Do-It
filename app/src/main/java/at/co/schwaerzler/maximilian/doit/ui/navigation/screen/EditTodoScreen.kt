@@ -77,6 +77,7 @@ import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.util.doNotShowNotificationDialogAgain
 import at.co.schwaerzler.maximilian.doit.util.doNotShowNotificationDialogAgainFlow
+import at.co.schwaerzler.maximilian.doit.util.resetDoNotShowNotificationDialog
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
@@ -164,15 +165,28 @@ fun EditTodoScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
+    LaunchedEffect(notificationPermissionState.status.isGranted) {
+        if (notificationPermissionState.status.isGranted) {
+            appPreferences.resetDoNotShowNotificationDialog()
+            if (showNotificationPermissionDialog) {
+                showNotificationPermissionDialog = false
+                navigateBack()
+            }
+        }
+    }
+
     if (showNotificationPermissionDialog) {
         NotificationPermissionDialog(
             notificationPermissionState,
-            onDismissRequest = { showNotificationPermissionDialog = false },
+            onDismissRequest = {
+                showNotificationPermissionDialog = false
+                navigateBack()
+            },
             onDoNotShowAgain = {
                 coroutineScope.launch {
                     appPreferences.doNotShowNotificationDialogAgain()
-                }.invokeOnCompletion {
                     showNotificationPermissionDialog = false
+                    navigateBack()
                 }
             }
         )
@@ -185,12 +199,12 @@ fun EditTodoScreen(
         onDescriptionChange = { viewModel.updateDescription(it) },
         onDeadlineChange = { viewModel.updateDeadline(it) },
         onSave = {
-            if (uiState.deadline != null && !doNotShowNotificationDialog && !notificationPermissionState.status.isGranted) {
-                showNotificationPermissionDialog = true
-            }
-
-            if (!showNotificationPermissionDialog && viewModel.saveTodo(todoId)) {
-                navigateBack()
+            if (viewModel.saveTodo(todoId)) {
+                if (uiState.deadline != null && !doNotShowNotificationDialog && !notificationPermissionState.status.isGranted) {
+                    showNotificationPermissionDialog = true
+                } else {
+                    navigateBack()
+                }
             }
         },
         onCancel = {
