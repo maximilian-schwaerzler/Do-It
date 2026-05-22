@@ -55,10 +55,10 @@ fun NotificationPermissionDialog(
             },
             modifier = modifier,
             text = {
-                Text("To show you a notification when the deadline is near, we need your permission.")
+                Text(stringResource(R.string.notification_permission_dialog_text))
             },
             title = {
-                Text("Notification permission")
+                Text(stringResource(R.string.notification_permission_dialog_title))
             },
             dismissButton = {
                 TextButton(onClick = onDoNotShowAgain) {

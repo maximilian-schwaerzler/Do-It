@@ -72,4 +72,6 @@
     <string name="add_widget_dialog">Add widget</string>
     <string name="add_widget_dialog_text">Would you like to add a widget with an overview of all your open tasks to your home screen?</string>
     <string name="permission_granted">Notification permission granted</string>
+    <string name="notification_permission_dialog_text">To show you a notification when the deadline is near, we need your permission.</string>
+    <string name="notification_permission_dialog_title">Notification permission</string>
 </resources>
