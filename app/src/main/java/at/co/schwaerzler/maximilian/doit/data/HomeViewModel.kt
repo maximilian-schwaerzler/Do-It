@@ -26,6 +26,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
+import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import at.co.schwaerzler.maximilian.doit.util.incrementTodosDoneCount
 import kotlinx.coroutines.flow.combine
@@ -74,7 +75,7 @@ class HomeViewModel(
                 val app = this[APPLICATION_KEY] as DoItApplication
                 HomeViewModel(
                     repository = app.repository,
-                    appPreferences = app.appPreferences
+                    appPreferences = app.appPreferencesDataStore
                 )
             }
         }

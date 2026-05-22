@@ -63,7 +63,6 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.OverviewWidget
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.HomeViewModel
@@ -73,6 +72,7 @@ import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.component.TodoListItem
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
+import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.util.doNotShowWidgetDialogAgain
 import at.co.schwaerzler.maximilian.doit.util.doNotShowWidgetDialogAgainFlow
 import at.co.schwaerzler.maximilian.doit.util.todosDoneCountFlow
@@ -157,9 +157,7 @@ private fun HomeScreenContent(
     var showWidgetPinIncentiveDialog by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
-    val appPreferences = remember {
-        (context.applicationContext as DoItApplication).appPreferences
-    }
+    val appPreferences = remember { context.appPreferencesDataStore }
     val doNotShowWidgetPinDialog by remember { appPreferences.doNotShowWidgetDialogAgainFlow() }.collectAsStateWithLifecycle(
         false
     )

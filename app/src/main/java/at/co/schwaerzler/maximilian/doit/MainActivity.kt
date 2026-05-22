@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import at.co.schwaerzler.maximilian.doit.ui.navigation.AppNavigation
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
+import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.util.themeFlow
 
 class MainActivity : AppCompatActivity() {
@@ -34,10 +35,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val appPreferences =
-                remember { (this.applicationContext as DoItApplication).appPreferences }
-            val currentThemeMode by remember { appPreferences.themeFlow() }
-                .collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
+            val currentThemeMode by remember {
+                applicationContext.appPreferencesDataStore.themeFlow()
+            }.collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
             DoItTheme(
                 darkTheme = when (currentThemeMode) {
                     AppThemeMode.LIGHT -> false

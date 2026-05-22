@@ -55,10 +55,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
+import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.util.openUrl
 import at.co.schwaerzler.maximilian.doit.util.setTheme
 import at.co.schwaerzler.maximilian.doit.util.themeFlow
@@ -117,7 +117,7 @@ fun SettingsScreenContent(
         }
     }
 
-    val appPreferences = remember { (context.applicationContext as DoItApplication).appPreferences }
+    val appPreferences = remember { context.appPreferencesDataStore }
     val currentThemeMode by remember { appPreferences.themeFlow() }
         .collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
     val coroutineScope = rememberCoroutineScope()
