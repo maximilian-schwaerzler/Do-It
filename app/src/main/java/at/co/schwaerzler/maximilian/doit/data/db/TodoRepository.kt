@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package at.co.schwaerzler.maximilian.doit.data
+package at.co.schwaerzler.maximilian.doit.data.db
 
 import android.content.Context
 import androidx.glance.appwidget.updateAll

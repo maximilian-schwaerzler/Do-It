@@ -19,7 +19,7 @@ package at.co.schwaerzler.maximilian.doit
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import at.co.schwaerzler.maximilian.doit.data.TodoRepository
+import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 
 /** Application subclass that lazily initializes the Room database singleton. */
