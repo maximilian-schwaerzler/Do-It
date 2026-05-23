@@ -17,12 +17,14 @@
 package at.co.schwaerzler.maximilian.doit.data.db
 
 import android.content.Context
+import android.util.Log
 import androidx.glance.appwidget.updateAll
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import at.co.schwaerzler.maximilian.doit.OverviewWidget
+import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.DeadlineNotificationWorker
 import at.co.schwaerzler.maximilian.doit.data.db.dao.TodoDao
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
@@ -69,7 +71,7 @@ class TodoRepository(
                     todo.id.toLong(),
                     deadline
                 )
-            } ?: workManager.cancelUniqueWork("deadline_${todo.id}")
+            } ?: deleteDeadlineNotificationSchedule(todo.id.toLong())
         }
     }
 
@@ -77,7 +79,7 @@ class TodoRepository(
         dao.delete(todo)
         withContext(NonCancellable) {
             OverviewWidget().updateAll(appContext)
-            workManager.cancelUniqueWork("deadline_${todo.id}")
+            deleteDeadlineNotificationSchedule(todo.id.toLong())
         }
     }
 
@@ -85,7 +87,11 @@ class TodoRepository(
         dao.updateState(todoId, state)
         withContext(NonCancellable) {
             OverviewWidget().updateAll(appContext)
-            workManager.cancelUniqueWork("deadline_$todoId")
+            if (state == TodoState.DONE) {
+                deleteDeadlineNotificationSchedule(todoId.toLong())
+            } else {
+                scheduleDeadlineNotification(todoId.toLong())
+            }
         }
     }
 
@@ -94,24 +100,50 @@ class TodoRepository(
         withContext(NonCancellable) {
             OverviewWidget().updateAll(appContext)
             ids.forEach { todoId ->
-                workManager.cancelUniqueWork("deadline_$todoId")
+                deleteDeadlineNotificationSchedule(todoId.toLong())
             }
         }
     }
 
+    private fun deleteDeadlineNotificationSchedule(todoId: Long) {
+        Log.d("DeadlineNotification", "Removed notification for todo $todoId")
+        workManager.cancelUniqueWork(
+            appContext.getString(
+                R.string.deadline_notification_unique_work_name_template,
+                todoId
+            ))
+    }
+
+    private suspend fun scheduleDeadlineNotification(todoId: Long) {
+        val todo = getById(todoId.toInt()) ?: throw IllegalStateException("Todo not found")
+
+        todo.deadlineDateTime?.let {
+            scheduleDeadlineNotification(todoId, it)
+        } ?: return
+    }
+
     private fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
-        val delay = (deadline - Clock.System.now()) - 30.minutes
+        val leadTime = appContext.resources.getInteger(R.integer.deadline_notification_lead_time_minutes).minutes
+        val delay = (deadline - Clock.System.now()) - leadTime
         if (delay.isNegative()) return
 
         val request = OneTimeWorkRequestBuilder<DeadlineNotificationWorker>()
             .setInitialDelay(delay.toJavaDuration())
-            .setInputData(workDataOf("todo_id" to todoId))
+            .setInputData(workDataOf(appContext.getString(R.string.deadline_notfication_worker_todo_id_input_data) to todoId))
             .build()
 
         workManager.enqueueUniqueWork(
-            "deadline_$todoId",
+            appContext.getString(
+                R.string.deadline_notification_unique_work_name_template,
+                todoId
+            ),
             ExistingWorkPolicy.REPLACE,
             request
+        )
+
+        Log.d(
+            "DeadlineNotification",
+            "Added notification for todo $todoId at ${deadline - leadTime}"
         )
     }
 }

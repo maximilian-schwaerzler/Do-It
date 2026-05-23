@@ -77,4 +77,7 @@
     <string name="todo_deadline_notif_channel_name">TODO Deadline</string>
     <string name="todo_deadline_notif_channel_description">Notifications on deadlines of TODOs</string>
     <string name="todo_deadline_notif_channel_id" translatable="false">deadline-notifications</string>
+    <string name="deadline_notification_unique_work_name_template" translatable="false">deadline_%1$d</string>
+    <string name="deadline_notfication_worker_todo_id_input_data">todo_id</string>
+    <string name="deadline_notification_content_text">Your TODO \'%1$s\' is due in %2$d minutes</string>
 </resources>
