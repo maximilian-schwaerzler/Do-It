@@ -50,7 +50,7 @@ class HomeViewModel(
     val todos = repository.getAllSummaries().map { all ->
         val open = all
             .filter { it.state == TodoState.OPEN }
-            .sortedWith(compareBy(nullsLast(naturalOrder<Instant>())) { it.deadlineDateTime })
+            .sortedWith(compareBy(nullsLast(naturalOrder())) { it.deadlineDateTime })
         val done = all
             .filter { it.state == TodoState.DONE }
             .sortedByDescending { it.creationDateTime }
