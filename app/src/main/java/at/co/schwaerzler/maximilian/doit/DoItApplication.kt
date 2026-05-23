@@ -17,6 +17,8 @@
 package at.co.schwaerzler.maximilian.doit
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import at.co.schwaerzler.maximilian.doit.data.TodoRepository
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 
@@ -28,5 +30,20 @@ class DoItApplication : Application() {
 
     val repository: TodoRepository by lazy {
         TodoRepository(applicationContext, database.todoDao())
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        setupNotificationChannel()
+    }
+
+    fun setupNotificationChannel() {
+        val name = getString(R.string.todo_deadline_notif_channel_name)
+        val descriptionText = getString(R.string.todo_deadline_notif_channel_description)
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val mChannel = NotificationChannel(getString(R.string.todo_deadline_notif_channel_id), name, importance)
+        mChannel.description = descriptionText
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(mChannel)
     }
 }

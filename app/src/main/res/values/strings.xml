@@ -74,4 +74,7 @@
     <string name="permission_granted">Notification permission granted</string>
     <string name="notification_permission_dialog_text">To show you a notification when the deadline is near, we need your permission.</string>
     <string name="notification_permission_dialog_title">Notification permission</string>
+    <string name="todo_deadline_notif_channel_name">TODO Deadline</string>
+    <string name="todo_deadline_notif_channel_description">Notifications on deadlines of TODOs</string>
+    <string name="todo_deadline_notif_channel_id" translatable="false">deadline-notifications</string>
 </resources>
