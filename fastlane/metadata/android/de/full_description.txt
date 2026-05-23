@@ -9,6 +9,8 @@ Do-It ist eine übersichtliche, ablenkungsfreie To-Do-App, die dir hilft, den Ü
 - Überfällige Aufgaben werden hervorgehoben, damit nichts übersehen wird
 - Startbildschirm-Widget, um deine offenen Aufgaben auf einen Blick zu sehen
 - Startbildschirm-Verknüpfung, um sofort eine neue Aufgabe zu erstellen
+- Benachrichtigungen für Aufgabenfristen, um nichts mehr zu verpassen
+- Wähle aus, wie lang im Voraus du über eine Frist benachrichtigt werden willst
 - Auswahl des Designs in der App (hell, dunkel oder Systemstandard)
 - Sprachauswahl in der App
 - Motivierende Meldungen bei leerer Liste oder wenn alles erledigt ist
