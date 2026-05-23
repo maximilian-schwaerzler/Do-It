@@ -18,7 +18,8 @@ package at.co.schwaerzler.maximilian.doit.data.db
 
 import android.content.Context
 import android.util.Log
-import androidx.core.app.NotificationManagerCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.glance.appwidget.updateAll
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
@@ -31,17 +32,19 @@ import at.co.schwaerzler.maximilian.doit.data.db.dao.TodoDao
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
+import at.co.schwaerzler.maximilian.doit.util.notificationLeadTimeFlow
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlin.time.Clock
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Instant
 import kotlin.time.toJavaDuration
 
 class TodoRepository(
     private val appContext: Context,
-    private val dao: TodoDao
+    private val dao: TodoDao,
+    private val appPreferences: DataStore<Preferences>
 ) {
     private val workManager = WorkManager.getInstance(appContext)
 
@@ -125,14 +128,8 @@ class TodoRepository(
         } ?: return
     }
 
-    private fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
-        if (!NotificationManagerCompat.from(appContext).areNotificationsEnabled()) {
-            Log.d("DeadlineNotification", "Skipping notification for todo $todoId: permission not granted")
-            return
-        }
-
-        val leadTime =
-            appContext.resources.getInteger(R.integer.deadline_notification_lead_time_minutes).minutes
+    private suspend fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
+        val leadTime = appPreferences.notificationLeadTimeFlow().first().duration
         val delay = (deadline - Clock.System.now()) - leadTime
         if (delay.isNegative()) return
 

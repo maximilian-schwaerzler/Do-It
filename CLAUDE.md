@@ -46,6 +46,7 @@ Current source files:
 - `OverviewWidget.kt` — home-screen glance widget showing open todos
 - `data/HomeViewModel.kt` — ViewModel for home screen; exposes open/done todo lists via `Flow`
 - `data/EditTodoViewModel.kt` — ViewModel for add/edit screen; manages form state and `isModified` flag
+- `data/SettingsViewModel.kt` — ViewModel for settings screen; owns theme mode, locale, and version-name state
 - `data/DeadlineNotificationWorker.kt` — `WorkManager` worker that fires deadline reminder notifications
 - `data/OverviewWidgetReceiver.kt` — `GlanceAppWidgetReceiver` for the overview widget
 - `data/db/TodoDatabase.kt` — Room database (singleton via `getDatabase`)
@@ -62,8 +63,9 @@ Current source files:
 - `ui/navigation/screen/HomeScreen.kt` — todo list screen
 - `ui/navigation/screen/EditTodoScreen.kt` — add/edit screen, reused for both modes via nullable `todoId`
 - `ui/navigation/screen/SettingsScreen.kt` — settings screen (app version, GitHub, F-Droid links)
-- `util/AppPreferences.kt` — `DataStore` wrapper for user preferences (e.g. theme)
+- `util/AppPreferences.kt` — `DataStore` wrapper for user preferences (e.g. theme, notification lead time)
 - `util/IntentUtils.kt` — extension to open URLs via `Intent`
+- `util/NotificationLeadTime.kt` — enum for the four selectable notification lead-time options
 - `util/ThemeUtils.kt` — helpers for mapping preference values to Material3 theme config
 
 ## Architecture Notes

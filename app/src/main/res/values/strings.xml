@@ -78,6 +78,11 @@
     <string name="todo_deadline_notif_channel_id" translatable="false">deadline-notifications</string>
     <string name="deadline_notification_unique_work_name_template" translatable="false">deadline_%1$d</string>
     <string name="deadline_notification_worker_todo_id_input_data" translatable="false">todo_id</string>
-    <string name="deadline_notification_content_text">Your TODO \'%1$s\' is due in %2$d minutes</string>
+    <string name="deadline_notification_content_text">Your TODO \'%1$s\' is due in %2$s</string>
     <string name="deadline_notification_content_title">TODO Deadline approaching</string>
+    <string name="settings_notif_lead_time">Notification lead time</string>
+    <string name="notif_lead_time_5_minutes">5 minutes</string>
+    <string name="notif_lead_time_30_minutes">30 minutes</string>
+    <string name="notif_lead_time_2_hours">2 hours</string>
+    <string name="notif_lead_time_1_day">1 day</string>
 </resources>
