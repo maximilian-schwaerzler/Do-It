@@ -43,21 +43,28 @@ Single-module project (`:app`). Package root: `at.co.schwaerzler.maximilian.doit
 Current source files:
 - `DoItApplication.kt` — custom `Application` subclass, lazily initializes the Room database
 - `MainActivity.kt` — single `ComponentActivity` entry point, sets Compose content
+- `OverviewWidget.kt` — home-screen glance widget showing open todos
 - `data/HomeViewModel.kt` — ViewModel for home screen; exposes open/done todo lists via `Flow`
 - `data/EditTodoViewModel.kt` — ViewModel for add/edit screen; manages form state and `isModified` flag
+- `data/DeadlineNotificationWorker.kt` — `WorkManager` worker that fires deadline reminder notifications
+- `data/OverviewWidgetReceiver.kt` — `GlanceAppWidgetReceiver` for the overview widget
 - `data/db/TodoDatabase.kt` — Room database (singleton via `getDatabase`)
+- `data/db/TodoRepository.kt` — repository layer wrapping `TodoDao`
 - `data/db/dao/TodoDao.kt` — Room DAO with CRUD and state-update queries
 - `data/db/entity/Todo.kt` — `@Entity` with `TodoState` enum (`OPEN`, `IN_PROGRESS`, `DONE`)
 - `data/db/entity/TodoSummary.kt` — lightweight projection used in list views
 - `data/db/Converters.kt` — Room `TypeConverter` for `kotlin.time.Instant`
 - `ui/theme/` — `Color.kt`, `Theme.kt` (Material3 theme)
 - `ui/component/MaxWidthLayout.kt` — layout helper that constrains width on large screens
+- `ui/component/NotificationPermissionDialog.kt` — rationale dialog for POST_NOTIFICATIONS permission
 - `ui/component/TodoListItem.kt` — reusable list item composable
 - `ui/navigation/AppNavigation.kt` — `NavHost` with all type-safe routes
 - `ui/navigation/screen/HomeScreen.kt` — todo list screen
 - `ui/navigation/screen/EditTodoScreen.kt` — add/edit screen, reused for both modes via nullable `todoId`
 - `ui/navigation/screen/SettingsScreen.kt` — settings screen (app version, GitHub, F-Droid links)
+- `util/AppPreferences.kt` — `DataStore` wrapper for user preferences (e.g. theme)
 - `util/IntentUtils.kt` — extension to open URLs via `Intent`
+- `util/ThemeUtils.kt` — helpers for mapping preference values to Material3 theme config
 
 ## Architecture Notes
 

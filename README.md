@@ -97,33 +97,40 @@ Single-module project (`:app`). Package root: `at.co.schwaerzler.maximilian.doit
 
 ```text
 app/src/main/java/at/co/schwaerzler/maximilian/doit/
-├── MainActivity.kt
 ├── DoItApplication.kt
+├── MainActivity.kt
+├── OverviewWidget.kt
 ├── data/
-│   ├── HomeViewModel.kt
+│   ├── DeadlineNotificationWorker.kt
 │   ├── EditTodoViewModel.kt
+│   ├── HomeViewModel.kt
+│   ├── OverviewWidgetReceiver.kt
 │   └── db/
-│       ├── TodoDatabase.kt
 │       ├── Converters.kt
+│       ├── TodoDatabase.kt
+│       ├── TodoRepository.kt
 │       ├── dao/TodoDao.kt
 │       └── entity/
 │           ├── Todo.kt
 │           └── TodoSummary.kt
-└── ui/
-    ├── navigation/
-    │   ├── AppNavigation.kt
-    │   └── screen/
-    │       ├── HomeScreen.kt
-    │       ├── EditTodoScreen.kt
-    │       └── SettingsScreen.kt
-    ├── component/
-    │   ├── MaxWidthLayout.kt
-    │   └── TodoListItem.kt
-    └── theme/
-        ├── Color.kt
-        └── Theme.kt
+├── ui/
+│   ├── component/
+│   │   ├── MaxWidthLayout.kt
+│   │   ├── NotificationPermissionDialog.kt
+│   │   └── TodoListItem.kt
+│   ├── navigation/
+│   │   ├── AppNavigation.kt
+│   │   └── screen/
+│   │       ├── EditTodoScreen.kt
+│   │       ├── HomeScreen.kt
+│   │       └── SettingsScreen.kt
+│   └── theme/
+│       ├── Color.kt
+│       └── Theme.kt
 └── util/
-    └── IntentUtils.kt
+    ├── AppPreferences.kt
+    ├── IntentUtils.kt
+    └── ThemeUtils.kt
 ```
 
 ## Architecture
