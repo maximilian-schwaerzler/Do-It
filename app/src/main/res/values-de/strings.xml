@@ -66,4 +66,16 @@
     <string name="do_not_ask_again_dialog">Nicht nochmal fragen</string>
     <string name="add_widget_dialog">Widget hinzufügen</string>
     <string name="add_widget_dialog_text">Möchten Sie ein Widget mit einer Übersicht über alle Ihre offenen Aufgaben auf Ihrem Startbildschirm hinzufügen?</string>
+    <string name="permission_granted">Benachrichtigungen erlaubt</string>
+    <string name="notification_permission_dialog_text">Wir brauchen Ihre Erlaubnis, um Ihnen eine Benachrichtigung zu schicken, bevor die Frist abläuft.</string>
+    <string name="notification_permission_dialog_title">Benachrichtigungserlaubnis</string>
+    <string name="todo_deadline_notif_channel_name">Aufgabenfrist</string>
+    <string name="todo_deadline_notif_channel_description">Fristbenachrichtigungen von Aufgaben</string>
+    <string name="deadline_notification_content_text">Ihre Aufgabe \'%1$s\' ist in %2$s fällig</string>
+    <string name="deadline_notification_content_title">Baldige Aufgabenfrist</string>
+    <string name="settings_notif_lead_time">Vorlaufzeit für Benachrichtigungen</string>
+    <string name="notif_lead_time_5_minutes">5 Minuten</string>
+    <string name="notif_lead_time_30_minutes">30 Minuten</string>
+    <string name="notif_lead_time_2_hours">2 Stunden</string>
+    <string name="notif_lead_time_1_day">1 Tag</string>
 </resources>
