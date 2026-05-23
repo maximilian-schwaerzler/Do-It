@@ -18,7 +18,6 @@ package at.co.schwaerzler.maximilian.doit.data.db
 
 import android.content.Context
 import android.util.Log
-import androidx.core.app.NotificationManagerCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.glance.appwidget.updateAll
@@ -130,11 +129,6 @@ class TodoRepository(
     }
 
     private suspend fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
-        if (!NotificationManagerCompat.from(appContext).areNotificationsEnabled()) {
-            Log.d("DeadlineNotification", "Skipping notification for todo $todoId: permission not granted")
-            return
-        }
-
         val leadTime = appPreferences.notificationLeadTimeFlow().first().duration
         val delay = (deadline - Clock.System.now()) - leadTime
         if (delay.isNegative()) return
