@@ -1,0 +1,4 @@
+- Get notified before a todo's deadline is due
+- Choose how far in advance you receive deadline reminders in Settings
+- You'll now be prompted to add the home screen widget after completing your first todo
+- Various bug fixes and improvements
