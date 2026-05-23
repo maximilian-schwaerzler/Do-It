@@ -55,8 +55,9 @@ import androidx.glance.preview.ExperimentalGlancePreviewApi
 import androidx.glance.preview.Preview
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
+import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
+import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import kotlin.time.Clock
@@ -72,7 +73,8 @@ class OverviewWidget : GlanceAppWidget() {
                 val repo = remember {
                     TodoRepository(
                         context,
-                        TodoDatabase.getDatabase(context).todoDao()
+                        TodoDatabase.getDatabase(context).todoDao(),
+                        context.appPreferencesDataStore
                     )
                 }
                 val todos by repo.getOpenSummaries().collectAsState(emptyList())

@@ -23,14 +23,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -56,6 +62,7 @@ import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.SettingsViewModel
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
+import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
 import at.co.schwaerzler.maximilian.doit.util.openUrl
 import java.util.Locale
 
@@ -82,6 +89,8 @@ fun SettingsScreen(
 ) {
     val themeMode by viewModel.themeMode.collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
     val currentLocaleTag by viewModel.currentLocaleTag.collectAsStateWithLifecycle()
+    val notificationLeadTime by viewModel.notificationLeadTime
+        .collectAsStateWithLifecycle(NotificationLeadTime.THIRTY_MINUTES)
     SettingsScreenContent(
         onNavigateBack = onNavigateBack,
         themeMode = themeMode,
@@ -90,6 +99,8 @@ fun SettingsScreen(
         currentLocaleTag = currentLocaleTag,
         supportedLocales = viewModel.supportedLocales,
         onSetLanguage = viewModel::setLanguage,
+        notificationLeadTime = notificationLeadTime,
+        onSetNotificationLeadTime = viewModel::setNotificationLeadTime,
         modifier = modifier
     )
 }
@@ -104,6 +115,8 @@ fun SettingsScreenContent(
     currentLocaleTag: String,
     supportedLocales: List<Pair<String, String>>,
     onSetLanguage: (String) -> Unit,
+    notificationLeadTime: NotificationLeadTime,
+    onSetNotificationLeadTime: (NotificationLeadTime) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -113,6 +126,7 @@ fun SettingsScreenContent(
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showThemeDialog by remember { mutableStateOf(false) }
+    var notifLeadTimeExpanded by remember { mutableStateOf(false) }
 
     val currentLanguageDisplay = if (currentLocaleTag.isEmpty()) {
         stringResource(R.string.settings_language_system_default)
@@ -167,6 +181,48 @@ fun SettingsScreenContent(
                     Icon(painterResource(R.drawable.language_24px), contentDescription = null)
                 },
                 modifier = Modifier.clickable { showLanguageDialog = true }
+            )
+            ListItem(
+                headlineContent = {
+                    Text(stringResource(R.string.settings_notif_lead_time))
+                },
+                leadingContent = {
+                    Icon(painterResource(R.drawable.event_24px), contentDescription = null)
+                },
+                trailingContent = {
+                    ExposedDropdownMenuBox(
+                        expanded = notifLeadTimeExpanded,
+                        onExpandedChange = { notifLeadTimeExpanded = it }
+                    ) {
+                        OutlinedTextField(
+                            value = stringResource(notificationLeadTime.labelRes),
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = notifLeadTimeExpanded)
+                            },
+                            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                            modifier = Modifier
+                                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                                .width(150.dp),
+                        )
+                        ExposedDropdownMenu(
+                            expanded = notifLeadTimeExpanded,
+                            onDismissRequest = { notifLeadTimeExpanded = false }
+                        ) {
+                            NotificationLeadTime.entries.forEach { option ->
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(option.labelRes)) },
+                                    onClick = {
+                                        onSetNotificationLeadTime(option)
+                                        notifLeadTimeExpanded = false
+                                    },
+                                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                                )
+                            }
+                        }
+                    }
+                }
             )
             SettingsSectionHeader(stringResource(R.string.settings_section_about))
             ListItem(
@@ -346,7 +402,9 @@ private fun SettingsScreenPreview() {
             versionName = "1.0.0",
             currentLocaleTag = "",
             supportedLocales = emptyList(),
-            onSetLanguage = {}
+            onSetLanguage = {},
+            notificationLeadTime = NotificationLeadTime.THIRTY_MINUTES,
+            onSetNotificationLeadTime = {}
         )
     }
 }
@@ -363,7 +421,9 @@ private fun SettingsScreenDarkPreview() {
                 versionName = "1.0.0",
                 currentLocaleTag = "",
                 supportedLocales = emptyList(),
-                onSetLanguage = {}
+                onSetLanguage = {},
+                notificationLeadTime = NotificationLeadTime.THIRTY_MINUTES,
+                onSetNotificationLeadTime = {}
             )
         }
     }

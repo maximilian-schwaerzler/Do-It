@@ -63,8 +63,9 @@ Current source files:
 - `ui/navigation/screen/HomeScreen.kt` — todo list screen
 - `ui/navigation/screen/EditTodoScreen.kt` — add/edit screen, reused for both modes via nullable `todoId`
 - `ui/navigation/screen/SettingsScreen.kt` — settings screen (app version, GitHub, F-Droid links)
-- `util/AppPreferences.kt` — `DataStore` wrapper for user preferences (e.g. theme)
+- `util/AppPreferences.kt` — `DataStore` wrapper for user preferences (e.g. theme, notification lead time)
 - `util/IntentUtils.kt` — extension to open URLs via `Intent`
+- `util/NotificationLeadTime.kt` — enum for the four selectable notification lead-time options
 - `util/ThemeUtils.kt` — helpers for mapping preference values to Material3 theme config
 
 ## Architecture Notes

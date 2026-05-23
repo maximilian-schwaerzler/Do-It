@@ -30,7 +30,10 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
+import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
 import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
+import at.co.schwaerzler.maximilian.doit.util.notificationLeadTimeFlow
+import at.co.schwaerzler.maximilian.doit.util.setNotificationLeadTime
 import at.co.schwaerzler.maximilian.doit.util.setTheme
 import at.co.schwaerzler.maximilian.doit.util.themeFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +49,8 @@ class SettingsViewModel(
 ) : ViewModel() {
 
     val themeMode = appPreferences.themeFlow()
+
+    val notificationLeadTime = appPreferences.notificationLeadTimeFlow()
 
     val versionName: String? =
         application.packageManager.getPackageInfo(application.packageName, 0).versionName
@@ -65,6 +70,12 @@ class SettingsViewModel(
     fun setTheme(mode: AppThemeMode) {
         viewModelScope.launch {
             appPreferences.setTheme(mode)
+        }
+    }
+
+    fun setNotificationLeadTime(leadTime: NotificationLeadTime) {
+        viewModelScope.launch {
+            appPreferences.setNotificationLeadTime(leadTime)
         }
     }
 
