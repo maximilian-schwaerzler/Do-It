@@ -30,8 +30,9 @@ import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import at.co.schwaerzler.maximilian.doit.util.incrementTodosDoneCount
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlin.time.Instant
 
 /** ViewModel for the home screen, exposing the todo lists and bulk-action operations. */
 class HomeViewModel(
@@ -39,14 +40,22 @@ class HomeViewModel(
     private val appPreferences: DataStore<Preferences>
 ) : ViewModel() {
     /**
-     * Combined flow of open and done [TodoSummary] lists.
+     * Flow of open and done [TodoSummary] lists derived from a single Room query.
      *
-     * Emits a new [Pair] whenever either list changes.
+     * Using one query instead of combining two separate flows avoids a race condition where
+     * [kotlinx.coroutines.flow.combine] could pair a stale emission from one flow with a fresh
+     * emission from the other, momentarily placing the same todo id in both lists and crashing
+     * the [androidx.compose.foundation.lazy.LazyColumn] that uses id as a key.
      */
-    val todos = combine(
-        repository.getOpenSummaries(),
-        repository.getDoneSummaries()
-    ) { open, done -> Pair(open, done) }
+    val todos = repository.getAllSummaries().map { all ->
+        val open = all
+            .filter { it.state == TodoState.OPEN }
+            .sortedWith(compareBy(nullsLast(naturalOrder())) { it.deadlineDateTime })
+        val done = all
+            .filter { it.state == TodoState.DONE }
+            .sortedByDescending { it.creationDateTime }
+        Pair(open, done)
+    }
 
     /**
      * Toggles [todo] between [TodoState.OPEN] and [TodoState.DONE].

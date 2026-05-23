@@ -47,6 +47,7 @@ class TodoRepository(
 
     fun getOpenSummaries(): Flow<List<TodoSummary>> = dao.getOpenSummaries()
     fun getDoneSummaries(): Flow<List<TodoSummary>> = dao.getDoneSummaries()
+    fun getAllSummaries(): Flow<List<TodoSummary>> = dao.getAllSummaries()
 
     suspend fun getById(id: Int): Todo? = dao.getById(id)
 
