@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -186,13 +185,11 @@ fun SettingsScreenContent(
                 headlineContent = {
                     Text(stringResource(R.string.settings_notif_lead_time))
                 },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.event_24px), contentDescription = null)
-                },
-                trailingContent = {
+                supportingContent = {
                     ExposedDropdownMenuBox(
                         expanded = notifLeadTimeExpanded,
-                        onExpandedChange = { notifLeadTimeExpanded = it }
+                        onExpandedChange = { notifLeadTimeExpanded = it },
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         OutlinedTextField(
                             value = stringResource(notificationLeadTime.labelRes),
@@ -204,7 +201,7 @@ fun SettingsScreenContent(
                             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
                             modifier = Modifier
                                 .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
-                                .width(150.dp),
+                                .fillMaxWidth(),
                         )
                         ExposedDropdownMenu(
                             expanded = notifLeadTimeExpanded,
@@ -222,6 +219,9 @@ fun SettingsScreenContent(
                             }
                         }
                     }
+                },
+                leadingContent = {
+                    Icon(painterResource(R.drawable.event_24px), contentDescription = null)
                 }
             )
             SettingsSectionHeader(stringResource(R.string.settings_section_about))
