@@ -65,7 +65,7 @@ interface TodoDao {
     suspend fun updateState(id: Int, state: TodoState)
 
     @Insert
-    suspend fun insert(todo: Todo)
+    suspend fun insert(todo: Todo): Long
 
     @Update
     suspend fun update(todo: Todo)

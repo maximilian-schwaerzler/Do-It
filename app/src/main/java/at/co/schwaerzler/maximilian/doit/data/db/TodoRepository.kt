@@ -18,7 +18,12 @@ package at.co.schwaerzler.maximilian.doit.data.db
 
 import android.content.Context
 import androidx.glance.appwidget.updateAll
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import at.co.schwaerzler.maximilian.doit.OverviewWidget
+import at.co.schwaerzler.maximilian.doit.data.DeadlineNotificationWorker
 import at.co.schwaerzler.maximilian.doit.data.db.dao.TodoDao
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
@@ -26,38 +31,87 @@ import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Instant
+import kotlin.time.toJavaDuration
 
 class TodoRepository(
     private val appContext: Context,
     private val dao: TodoDao
 ) {
+    private val workManager = WorkManager.getInstance(appContext)
+
     fun getOpenSummaries(): Flow<List<TodoSummary>> = dao.getOpenSummaries()
     fun getDoneSummaries(): Flow<List<TodoSummary>> = dao.getDoneSummaries()
 
     suspend fun getById(id: Int): Todo? = dao.getById(id)
 
     suspend fun insert(todo: Todo) {
-        dao.insert(todo)
-        withContext(NonCancellable) { OverviewWidget().updateAll(appContext) }
+        val todoId = dao.insert(todo)
+        withContext(NonCancellable) {
+            OverviewWidget().updateAll(appContext)
+            todo.deadlineDateTime?.let { deadline ->
+                scheduleDeadlineNotification(
+                    todoId,
+                    deadline
+                )
+            }
+        }
     }
 
     suspend fun update(todo: Todo) {
         dao.update(todo)
-        withContext(NonCancellable) { OverviewWidget().updateAll(appContext) }
+        withContext(NonCancellable) {
+            OverviewWidget().updateAll(appContext)
+            todo.deadlineDateTime?.let { deadline ->
+                scheduleDeadlineNotification(
+                    todo.id.toLong(),
+                    deadline
+                )
+            } ?: workManager.cancelUniqueWork("deadline_${todo.id}")
+        }
     }
 
     suspend fun delete(todo: Todo) {
         dao.delete(todo)
-        withContext(NonCancellable) { OverviewWidget().updateAll(appContext) }
+        withContext(NonCancellable) {
+            OverviewWidget().updateAll(appContext)
+            workManager.cancelUniqueWork("deadline_${todo.id}")
+        }
     }
 
-    suspend fun updateState(id: Int, state: TodoState) {
-        dao.updateState(id, state)
-        withContext(NonCancellable) { OverviewWidget().updateAll(appContext) }
+    suspend fun updateState(todoId: Int, state: TodoState) {
+        dao.updateState(todoId, state)
+        withContext(NonCancellable) {
+            OverviewWidget().updateAll(appContext)
+            workManager.cancelUniqueWork("deadline_$todoId")
+        }
     }
 
     suspend fun deleteByIds(ids: List<Int>) {
         dao.deleteByIds(ids)
-        withContext(NonCancellable) { OverviewWidget().updateAll(appContext) }
+        withContext(NonCancellable) {
+            OverviewWidget().updateAll(appContext)
+            ids.forEach { todoId ->
+                workManager.cancelUniqueWork("deadline_$todoId")
+            }
+        }
+    }
+
+    private fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
+        val delay = (deadline - Clock.System.now()) - 30.minutes
+        if (delay.isNegative()) return
+
+        val request = OneTimeWorkRequestBuilder<DeadlineNotificationWorker>()
+            .setInitialDelay(delay.toJavaDuration())
+            .setInputData(workDataOf("todo_id" to todoId))
+            .build()
+
+        workManager.enqueueUniqueWork(
+            "deadline_$todoId",
+            ExistingWorkPolicy.REPLACE,
+            request
+        )
     }
 }
