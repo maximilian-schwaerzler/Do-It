@@ -1,6 +1,6 @@
 services:
   fdroid-build:
-    image: registry.gitlab.com/fdroid/fdroidserver:buildserver-trixie
+    image: registry.gitlab.com/fdroid/fdroidserver:buildserver
     volumes:
       - .:/build
       - ./local.properties.docker:/build/local.properties
