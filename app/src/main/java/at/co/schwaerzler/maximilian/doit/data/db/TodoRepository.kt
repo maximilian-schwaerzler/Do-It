@@ -18,6 +18,7 @@ package at.co.schwaerzler.maximilian.doit.data.db
 
 import android.content.Context
 import android.util.Log
+import androidx.core.app.NotificationManagerCompat
 import androidx.glance.appwidget.updateAll
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
@@ -111,7 +112,8 @@ class TodoRepository(
             appContext.getString(
                 R.string.deadline_notification_unique_work_name_template,
                 todoId
-            ))
+            )
+        )
     }
 
     private suspend fun scheduleDeadlineNotification(todoId: Long) {
@@ -123,7 +125,10 @@ class TodoRepository(
     }
 
     private fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
-        val leadTime = appContext.resources.getInteger(R.integer.deadline_notification_lead_time_minutes).minutes
+        if (!NotificationManagerCompat.from(appContext).areNotificationsEnabled()) return
+
+        val leadTime =
+            appContext.resources.getInteger(R.integer.deadline_notification_lead_time_minutes).minutes
         val delay = (deadline - Clock.System.now()) - leadTime
         if (delay.isNegative()) return
 
