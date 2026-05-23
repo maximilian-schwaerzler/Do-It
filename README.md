@@ -104,6 +104,7 @@ app/src/main/java/at/co/schwaerzler/maximilian/doit/
 │   ├── DeadlineNotificationWorker.kt
 │   ├── EditTodoViewModel.kt
 │   ├── HomeViewModel.kt
+│   ├── SettingsViewModel.kt
 │   ├── OverviewWidgetReceiver.kt
 │   └── db/
 │       ├── Converters.kt

@@ -46,6 +46,7 @@ Current source files:
 - `OverviewWidget.kt` — home-screen glance widget showing open todos
 - `data/HomeViewModel.kt` — ViewModel for home screen; exposes open/done todo lists via `Flow`
 - `data/EditTodoViewModel.kt` — ViewModel for add/edit screen; manages form state and `isModified` flag
+- `data/SettingsViewModel.kt` — ViewModel for settings screen; owns theme mode, locale, and version-name state
 - `data/DeadlineNotificationWorker.kt` — `WorkManager` worker that fires deadline reminder notifications
 - `data/OverviewWidgetReceiver.kt` — `GlanceAppWidgetReceiver` for the overview widget
 - `data/db/TodoDatabase.kt` — Room database (singleton via `getDatabase`)
