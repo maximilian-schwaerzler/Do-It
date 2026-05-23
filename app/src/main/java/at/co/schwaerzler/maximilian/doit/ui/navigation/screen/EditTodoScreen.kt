@@ -17,6 +17,7 @@
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
 import android.content.Intent
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
@@ -53,11 +54,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -69,7 +72,18 @@ import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel
 import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel.EditTodoUiState
 import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
+import at.co.schwaerzler.maximilian.doit.ui.component.NotificationPermissionDialog
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
+import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
+import at.co.schwaerzler.maximilian.doit.util.doNotShowNotificationDialogAgain
+import at.co.schwaerzler.maximilian.doit.util.doNotShowNotificationDialogAgainFlow
+import at.co.schwaerzler.maximilian.doit.util.resetDoNotShowNotificationDialog
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
@@ -91,6 +105,7 @@ import kotlin.time.Instant
  * @param navigateBack Called after successfully saving to pop the back stack.
  * @param onCancel Called when the user cancels without saving (discard confirmed or no changes).
  */
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun EditTodoScreen(
     todoId: Int?,
@@ -99,9 +114,13 @@ fun EditTodoScreen(
     modifier: Modifier = Modifier,
     viewModel: EditTodoViewModel = viewModel(factory = EditTodoViewModel.Factory)
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isModified by viewModel.isModified.collectAsStateWithLifecycle()
     var showDiscardDialog by remember { mutableStateOf(false) }
+    var showNotificationPermissionDialog by remember { mutableStateOf(false) }
+    val appPreferences = remember { context.appPreferencesDataStore }
+    val doNotShowNotificationDialog by appPreferences.doNotShowNotificationDialogAgainFlow().collectAsStateWithLifecycle(false)
 
     LaunchedEffect(todoId) {
         if (todoId != null) {
@@ -132,13 +151,62 @@ fun EditTodoScreen(
         )
     }
 
+
+    val notificationPermissionState: PermissionState =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            rememberPermissionState(android.Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            object : PermissionState {
+                override val permission = "android.permission.POST_NOTIFICATIONS"
+                override val status = PermissionStatus.Granted
+                override fun launchPermissionRequest() {}
+            }
+        }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(notificationPermissionState.status.isGranted) {
+        if (notificationPermissionState.status.isGranted) {
+            appPreferences.resetDoNotShowNotificationDialog()
+            if (showNotificationPermissionDialog) {
+                showNotificationPermissionDialog = false
+                navigateBack()
+            }
+        }
+    }
+
+    if (showNotificationPermissionDialog) {
+        NotificationPermissionDialog(
+            notificationPermissionState,
+            onDismissRequest = {
+                showNotificationPermissionDialog = false
+                navigateBack()
+            },
+            onDoNotShowAgain = {
+                coroutineScope.launch {
+                    appPreferences.doNotShowNotificationDialogAgain()
+                    showNotificationPermissionDialog = false
+                    navigateBack()
+                }
+            }
+        )
+    }
+
     EditTodoScreenContent(
         id = todoId,
         uiState = uiState,
         onTitleChange = { viewModel.updateTitle(it) },
         onDescriptionChange = { viewModel.updateDescription(it) },
         onDeadlineChange = { viewModel.updateDeadline(it) },
-        onSave = { if (viewModel.saveTodo(todoId)) navigateBack() },
+        onSave = {
+            if (viewModel.saveTodo(todoId)) {
+                if (uiState.deadline != null && !doNotShowNotificationDialog && !notificationPermissionState.status.isGranted) {
+                    showNotificationPermissionDialog = true
+                } else {
+                    navigateBack()
+                }
+            }
+        },
         onCancel = {
             if (isModified) {
                 showDiscardDialog = true

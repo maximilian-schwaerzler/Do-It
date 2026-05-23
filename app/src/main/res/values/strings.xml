@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2026 Maximilian Schwärzler
   ~
@@ -71,4 +70,14 @@
     <string name="do_not_ask_again_dialog">Don\'t ask again</string>
     <string name="add_widget_dialog">Add widget</string>
     <string name="add_widget_dialog_text">Would you like to add a widget with an overview of all your open tasks to your home screen?</string>
+    <string name="permission_granted">Notification permission granted</string>
+    <string name="notification_permission_dialog_text">To show you a notification when the deadline is approaching, we need your permission.</string>
+    <string name="notification_permission_dialog_title">Notification permission</string>
+    <string name="todo_deadline_notif_channel_name">TODO Deadline</string>
+    <string name="todo_deadline_notif_channel_description">Notifications on deadlines of TODOs</string>
+    <string name="todo_deadline_notif_channel_id" translatable="false">deadline-notifications</string>
+    <string name="deadline_notification_unique_work_name_template" translatable="false">deadline_%1$d</string>
+    <string name="deadline_notification_worker_todo_id_input_data" translatable="false">todo_id</string>
+    <string name="deadline_notification_content_text">Your TODO \'%1$s\' is due in %2$d minutes</string>
+    <string name="deadline_notification_content_title">TODO Deadline approaching</string>
 </resources>
