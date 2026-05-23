@@ -129,7 +129,7 @@ class TodoRepository(
 
         val request = OneTimeWorkRequestBuilder<DeadlineNotificationWorker>()
             .setInitialDelay(delay.toJavaDuration())
-            .setInputData(workDataOf(appContext.getString(R.string.deadline_notfication_worker_todo_id_input_data) to todoId))
+            .setInputData(workDataOf(appContext.getString(R.string.deadline_notification_worker_todo_id_input_data) to todoId))
             .build()
 
         workManager.enqueueUniqueWork(

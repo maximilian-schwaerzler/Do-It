@@ -38,7 +38,7 @@ class DeadlineNotificationWorker(
 ) : CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
         val todoId = inputData.getLong(
-            applicationContext.getString(R.string.deadline_notfication_worker_todo_id_input_data),
+            applicationContext.getString(R.string.deadline_notification_worker_todo_id_input_data),
             0L
         )
         if (todoId == 0L) return Result.failure(workDataOf("failure_reason" to "No todo_id provided"))
@@ -61,7 +61,7 @@ class DeadlineNotificationWorker(
             applicationContext,
             applicationContext.getString(R.string.todo_deadline_notif_channel_id)
         )
-            .setContentTitle(todo.title)
+            .setContentTitle(applicationContext.getString(R.string.deadline_notification_content_title))
             .setContentText(
                 applicationContext.getString(
                     R.string.deadline_notification_content_text,
