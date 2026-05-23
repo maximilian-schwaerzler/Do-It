@@ -56,6 +56,17 @@ interface TodoDao {
     @Query("SELECT id, title, deadline_timestamp, state, creation_timestamp FROM todos WHERE state = 'DONE' ORDER BY creation_timestamp DESC")
     fun getDoneSummaries(): Flow<List<TodoSummary>>
 
+    /**
+     * Returns [TodoSummary] projections of all todos in a single query.
+     *
+     * Prefer this over combining [getOpenSummaries] + [getDoneSummaries] when both lists are
+     * needed together: [kotlinx.coroutines.flow.combine] can pair a stale emission from one
+     * flow with a fresh emission from the other, momentarily placing the same id in both lists
+     * and crashing any [androidx.compose.foundation.lazy.LazyColumn] that uses it as a key.
+     */
+    @Query("SELECT id, title, deadline_timestamp, state, creation_timestamp FROM todos")
+    fun getAllSummaries(): Flow<List<TodoSummary>>
+
     /** Returns the todo with the given [id], or `null` if it does not exist. */
     @Query("SELECT * FROM todos WHERE id = :id")
     suspend fun getById(id: Int): Todo?
