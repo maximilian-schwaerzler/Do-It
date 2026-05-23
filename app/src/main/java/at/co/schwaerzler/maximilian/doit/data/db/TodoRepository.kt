@@ -125,7 +125,10 @@ class TodoRepository(
     }
 
     private fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
-        if (!NotificationManagerCompat.from(appContext).areNotificationsEnabled()) return
+        if (!NotificationManagerCompat.from(appContext).areNotificationsEnabled()) {
+            Log.d("DeadlineNotification", "Skipping notification for todo $todoId: permission not granted")
+            return
+        }
 
         val leadTime =
             appContext.resources.getInteger(R.integer.deadline_notification_lead_time_minutes).minutes
