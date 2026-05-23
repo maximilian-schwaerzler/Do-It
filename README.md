@@ -1,8 +1,10 @@
 ![Social Banner](assets/images/social-banner.png)
 
-![F-Droid Version](https://img.shields.io/f-droid/v/at.co.schwaerzler.maximilian.doit)
-![GitHub Release](https://img.shields.io/github/v/release/maximilian-schwaerzler/Do-It)
+[![F-Droid Version](https://img.shields.io/f-droid/v/at.co.schwaerzler.maximilian.doit)](https://f-droid.org/packages/at.co.schwaerzler.maximilian.doit/)
+[![GitHub Release](https://img.shields.io/github/v/release/maximilian-schwaerzler/Do-It)](https://github.com/maximilian-schwaerzler/Do-It/releases/latest)
 [![Translation status](https://weblate.maximilian.schwaerzler.co.at/widget/do-it/svg-badge.svg)](https://weblate.maximilian.schwaerzler.co.at/engage/do-it/)
+[![GitHub License](https://img.shields.io/github/license/maximilian-schwaerzler/Do-It)](https://github.com/maximilian-schwaerzler/Do-It/blob/master/LICENSE)
+
 # Do-It
 
 A modern Android to-do app built with Jetpack Compose and Material Design 3.
