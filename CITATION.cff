@@ -1,0 +1,27 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Do It
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Maximilian
+    family-names: Schwärzler
+    email: maxschwaerzler@gmail.com
+repository-code: 'https://github.com/maximilian-schwaerzler/Do-It'
+repository-artifact: >-
+  https://f-droid.org/packages/at.co.schwaerzler.maximilian.doit/
+abstract: >-
+  A modern Android to-do app built with Jetpack Compose and
+  Material Design 3.
+keywords:
+  - android
+  - kotlin
+  - material-design
+license: Apache-2.0
+commit: 00a086efadd1f5f52f1edf156192c506d7c919b5
+version: 1.6.1
+date-released: '2026-05-20'
