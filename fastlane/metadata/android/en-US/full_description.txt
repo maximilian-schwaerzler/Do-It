@@ -9,6 +9,8 @@ Do-It is a clean, distraction-free to-do app that helps you stay on top of your 
 - Overdue todos are highlighted so nothing slips through the cracks
 - Home screen widget to see your open todos at a glance
 - Home screen shortcut to create a new todo instantly
+- Deadline notifications so you never miss a due date
+- Choose how far in advance you get notified in Settings
 - In-app theme selection (light, dark, or system default)
 - In-app language selection
 - Motivational empty-state messages when the list is empty or everything is done

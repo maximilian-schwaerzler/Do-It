@@ -15,6 +15,12 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 - Add and edit todos with a title, optional description, and optional deadline
 - Mark todos complete or incomplete with a single tap
 - Multi-select todos via long-press, then bulk-delete or select all
+- Overdue todos are highlighted so nothing slips through the cracks
+- Deadline notifications so you never miss a due date, with a configurable lead time
+- Home screen widget to see your open todos at a glance
+- Home screen shortcut to create a new todo instantly
+- In-app theme selection (light, dark, or system default)
+- In-app language selection
 - Motivational empty-state messages when the list is empty or everything is done
 - Edge-to-edge UI following Material Design 3 guidelines
 - Full app translations into multiple languages:
