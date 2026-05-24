@@ -36,7 +36,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;permission_granted&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;permission_granted&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;permission_granted&quot;>Notification permission granted&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -47,7 +47,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;notification_permission_dialog_text&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;notification_permission_dialog_text&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;notification_permission_dialog_text&quot;>To show you a notification when the deadline is approaching, we need your permission.&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -58,7 +58,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;notification_permission_dialog_title&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;notification_permission_dialog_title&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;notification_permission_dialog_title&quot;>Notification permission&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -69,7 +69,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;todo_deadline_notif_channel_name&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;todo_deadline_notif_channel_name&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;todo_deadline_notif_channel_name&quot;>TODO Deadline&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -80,7 +80,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;todo_deadline_notif_channel_description&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;todo_deadline_notif_channel_description&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;todo_deadline_notif_channel_description&quot;>Notifications on deadlines of TODOs&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -91,7 +91,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;deadline_notification_content_text&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;deadline_notification_content_text&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;deadline_notification_content_text&quot;>Your TODO \&apos;%1$s\&apos; is due in %2$s&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -102,7 +102,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;deadline_notification_content_title&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;deadline_notification_content_title&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;deadline_notification_content_title&quot;>TODO Deadline approaching&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -113,7 +113,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;settings_notif_lead_time&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;settings_notif_lead_time&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;settings_notif_lead_time&quot;>Notification lead time&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -124,7 +124,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;notif_lead_time_5_minutes&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;notif_lead_time_5_minutes&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;notif_lead_time_5_minutes&quot;>5 minutes&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -135,7 +135,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;notif_lead_time_30_minutes&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;notif_lead_time_30_minutes&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;notif_lead_time_30_minutes&quot;>30 minutes&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -146,7 +146,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;notif_lead_time_2_hours&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;notif_lead_time_2_hours&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;notif_lead_time_2_hours&quot;>2 hours&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -157,7 +157,7 @@
 
     <issue
         id="MissingTranslation"
-        message="&quot;notif_lead_time_1_day&quot; is not translated in &quot;de&quot; (German), &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
+        message="&quot;notif_lead_time_1_day&quot; is not translated in &quot;ko&quot; (Korean), &quot;lt&quot; (Lithuanian), &quot;it&quot; (Italian), &quot;fr&quot; (French), &quot;pl&quot; (Polish), &quot;ro&quot; (Romanian), &quot;ta&quot; (Tamil), &quot;es&quot; (Spanish), &quot;tr&quot; (Turkish), &quot;zh&quot; (Chinese), &quot;sr&quot; (Serbian)"
         errorLine1="    &lt;string name=&quot;notif_lead_time_1_day&quot;>1 day&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location

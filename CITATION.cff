@@ -23,5 +23,5 @@ keywords:
   - material-design
 license: Apache-2.0
 commit: 00a086efadd1f5f52f1edf156192c506d7c919b5
-version: 1.6.1
-date-released: '2026-05-20'
+version: 1.7
+date-released: '2026-05-24'
