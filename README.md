@@ -148,3 +148,9 @@ ViewModels and send events back as simple function calls. Room handles local per
 `TodoDao`. Navigation uses type-safe `@Serializable` route objects — screens receive navigation
 actions as callbacks and never hold a reference to `NavController`. `EditTodoScreen` serves as
 both the add and edit screen via a single nullable `todoId` parameter.
+
+## Known Bugs
+
+| Bug                                                                                                                                                                                                                                           | Affected versions         | Status                                                                                                                                     |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| The 🥳 emoji in the empty-state "Nothing to do!" message renders as a replacement character on Android 8.0 (API level 26). The emoji (U+1F973, introduced in Unicode 11.0) is not included in the system emoji font shipped with Android 8.0. | Android 8.0 (API 26) only | Won't fix — affects only the oldest supported Android version and would require adding the `androidx.emoji2` library for a cosmetic issue. |
