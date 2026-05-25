@@ -123,21 +123,18 @@ fun TodoListItem(
         state = swipeToDismissBoxState,
         modifier = modifier,
         backgroundContent = {
-            when (swipeToDismissBoxState.dismissDirection) {
-                SwipeToDismissBoxValue.EndToStart -> {
-                    Icon(
-                        painterResource(R.drawable.delete_24px),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Red)
-                            .wrapContentSize(Alignment.CenterEnd)
-                            .scale(animatedDeleteIconScale)
-                            .padding(12.dp),
-                        tint = Color.White,
-                    )
-                }
-                else -> {}
+            if (swipeToDismissBoxState.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
+                Icon(
+                    painterResource(R.drawable.delete_24px),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Red)
+                        .wrapContentSize(Alignment.CenterEnd)
+                        .scale(animatedDeleteIconScale)
+                        .padding(12.dp),
+                    tint = Color.White,
+                )
             }
         },
         enableDismissFromStartToEnd = false

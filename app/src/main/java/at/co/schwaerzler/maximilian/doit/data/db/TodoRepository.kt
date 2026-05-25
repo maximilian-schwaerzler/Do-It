@@ -56,42 +56,32 @@ class TodoRepository(
 
     suspend fun insert(todo: Todo) {
         val todoId = dao.insert(todo)
-        withContext(NonCancellable) {
-            OverviewWidget().updateAll(appContext)
+        updateWidgetAndNotifications {
             todo.deadlineDateTime?.let { deadline ->
-                scheduleDeadlineNotification(
-                    todoId,
-                    deadline
-                )
+                scheduleDeadlineNotification(todoId, deadline)
             }
         }
     }
 
     suspend fun update(todo: Todo) {
         dao.update(todo)
-        withContext(NonCancellable) {
-            OverviewWidget().updateAll(appContext)
+        updateWidgetAndNotifications {
             todo.deadlineDateTime?.let { deadline ->
-                scheduleDeadlineNotification(
-                    todo.id.toLong(),
-                    deadline
-                )
+                scheduleDeadlineNotification(todo.id.toLong(), deadline)
             } ?: deleteDeadlineNotificationSchedule(todo.id.toLong())
         }
     }
 
     suspend fun delete(todo: Todo) {
         dao.delete(todo)
-        withContext(NonCancellable) {
-            OverviewWidget().updateAll(appContext)
+        updateWidgetAndNotifications {
             deleteDeadlineNotificationSchedule(todo.id.toLong())
         }
     }
 
     suspend fun updateState(todoId: Int, state: TodoState) {
         dao.updateState(todoId, state)
-        withContext(NonCancellable) {
-            OverviewWidget().updateAll(appContext)
+        updateWidgetAndNotifications {
             if (state == TodoState.DONE) {
                 deleteDeadlineNotificationSchedule(todoId.toLong())
             } else {
@@ -102,11 +92,39 @@ class TodoRepository(
 
     suspend fun deleteByIds(ids: List<Int>) {
         dao.deleteByIds(ids)
-        withContext(NonCancellable) {
-            OverviewWidget().updateAll(appContext)
+        updateWidgetAndNotifications {
             ids.forEach { todoId ->
                 deleteDeadlineNotificationSchedule(todoId.toLong())
             }
+        }
+    }
+
+    /** Deletes all todos whose primary keys are in [ids] and returns the deleted [Todo] objects.
+     *  Intended for undo-delete flows: capture the full entities before they are gone, then pass
+     *  them to [reinsertTodos] if the user requests an undo. */
+    suspend fun deleteByIdsReturnContents(ids: List<Int>): List<Todo> {
+        val deletedTodos = dao.getByIds(ids)
+        deleteByIds(ids)
+        return deletedTodos
+    }
+
+    /** Re-inserts [todos] with their original primary keys, restoring any deadline notification
+     *  schedules. Intended as the undo counterpart to [deleteByIdsReturnContents]. */
+    suspend fun reinsertTodos(todos: List<Todo>) {
+        dao.insertReplace(todos)
+        updateWidgetAndNotifications {
+            todos.forEach { todo ->
+                todo.deadlineDateTime?.let { deadline ->
+                    scheduleDeadlineNotification(todo.id.toLong(), deadline)
+                }
+            }
+        }
+    }
+
+    private suspend fun updateWidgetAndNotifications(block: suspend () -> Unit) {
+        withContext(NonCancellable) {
+            OverviewWidget().updateAll(appContext)
+            block()
         }
     }
 

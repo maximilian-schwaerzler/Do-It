@@ -26,13 +26,15 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
+import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
+import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.util.incrementTodosDoneCount
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlin.time.Instant
 
 /** ViewModel for the home screen, exposing the todo lists and bulk-action operations. */
 class HomeViewModel(
@@ -57,6 +59,11 @@ class HomeViewModel(
         Pair(open, done)
     }
 
+    /** Todos that were just deleted and can still be restored via [undoDeleteTodos].
+     *  Empty when no undo is pending. */
+    private val _pendingUndoTodos = MutableStateFlow<List<Todo>>(emptyList())
+    val pendingUndoTodos = _pendingUndoTodos.asStateFlow()
+
     /**
      * Toggles [todo] between [TodoState.OPEN] and [TodoState.DONE].
      *
@@ -72,11 +79,26 @@ class HomeViewModel(
         }
     }
 
-    /** Permanently deletes all todos whose primary keys are in [ids]. */
+    /** Deletes all todos whose primary keys are in [ids] and stores them in [pendingUndoTodos]
+     *  so the UI can offer an undo action. */
     fun deleteTodosByIds(ids: List<Int>) {
         viewModelScope.launch {
-            repository.deleteByIds(ids)
+            _pendingUndoTodos.value = repository.deleteByIdsReturnContents(ids)
         }
+    }
+
+    /** Restores the todos captured in [pendingUndoTodos] and clears the pending state. */
+    fun undoDeleteTodos() {
+        viewModelScope.launch {
+            repository.reinsertTodos(_pendingUndoTodos.value)
+            _pendingUndoTodos.value = emptyList()
+        }
+    }
+
+    /** Discards the pending undo state without restoring anything. Call this when the snackbar
+     *  times out or is dismissed without the undo action being taken. */
+    fun clearPendingTodos() {
+        _pendingUndoTodos.value = emptyList()
     }
 
     companion object {
