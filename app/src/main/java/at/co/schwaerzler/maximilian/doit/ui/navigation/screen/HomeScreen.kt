@@ -124,8 +124,11 @@ fun HomeScreen(
     LaunchedEffect(pendingUndoTodos) {
         if (pendingUndoTodos.isNotEmpty()) {
             val snackbarResult = snackbarHostState.showSnackbar(
-                resources.getQuantityString(R.plurals.todos_deleted_template, pendingUndoTodos.size),
-                actionLabel = "Undo",
+                resources.getQuantityString(
+                    R.plurals.todos_deleted_template,
+                    pendingUndoTodos.size
+                ),
+                actionLabel = resources.getString(R.string.undo_snackbar_action_label),
                 duration = SnackbarDuration.Long
             )
 
