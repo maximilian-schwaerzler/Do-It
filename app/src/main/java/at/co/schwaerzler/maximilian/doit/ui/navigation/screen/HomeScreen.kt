@@ -131,7 +131,10 @@ fun HomeScreen(
             selectedTodos += openTodos.map { it.id }
             selectedTodos += doneTodos.map { it.id }
         },
-        onClickSettings = onClickSettings
+        onClickSettings = onClickSettings,
+        onDeleteTodo = {
+            viewModel.deleteTodosByIds(listOf(it))
+        }
     )
 }
 
@@ -149,6 +152,7 @@ private fun HomeScreenContent(
     selectedTodos: Set<Int>,
     onClearSelection: () -> Unit,
     onDeleteSelection: () -> Unit,
+    onDeleteTodo: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
     onSelectAll: () -> Unit,
 ) {
@@ -161,7 +165,9 @@ private fun HomeScreenContent(
     val doNotShowWidgetPinDialog by remember { appPreferences.doNotShowWidgetDialogAgainFlow() }.collectAsStateWithLifecycle(
         false
     )
-    val todosDoneCount by remember { appPreferences.todosDoneCountFlow() }.collectAsStateWithLifecycle(0)
+    val todosDoneCount by remember { appPreferences.todosDoneCountFlow() }.collectAsStateWithLifecycle(
+        0
+    )
 
     val coroutineScope = rememberCoroutineScope()
     fun widgetDialogDismissDoNotShowAgain() {
@@ -172,7 +178,10 @@ private fun HomeScreenContent(
 
     LaunchedEffect(todosDoneCount, doNotShowWidgetPinDialog) {
         if (todosDoneCount < 1) {
-            Log.d("WidgetIncentive", "Dialog not shown: no todos completed yet (count=$todosDoneCount)")
+            Log.d(
+                "WidgetIncentive",
+                "Dialog not shown: no todos completed yet (count=$todosDoneCount)"
+            )
             return@LaunchedEffect
         }
         if (doNotShowWidgetPinDialog) {
@@ -309,6 +318,9 @@ private fun HomeScreenContent(
                             onLongClick = {
                                 toggleTodoItemSelection(item.id)
                             },
+                            {
+                                onDeleteTodo(item.id)
+                            },
                             selected = selectedTodos.contains(item.id),
                             Modifier.animateItem()
                         )
@@ -343,6 +355,9 @@ private fun HomeScreenContent(
                             },
                             onLongClick = {
                                 toggleTodoItemSelection(item.id)
+                            },
+                            {
+                                onDeleteTodo(item.id)
                             },
                             selected = selectedTodos.contains(item.id),
                             Modifier.animateItem()
@@ -415,7 +430,10 @@ fun WidgetPinIncentiveDialog(
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = { onDismissRequest(true) }) {
-                Text(stringResource(R.string.do_not_ask_again_dialog), color = MaterialTheme.colorScheme.error)
+                Text(
+                    stringResource(R.string.do_not_ask_again_dialog),
+                    color = MaterialTheme.colorScheme.error
+                )
             }
         },
         title = {
@@ -449,7 +467,8 @@ private fun HomeScreenEmptyPreview() {
             onClearSelection = {},
             onSelectAll = {},
             onDeleteSelection = {},
-            onClickSettings = {}
+            onClickSettings = {},
+            onDeleteTodo = {}
         )
     }
 }
@@ -469,7 +488,8 @@ private fun HomeScreenWithTodosPreview() {
             onClearSelection = {},
             onSelectAll = {},
             onDeleteSelection = {},
-            onClickSettings = {}
+            onClickSettings = {},
+            onDeleteTodo = {}
         )
     }
 }
@@ -489,7 +509,8 @@ private fun HomeScreenAllDonePreview() {
             onClearSelection = {},
             onSelectAll = {},
             onDeleteSelection = {},
-            onClickSettings = {}
+            onClickSettings = {},
+            onDeleteTodo = {}
         )
     }
 }
@@ -509,7 +530,8 @@ private fun HomeScreenSelectionPreview() {
             onClearSelection = {},
             onSelectAll = {},
             onDeleteSelection = {},
-            onClickSettings = {}
+            onClickSettings = {},
+            onDeleteTodo = {}
         )
     }
 }
