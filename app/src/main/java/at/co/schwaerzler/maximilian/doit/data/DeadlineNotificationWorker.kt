@@ -54,7 +54,7 @@ class DeadlineNotificationWorker(
 
         val todoIntent = Intent(applicationContext, MainActivity::class.java).apply {
             setAction(Intent.ACTION_VIEW)
-            setData("doit://todo?todoId=$todoId".toUri())
+            setDataAndNormalize("doit://todo?todoId=$todoId".toUri())
         }
 
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
