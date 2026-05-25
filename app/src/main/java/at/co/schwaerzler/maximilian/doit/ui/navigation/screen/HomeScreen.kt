@@ -56,6 +56,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -118,11 +119,12 @@ fun HomeScreen(
     }
 
     val pendingUndoTodos by viewModel.pendingUndoTodos.collectAsStateWithLifecycle()
+    val resources = LocalResources.current
 
     LaunchedEffect(pendingUndoTodos) {
         if (pendingUndoTodos.isNotEmpty()) {
             val snackbarResult = snackbarHostState.showSnackbar(
-                if (pendingUndoTodos.size == 1) "TODO deleted" else "TODOs deleted",
+                resources.getQuantityString(R.plurals.todos_deleted_template, pendingUndoTodos.size),
                 actionLabel = "Undo",
                 duration = SnackbarDuration.Long
             )
