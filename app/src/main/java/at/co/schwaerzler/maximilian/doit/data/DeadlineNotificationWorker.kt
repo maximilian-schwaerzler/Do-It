@@ -31,9 +31,7 @@ import androidx.work.workDataOf
 import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.MainActivity
 import at.co.schwaerzler.maximilian.doit.R
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.util.notificationLeadTimeFlow
-import kotlinx.coroutines.flow.first
+import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
 
 class DeadlineNotificationWorker(
     appContext: Context,
@@ -50,7 +48,9 @@ class DeadlineNotificationWorker(
         val todo = repository.getById(todoId.toInt())
             ?: return Result.failure(workDataOf("failure_reason" to "Todo not found in DB"))
 
-        val leadTime = applicationContext.appPreferencesDataStore.notificationLeadTimeFlow().first()
+        val leadTimeName = inputData.getString(applicationContext.getString(R.string.deadline_notification_worker_lead_time_input_data))
+        val leadTime = leadTimeName?.let { runCatching { NotificationLeadTime.valueOf(it) }.getOrNull() }
+            ?: NotificationLeadTime.THIRTY_MINUTES
 
         val todoIntent = Intent(applicationContext, MainActivity::class.java).apply {
             setAction(Intent.ACTION_VIEW)

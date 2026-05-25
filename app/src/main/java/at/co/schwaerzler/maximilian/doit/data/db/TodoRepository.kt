@@ -129,13 +129,18 @@ class TodoRepository(
     }
 
     private suspend fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
-        val leadTime = appPreferences.notificationLeadTimeFlow().first().duration
-        val delay = (deadline - Clock.System.now()) - leadTime
+        val leadTime = appPreferences.notificationLeadTimeFlow().first()
+        val delay = (deadline - Clock.System.now()) - leadTime.duration
         if (delay.isNegative()) return
 
         val request = OneTimeWorkRequestBuilder<DeadlineNotificationWorker>()
             .setInitialDelay(delay.toJavaDuration())
-            .setInputData(workDataOf(appContext.getString(R.string.deadline_notification_worker_todo_id_input_data) to todoId))
+            .setInputData(
+                workDataOf(
+                    appContext.getString(R.string.deadline_notification_worker_todo_id_input_data) to todoId,
+                    appContext.getString(R.string.deadline_notification_worker_lead_time_input_data) to leadTime.name
+                )
+            )
             .build()
 
         workManager.enqueueUniqueWork(
@@ -149,7 +154,7 @@ class TodoRepository(
 
         Log.d(
             "DeadlineNotification",
-            "Added notification for todo $todoId at ${deadline - leadTime}"
+            "Added notification for todo $todoId at ${deadline - leadTime.duration}"
         )
     }
 }
