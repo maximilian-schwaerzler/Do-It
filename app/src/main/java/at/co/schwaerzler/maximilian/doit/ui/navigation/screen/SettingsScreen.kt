@@ -59,6 +59,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.data.SettingsViewModel
+import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
 import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
@@ -149,114 +150,115 @@ fun SettingsScreenContent(
             )
         }
     ) { innerPadding ->
-        Column(
-            Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            SettingsSectionHeader(stringResource(R.string.settings_section_general))
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.theme))
-                },
-                supportingContent = {
-                    Text(stringResource(themeMode.labelRes))
-                },
-                leadingContent = {
-                    Icon(painterResource(themeMode.iconRes), contentDescription = null)
-                },
-                modifier = Modifier.clickable { showThemeDialog = true }
-            )
+        MaxWidthLayout(Modifier.padding(innerPadding)) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                SettingsSectionHeader(stringResource(R.string.settings_section_general))
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.theme))
+                    },
+                    supportingContent = {
+                        Text(stringResource(themeMode.labelRes))
+                    },
+                    leadingContent = {
+                        Icon(painterResource(themeMode.iconRes), contentDescription = null)
+                    },
+                    modifier = Modifier.clickable { showThemeDialog = true }
+                )
 
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.settings_language))
-                },
-                supportingContent = {
-                    Text(currentLanguageDisplay)
-                },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.language_24px), contentDescription = null)
-                },
-                modifier = Modifier.clickable { showLanguageDialog = true }
-            )
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.settings_notif_lead_time))
-                },
-                supportingContent = {
-                    ExposedDropdownMenuBox(
-                        expanded = notifLeadTimeExpanded,
-                        onExpandedChange = { notifLeadTimeExpanded = it },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        OutlinedTextField(
-                            value = stringResource(notificationLeadTime.labelRes),
-                            onValueChange = {},
-                            readOnly = true,
-                            trailingIcon = {
-                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = notifLeadTimeExpanded)
-                            },
-                            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-                            modifier = Modifier
-                                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
-                                .fillMaxWidth(),
-                        )
-                        ExposedDropdownMenu(
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.settings_language))
+                    },
+                    supportingContent = {
+                        Text(currentLanguageDisplay)
+                    },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.language_24px), contentDescription = null)
+                    },
+                    modifier = Modifier.clickable { showLanguageDialog = true }
+                )
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.settings_notif_lead_time))
+                    },
+                    supportingContent = {
+                        ExposedDropdownMenuBox(
                             expanded = notifLeadTimeExpanded,
-                            onDismissRequest = { notifLeadTimeExpanded = false }
+                            onExpandedChange = { notifLeadTimeExpanded = it },
+                            modifier = Modifier.fillMaxWidth()
                         ) {
-                            NotificationLeadTime.entries.forEach { option ->
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(option.labelRes)) },
-                                    onClick = {
-                                        onSetNotificationLeadTime(option)
-                                        notifLeadTimeExpanded = false
-                                    },
-                                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
-                                )
+                            OutlinedTextField(
+                                value = stringResource(notificationLeadTime.labelRes),
+                                onValueChange = {},
+                                readOnly = true,
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = notifLeadTimeExpanded)
+                                },
+                                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                                modifier = Modifier
+                                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                                    .fillMaxWidth(),
+                            )
+                            ExposedDropdownMenu(
+                                expanded = notifLeadTimeExpanded,
+                                onDismissRequest = { notifLeadTimeExpanded = false }
+                            ) {
+                                NotificationLeadTime.entries.forEach { option ->
+                                    DropdownMenuItem(
+                                        text = { Text(stringResource(option.labelRes)) },
+                                        onClick = {
+                                            onSetNotificationLeadTime(option)
+                                            notifLeadTimeExpanded = false
+                                        },
+                                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                                    )
+                                }
                             }
                         }
+                    },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.event_24px), contentDescription = null)
                     }
-                },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.event_24px), contentDescription = null)
-                }
-            )
-            SettingsSectionHeader(stringResource(R.string.settings_section_about))
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.app_version))
-                },
-                supportingContent = versionName?.let { version -> { Text(version) } },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.info_24px), contentDescription = null)
-                },
-                modifier = versionName?.let { version ->
-                    Modifier.clickable {
-                        context.openUrl("$githubReleasesBaseUrl/v$version")
-                    }
-                } ?: Modifier
-            )
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.source_code))
-                },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.code_24px), contentDescription = null)
-                },
-                modifier = Modifier.clickable { context.openUrl(githubUrl) }
-            )
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.f_droid_package))
-                },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.fdroid), contentDescription = null)
-                },
-                modifier = Modifier.clickable { context.openUrl(fdroidUrl) }
-            )
+                )
+                SettingsSectionHeader(stringResource(R.string.settings_section_about))
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.app_version))
+                    },
+                    supportingContent = versionName?.let { version -> { Text(version) } },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.info_24px), contentDescription = null)
+                    },
+                    modifier = versionName?.let { version ->
+                        Modifier.clickable {
+                            context.openUrl("$githubReleasesBaseUrl/v$version")
+                        }
+                    } ?: Modifier
+                )
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.source_code))
+                    },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.code_24px), contentDescription = null)
+                    },
+                    modifier = Modifier.clickable { context.openUrl(githubUrl) }
+                )
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.f_droid_package))
+                    },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.fdroid), contentDescription = null)
+                    },
+                    modifier = Modifier.clickable { context.openUrl(fdroidUrl) }
+                )
+            }
         }
     }
 
