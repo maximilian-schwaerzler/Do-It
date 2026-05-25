@@ -16,6 +16,9 @@
 
 package at.co.schwaerzler.maximilian.doit.util
 
+import android.app.UiModeManager
+import android.content.Context
+import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -36,8 +39,22 @@ enum class AppThemeMode(@param:StringRes val labelRes: Int, @param:DrawableRes v
     FOLLOW_SYSTEM(R.string.theme_follow_system, R.drawable.brightness_auto_24px),
 }
 
-fun AppThemeMode.toNightMode(): Int = when (this) {
-    AppThemeMode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-    AppThemeMode.DARK -> AppCompatDelegate.MODE_NIGHT_YES
-    AppThemeMode.FOLLOW_SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+fun AppThemeMode.applyNightMode(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        context.getSystemService(UiModeManager::class.java).setApplicationNightMode(
+            when (this) {
+                AppThemeMode.LIGHT -> UiModeManager.MODE_NIGHT_NO
+                AppThemeMode.DARK -> UiModeManager.MODE_NIGHT_YES
+                AppThemeMode.FOLLOW_SYSTEM -> UiModeManager.MODE_NIGHT_AUTO
+            }
+        )
+    } else {
+        AppCompatDelegate.setDefaultNightMode(
+            when (this) {
+                AppThemeMode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+                AppThemeMode.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+                AppThemeMode.FOLLOW_SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
+        )
+    }
 }

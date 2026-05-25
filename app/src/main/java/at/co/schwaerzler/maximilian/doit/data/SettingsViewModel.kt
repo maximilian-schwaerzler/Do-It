@@ -31,12 +31,12 @@ import at.co.schwaerzler.maximilian.doit.DoItApplication
 import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
 import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
+import at.co.schwaerzler.maximilian.doit.util.applyNightMode
 import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.util.notificationLeadTimeFlow
 import at.co.schwaerzler.maximilian.doit.util.setNotificationLeadTime
 import at.co.schwaerzler.maximilian.doit.util.setTheme
 import at.co.schwaerzler.maximilian.doit.util.themeFlow
-import at.co.schwaerzler.maximilian.doit.util.toNightMode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,7 +45,7 @@ import java.util.Locale
 
 /** ViewModel for the settings screen, owning theme preference, locale, and app-version state. */
 class SettingsViewModel(
-    application: Application,
+    private val application: Application,
     private val appPreferences: DataStore<Preferences>
 ) : ViewModel() {
 
@@ -69,7 +69,7 @@ class SettingsViewModel(
         }
 
     fun setTheme(mode: AppThemeMode) {
-        AppCompatDelegate.setDefaultNightMode(mode.toNightMode())
+        mode.applyNightMode(application)
         viewModelScope.launch {
             appPreferences.setTheme(mode)
         }

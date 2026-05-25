@@ -19,12 +19,11 @@ package at.co.schwaerzler.maximilian.doit
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import androidx.appcompat.app.AppCompatDelegate
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
+import at.co.schwaerzler.maximilian.doit.util.applyNightMode
 import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.util.themeFlow
-import at.co.schwaerzler.maximilian.doit.util.toNightMode
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
@@ -41,7 +40,7 @@ class DoItApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         val themeMode = runBlocking { appPreferencesDataStore.themeFlow().first() }
-        AppCompatDelegate.setDefaultNightMode(themeMode.toNightMode())
+        themeMode.applyNightMode(this)
         setupNotificationChannel()
     }
 
