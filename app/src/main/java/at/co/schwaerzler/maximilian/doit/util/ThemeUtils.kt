@@ -18,6 +18,7 @@ package at.co.schwaerzler.maximilian.doit.util
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 import at.co.schwaerzler.maximilian.doit.R
 import kotlinx.serialization.Serializable
 
@@ -33,4 +34,10 @@ enum class AppThemeMode(@param:StringRes val labelRes: Int, @param:DrawableRes v
 
     /** Defers to the system-wide dark mode setting. */
     FOLLOW_SYSTEM(R.string.theme_follow_system, R.drawable.brightness_auto_24px),
+}
+
+fun AppThemeMode.toNightMode(): Int = when (this) {
+    AppThemeMode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+    AppThemeMode.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+    AppThemeMode.FOLLOW_SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 }

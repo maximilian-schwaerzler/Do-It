@@ -36,6 +36,7 @@ import at.co.schwaerzler.maximilian.doit.util.notificationLeadTimeFlow
 import at.co.schwaerzler.maximilian.doit.util.setNotificationLeadTime
 import at.co.schwaerzler.maximilian.doit.util.setTheme
 import at.co.schwaerzler.maximilian.doit.util.themeFlow
+import at.co.schwaerzler.maximilian.doit.util.toNightMode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -68,6 +69,7 @@ class SettingsViewModel(
         }
 
     fun setTheme(mode: AppThemeMode) {
+        AppCompatDelegate.setDefaultNightMode(mode.toNightMode())
         viewModelScope.launch {
             appPreferences.setTheme(mode)
         }
