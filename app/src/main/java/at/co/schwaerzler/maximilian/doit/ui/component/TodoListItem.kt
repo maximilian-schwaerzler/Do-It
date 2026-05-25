@@ -121,6 +121,7 @@ fun TodoListItem(
 
     SwipeToDismissBox(
         state = swipeToDismissBoxState,
+        modifier = modifier,
         backgroundContent = {
             when (swipeToDismissBoxState.dismissDirection) {
                 SwipeToDismissBoxValue.EndToStart -> {
@@ -138,10 +139,11 @@ fun TodoListItem(
                 }
                 else -> {}
             }
-        }
+        },
+        enableDismissFromStartToEnd = false
     ) {
         ListItem(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .combinedClickable(
                     onLongClick = {
