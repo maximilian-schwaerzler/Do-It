@@ -19,6 +19,7 @@ package at.co.schwaerzler.maximilian.doit.data.db.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
@@ -56,16 +57,36 @@ interface TodoDao {
     @Query("SELECT id, title, deadline_timestamp, state, creation_timestamp FROM todos WHERE state = 'DONE' ORDER BY creation_timestamp DESC")
     fun getDoneSummaries(): Flow<List<TodoSummary>>
 
+    /**
+     * Returns [TodoSummary] projections of all todos in a single query.
+     *
+     * Prefer this over combining [getOpenSummaries] + [getDoneSummaries] when both lists are
+     * needed together: [kotlinx.coroutines.flow.combine] can pair a stale emission from one
+     * flow with a fresh emission from the other, momentarily placing the same id in both lists
+     * and crashing any [androidx.compose.foundation.lazy.LazyColumn] that uses it as a key.
+     */
+    @Query("SELECT id, title, deadline_timestamp, state, creation_timestamp FROM todos")
+    fun getAllSummaries(): Flow<List<TodoSummary>>
+
     /** Returns the todo with the given [id], or `null` if it does not exist. */
     @Query("SELECT * FROM todos WHERE id = :id")
     suspend fun getById(id: Int): Todo?
+
+    /** Returns all todos whose primary keys are in [ids]. */
+    @Query("SELECT * FROM todos WHERE id IN (:ids)")
+    suspend fun getByIds(ids: List<Int>): List<Todo>
 
     /** Updates only the [state] column for the todo with the given [id]. */
     @Query("UPDATE todos SET state = :state WHERE id = :id")
     suspend fun updateState(id: Int, state: TodoState)
 
     @Insert
-    suspend fun insert(todo: Todo)
+    suspend fun insert(todo: Todo): Long
+
+    /** Inserts [todos], replacing any existing rows with the same primary key.
+     *  Used to restore previously deleted todos with their original IDs. */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertReplace(todos: List<Todo>)
 
     @Update
     suspend fun update(todo: Todo)

@@ -17,8 +17,15 @@
 package at.co.schwaerzler.maximilian.doit
 
 import android.app.Application
-import at.co.schwaerzler.maximilian.doit.data.TodoRepository
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
+import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
+import at.co.schwaerzler.maximilian.doit.util.applyNightMode
+import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
+import at.co.schwaerzler.maximilian.doit.util.themeFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 /** Application subclass that lazily initializes the Room database singleton. */
 class DoItApplication : Application() {
@@ -27,6 +34,23 @@ class DoItApplication : Application() {
     }
 
     val repository: TodoRepository by lazy {
-        TodoRepository(applicationContext, database.todoDao())
+        TodoRepository(applicationContext, database.todoDao(), appPreferencesDataStore)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        val themeMode = runBlocking { appPreferencesDataStore.themeFlow().first() }
+        themeMode.applyNightMode(this)
+        setupNotificationChannel()
+    }
+
+    fun setupNotificationChannel() {
+        val name = getString(R.string.todo_deadline_notif_channel_name)
+        val descriptionText = getString(R.string.todo_deadline_notif_channel_description)
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val mChannel = NotificationChannel(getString(R.string.todo_deadline_notif_channel_id), name, importance)
+        mChannel.description = descriptionText
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(mChannel)
     }
 }

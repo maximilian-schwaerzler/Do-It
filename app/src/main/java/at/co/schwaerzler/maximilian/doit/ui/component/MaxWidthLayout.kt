@@ -27,23 +27,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
 import at.co.schwaerzler.maximilian.doit.R
 
 /**
- * Centers [content] horizontally and constrains its width to 600 dp on medium-or-larger windows,
+ * Centers [content] horizontally and constrains its maximum width on medium-or-larger windows,
  * leaving it unconstrained on compact windows (phones in portrait).
+ *
+ * On medium-or-larger windows (width ≥ [WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND]), the inner
+ * container is capped at [maxWidth]. On compact windows [maxWidth] is ignored and the content
+ * fills the available width.
+ *
+ * @param modifier [Modifier] applied to the inner content [Box].
+ * @param maxWidth Maximum width of [content] on medium-or-larger windows.
+ *   Defaults to `R.dimen.content_max_width`.
+ * @param content The composable content to display.
  */
 @Composable
 fun MaxWidthLayout(
     modifier: Modifier = Modifier,
+    maxWidth: Dp = dimensionResource(R.dimen.content_max_width),
     content: @Composable BoxScope.() -> Unit
 ) {
     val windowAdaptiveInfo = currentWindowAdaptiveInfo()
-    val maxWidth =
+    val widthValue =
         if (windowAdaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND)) {
-            dimensionResource(R.dimen.content_max_width)
+            maxWidth
         } else {
             Dp.Unspecified
         }
@@ -55,8 +64,9 @@ fun MaxWidthLayout(
     ) {
         Box(
             modifier
-                .widthIn(max = maxWidth)
-                .fillMaxWidth(), content = content
+                .widthIn(max = widthValue)
+                .fillMaxWidth(),
+            content = content
         )
     }
 }

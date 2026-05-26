@@ -31,7 +31,9 @@ val Context.appPreferencesDataStore: DataStore<Preferences> by preferencesDataSt
 
 object AppPreferenceKeys {
     val THEME = stringPreferencesKey("theme")
+    val NOTIFICATION_LEAD_TIME = stringPreferencesKey("notification_lead_time")
     val DO_NOT_SHOW_WIDGET_PIN_DIALOG = booleanPreferencesKey("do_not_show_widget_pin_dialog")
+    val DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG = booleanPreferencesKey("do_not_show_notification_permission_dialog")
     val TODOS_DONE_COUNT = intPreferencesKey("todos_done_count")
 }
 
@@ -50,6 +52,17 @@ fun DataStore<Preferences>.themeFlow(): Flow<AppThemeMode> =
         } ?: AppThemeMode.FOLLOW_SYSTEM
     }
 
+suspend fun DataStore<Preferences>.setNotificationLeadTime(leadTime: NotificationLeadTime) {
+    edit { it[AppPreferenceKeys.NOTIFICATION_LEAD_TIME] = leadTime.name }
+}
+
+fun DataStore<Preferences>.notificationLeadTimeFlow(): Flow<NotificationLeadTime> =
+    data.map { prefs ->
+        prefs[AppPreferenceKeys.NOTIFICATION_LEAD_TIME]?.let {
+            try { NotificationLeadTime.valueOf(it) } catch (_: IllegalArgumentException) { null }
+        } ?: NotificationLeadTime.THIRTY_MINUTES
+    }
+
 suspend fun DataStore<Preferences>.doNotShowWidgetDialogAgain() {
     edit { it[AppPreferenceKeys.DO_NOT_SHOW_WIDGET_PIN_DIALOG] = true }
 }
@@ -57,6 +70,19 @@ suspend fun DataStore<Preferences>.doNotShowWidgetDialogAgain() {
 fun DataStore<Preferences>.doNotShowWidgetDialogAgainFlow(): Flow<Boolean> =
     data.map { preferences ->
         preferences[AppPreferenceKeys.DO_NOT_SHOW_WIDGET_PIN_DIALOG] ?: false
+    }
+
+suspend fun DataStore<Preferences>.doNotShowNotificationDialogAgain() {
+    edit { it[AppPreferenceKeys.DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] = true }
+}
+
+suspend fun DataStore<Preferences>.resetDoNotShowNotificationDialog() {
+    edit { it.remove(AppPreferenceKeys.DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG) }
+}
+
+fun DataStore<Preferences>.doNotShowNotificationDialogAgainFlow(): Flow<Boolean> =
+    data.map { preferences ->
+        preferences[AppPreferenceKeys.DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] ?: false
     }
 
 suspend fun DataStore<Preferences>.incrementTodosDoneCount() {

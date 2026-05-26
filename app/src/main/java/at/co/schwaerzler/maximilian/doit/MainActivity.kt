@@ -20,31 +20,15 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import at.co.schwaerzler.maximilian.doit.ui.navigation.AppNavigation
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
-import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.util.themeFlow
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val currentThemeMode by remember {
-                applicationContext.appPreferencesDataStore.themeFlow()
-            }.collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
-            DoItTheme(
-                darkTheme = when (currentThemeMode) {
-                    AppThemeMode.LIGHT -> false
-                    AppThemeMode.DARK -> true
-                    AppThemeMode.FOLLOW_SYSTEM -> isSystemInDarkTheme()
-                }
-            ) {
+            DoItTheme {
                 AppNavigation()
             }
         }

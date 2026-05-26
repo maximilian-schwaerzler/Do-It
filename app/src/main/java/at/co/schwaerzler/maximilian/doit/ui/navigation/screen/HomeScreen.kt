@@ -37,6 +37,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -52,6 +56,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -109,6 +114,32 @@ fun HomeScreen(
         selectedTodos = emptySet()
     }
 
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+
+    val pendingUndoTodos by viewModel.pendingUndoTodos.collectAsStateWithLifecycle()
+    val resources = LocalResources.current
+
+    LaunchedEffect(pendingUndoTodos) {
+        if (pendingUndoTodos.isNotEmpty()) {
+            val snackbarResult = snackbarHostState.showSnackbar(
+                resources.getQuantityString(
+                    R.plurals.todos_deleted_template,
+                    pendingUndoTodos.size
+                ),
+                actionLabel = resources.getString(R.string.undo_snackbar_action_label),
+                duration = SnackbarDuration.Long
+            )
+
+            if (snackbarResult == SnackbarResult.ActionPerformed) {
+                viewModel.undoDeleteTodos()
+            } else {
+                viewModel.clearPendingTodos()
+            }
+        }
+    }
+
     HomeScreenContent(
         openTodos = openTodos,
         doneTodos = doneTodos,
@@ -131,7 +162,11 @@ fun HomeScreen(
             selectedTodos += openTodos.map { it.id }
             selectedTodos += doneTodos.map { it.id }
         },
-        onClickSettings = onClickSettings
+        onClickSettings = onClickSettings,
+        onDeleteTodo = {
+            viewModel.deleteTodosByIds(listOf(it))
+        },
+        snackbarHostState = snackbarHostState
     )
 }
 
@@ -149,8 +184,10 @@ private fun HomeScreenContent(
     selectedTodos: Set<Int>,
     onClearSelection: () -> Unit,
     onDeleteSelection: () -> Unit,
+    onDeleteTodo: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
     onSelectAll: () -> Unit,
+    snackbarHostState: SnackbarHostState
 ) {
     val selectionToolbar = selectedTodos.isNotEmpty()
     val isAllSelected = selectedTodos.size == openTodos.size + doneTodos.size
@@ -161,7 +198,9 @@ private fun HomeScreenContent(
     val doNotShowWidgetPinDialog by remember { appPreferences.doNotShowWidgetDialogAgainFlow() }.collectAsStateWithLifecycle(
         false
     )
-    val todosDoneCount by remember { appPreferences.todosDoneCountFlow() }.collectAsStateWithLifecycle(0)
+    val todosDoneCount by remember { appPreferences.todosDoneCountFlow() }.collectAsStateWithLifecycle(
+        0
+    )
 
     val coroutineScope = rememberCoroutineScope()
     fun widgetDialogDismissDoNotShowAgain() {
@@ -172,7 +211,10 @@ private fun HomeScreenContent(
 
     LaunchedEffect(todosDoneCount, doNotShowWidgetPinDialog) {
         if (todosDoneCount < 1) {
-            Log.d("WidgetIncentive", "Dialog not shown: no todos completed yet (count=$todosDoneCount)")
+            Log.d(
+                "WidgetIncentive",
+                "Dialog not shown: no todos completed yet (count=$todosDoneCount)"
+            )
             return@LaunchedEffect
         }
         if (doNotShowWidgetPinDialog) {
@@ -257,6 +299,9 @@ private fun HomeScreenContent(
                         contentDescription = stringResource(R.string.add_new_todo_fab)
                     )
                 })
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
         }
     ) { innerPadding ->
         MaxWidthLayout(Modifier.padding(innerPadding)) {
@@ -309,6 +354,9 @@ private fun HomeScreenContent(
                             onLongClick = {
                                 toggleTodoItemSelection(item.id)
                             },
+                            {
+                                onDeleteTodo(item.id)
+                            },
                             selected = selectedTodos.contains(item.id),
                             Modifier.animateItem()
                         )
@@ -343,6 +391,9 @@ private fun HomeScreenContent(
                             },
                             onLongClick = {
                                 toggleTodoItemSelection(item.id)
+                            },
+                            {
+                                onDeleteTodo(item.id)
                             },
                             selected = selectedTodos.contains(item.id),
                             Modifier.animateItem()
@@ -415,7 +466,10 @@ fun WidgetPinIncentiveDialog(
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = { onDismissRequest(true) }) {
-                Text(stringResource(R.string.do_not_ask_again_dialog), color = MaterialTheme.colorScheme.error)
+                Text(
+                    stringResource(R.string.do_not_ask_again_dialog),
+                    color = MaterialTheme.colorScheme.error
+                )
             }
         },
         title = {
@@ -449,7 +503,9 @@ private fun HomeScreenEmptyPreview() {
             onClearSelection = {},
             onSelectAll = {},
             onDeleteSelection = {},
-            onClickSettings = {}
+            onClickSettings = {},
+            onDeleteTodo = {},
+            snackbarHostState = remember { SnackbarHostState() }
         )
     }
 }
@@ -469,7 +525,9 @@ private fun HomeScreenWithTodosPreview() {
             onClearSelection = {},
             onSelectAll = {},
             onDeleteSelection = {},
-            onClickSettings = {}
+            onClickSettings = {},
+            onDeleteTodo = {},
+            snackbarHostState = remember { SnackbarHostState() }
         )
     }
 }
@@ -489,7 +547,9 @@ private fun HomeScreenAllDonePreview() {
             onClearSelection = {},
             onSelectAll = {},
             onDeleteSelection = {},
-            onClickSettings = {}
+            onClickSettings = {},
+            onDeleteTodo = {},
+            snackbarHostState = remember { SnackbarHostState() }
         )
     }
 }
@@ -509,7 +569,9 @@ private fun HomeScreenSelectionPreview() {
             onClearSelection = {},
             onSelectAll = {},
             onDeleteSelection = {},
-            onClickSettings = {}
+            onClickSettings = {},
+            onDeleteTodo = {},
+            snackbarHostState = remember { SnackbarHostState() }
         )
     }
 }

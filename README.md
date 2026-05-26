@@ -15,6 +15,12 @@ A modern Android to-do app built with Jetpack Compose and Material Design 3.
 - Add and edit todos with a title, optional description, and optional deadline
 - Mark todos complete or incomplete with a single tap
 - Multi-select todos via long-press, then bulk-delete or select all
+- Overdue todos are highlighted so nothing slips through the cracks
+- Deadline notifications so you never miss a due date, with a configurable lead time
+- Home screen widget to see your open todos at a glance
+- Home screen shortcut to create a new todo instantly
+- In-app theme selection (light, dark, or system default)
+- In-app language selection
 - Motivational empty-state messages when the list is empty or everything is done
 - Edge-to-edge UI following Material Design 3 guidelines
 - Full app translations into multiple languages:
@@ -97,33 +103,42 @@ Single-module project (`:app`). Package root: `at.co.schwaerzler.maximilian.doit
 
 ```text
 app/src/main/java/at/co/schwaerzler/maximilian/doit/
-├── MainActivity.kt
 ├── DoItApplication.kt
+├── MainActivity.kt
+├── OverviewWidget.kt
 ├── data/
-│   ├── HomeViewModel.kt
+│   ├── DeadlineNotificationWorker.kt
 │   ├── EditTodoViewModel.kt
+│   ├── HomeViewModel.kt
+│   ├── SettingsViewModel.kt
+│   ├── OverviewWidgetReceiver.kt
 │   └── db/
-│       ├── TodoDatabase.kt
 │       ├── Converters.kt
+│       ├── TodoDatabase.kt
+│       ├── TodoRepository.kt
 │       ├── dao/TodoDao.kt
 │       └── entity/
 │           ├── Todo.kt
 │           └── TodoSummary.kt
-└── ui/
-    ├── navigation/
-    │   ├── AppNavigation.kt
-    │   └── screen/
-    │       ├── HomeScreen.kt
-    │       ├── EditTodoScreen.kt
-    │       └── SettingsScreen.kt
-    ├── component/
-    │   ├── MaxWidthLayout.kt
-    │   └── TodoListItem.kt
-    └── theme/
-        ├── Color.kt
-        └── Theme.kt
+├── ui/
+│   ├── component/
+│   │   ├── MaxWidthLayout.kt
+│   │   ├── NotificationPermissionDialog.kt
+│   │   └── TodoListItem.kt
+│   ├── navigation/
+│   │   ├── AppNavigation.kt
+│   │   └── screen/
+│   │       ├── EditTodoScreen.kt
+│   │       ├── HomeScreen.kt
+│   │       └── SettingsScreen.kt
+│   └── theme/
+│       ├── Color.kt
+│       └── Theme.kt
 └── util/
-    └── IntentUtils.kt
+    ├── AppPreferences.kt
+    ├── IntentUtils.kt
+    ├── NotificationLeadTime.kt
+    └── ThemeUtils.kt
 ```
 
 ## Architecture
@@ -133,3 +148,9 @@ ViewModels and send events back as simple function calls. Room handles local per
 `TodoDao`. Navigation uses type-safe `@Serializable` route objects — screens receive navigation
 actions as callbacks and never hold a reference to `NavController`. `EditTodoScreen` serves as
 both the add and edit screen via a single nullable `todoId` parameter.
+
+## Known Bugs
+
+| Bug                                                                                                                                                                                                                                           | Affected versions         | Status                                                                                                                                     |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| The 🥳 emoji in the empty-state "Nothing to do!" message renders as a replacement character on Android 8.0 (API level 26). The emoji (U+1F973, introduced in Unicode 11.0) is not included in the system emoji font shipped with Android 8.0. | Android 8.0 (API 26) only | Won't fix — affects only the oldest supported Android version and would require adding the `androidx.emoji2` library for a cosmetic issue. |

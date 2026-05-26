@@ -16,7 +16,6 @@
 
 package at.co.schwaerzler.maximilian.doit.ui.navigation.screen
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,11 +26,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -42,27 +46,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import at.co.schwaerzler.maximilian.doit.R
+import at.co.schwaerzler.maximilian.doit.data.SettingsViewModel
+import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
+import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
 import at.co.schwaerzler.maximilian.doit.util.openUrl
-import at.co.schwaerzler.maximilian.doit.util.setTheme
-import at.co.schwaerzler.maximilian.doit.util.themeFlow
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Composable
@@ -83,10 +84,23 @@ private fun SettingsSectionHeader(title: String, modifier: Modifier = Modifier) 
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
 ) {
+    val themeMode by viewModel.themeMode.collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
+    val currentLocaleTag by viewModel.currentLocaleTag.collectAsStateWithLifecycle()
+    val notificationLeadTime by viewModel.notificationLeadTime
+        .collectAsStateWithLifecycle(NotificationLeadTime.THIRTY_MINUTES)
     SettingsScreenContent(
         onNavigateBack = onNavigateBack,
+        themeMode = themeMode,
+        onSetTheme = viewModel::setTheme,
+        versionName = viewModel.versionName,
+        currentLocaleTag = currentLocaleTag,
+        supportedLocales = viewModel.supportedLocales,
+        onSetLanguage = viewModel::setLanguage,
+        notificationLeadTime = notificationLeadTime,
+        onSetNotificationLeadTime = viewModel::setNotificationLeadTime,
         modifier = modifier
     )
 }
@@ -95,40 +109,29 @@ fun SettingsScreen(
 @Composable
 fun SettingsScreenContent(
     onNavigateBack: () -> Unit,
+    themeMode: AppThemeMode,
+    onSetTheme: (AppThemeMode) -> Unit,
+    versionName: String?,
+    currentLocaleTag: String,
+    supportedLocales: List<Pair<String, String>>,
+    onSetLanguage: (String) -> Unit,
+    notificationLeadTime: NotificationLeadTime,
+    onSetNotificationLeadTime: (NotificationLeadTime) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val githubUrl = stringResource(R.string.github_repo_url)
     val githubReleasesBaseUrl = stringResource(R.string.github_releases_base_url)
     val fdroidUrl = stringResource(R.string.fdroid_package_url)
-    val versionName = context.packageManager.getPackageInfo(context.packageName, 0).versionName
 
     var showLanguageDialog by remember { mutableStateOf(false) }
-    val currentLocales = AppCompatDelegate.getApplicationLocales()
-    val currentTag: String =
-        if (currentLocales.isEmpty) "" else currentLocales.toLanguageTags().split(",").first()
-            .trim()
-
-    val supportedLocaleTags = stringArrayResource(R.array.supported_locales)
-    val supportedLocales: List<Pair<String, String>> = remember {
-        supportedLocaleTags.map { tag ->
-            val locale = Locale.forLanguageTag(tag)
-            tag to locale.getDisplayName(locale).replaceFirstChar { it.uppercaseChar() }
-        }
-    }
-
-    val appPreferences = remember { context.appPreferencesDataStore }
-    val currentThemeMode by remember { appPreferences.themeFlow() }
-        .collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
-    val coroutineScope = rememberCoroutineScope()
-
     var showThemeDialog by remember { mutableStateOf(false) }
+    var notifLeadTimeExpanded by remember { mutableStateOf(false) }
 
-
-    val currentLanguageDisplay = if (currentTag.isEmpty()) {
+    val currentLanguageDisplay = if (currentLocaleTag.isEmpty()) {
         stringResource(R.string.settings_language_system_default)
     } else {
-        val locale = Locale.forLanguageTag(currentTag)
+        val locale = Locale.forLanguageTag(currentLocaleTag)
         locale.getDisplayName(locale).replaceFirstChar { it.uppercaseChar() }
     }
 
@@ -147,84 +150,125 @@ fun SettingsScreenContent(
             )
         }
     ) { innerPadding ->
-        Column(
-            Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            SettingsSectionHeader(stringResource(R.string.settings_section_general))
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.theme))
-                },
-                supportingContent = {
-                    Text(stringResource(currentThemeMode.labelRes))
-                },
-                leadingContent = {
-                    Icon(painterResource(currentThemeMode.iconRes), contentDescription = null)
-                },
-                modifier = Modifier.clickable { showThemeDialog = true }
-            )
+        MaxWidthLayout(Modifier.padding(innerPadding)) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                SettingsSectionHeader(stringResource(R.string.settings_section_general))
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.theme))
+                    },
+                    supportingContent = {
+                        Text(stringResource(themeMode.labelRes))
+                    },
+                    leadingContent = {
+                        Icon(painterResource(themeMode.iconRes), contentDescription = null)
+                    },
+                    modifier = Modifier.clickable { showThemeDialog = true }
+                )
 
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.settings_language))
-                },
-                supportingContent = {
-                    Text(currentLanguageDisplay)
-                },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.language_24px), contentDescription = null)
-                },
-                modifier = Modifier.clickable { showLanguageDialog = true }
-            )
-            SettingsSectionHeader(stringResource(R.string.settings_section_about))
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.app_version))
-                },
-                supportingContent = versionName?.let { version -> { Text(version) } },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.info_24px), contentDescription = null)
-                },
-                modifier = versionName?.let { version ->
-                    Modifier.clickable {
-                        context.openUrl("$githubReleasesBaseUrl/v$version")
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.settings_language))
+                    },
+                    supportingContent = {
+                        Text(currentLanguageDisplay)
+                    },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.language_24px), contentDescription = null)
+                    },
+                    modifier = Modifier.clickable { showLanguageDialog = true }
+                )
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.settings_notif_lead_time))
+                    },
+                    supportingContent = {
+                        ExposedDropdownMenuBox(
+                            expanded = notifLeadTimeExpanded,
+                            onExpandedChange = { notifLeadTimeExpanded = it },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            OutlinedTextField(
+                                value = stringResource(notificationLeadTime.labelRes),
+                                onValueChange = {},
+                                readOnly = true,
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = notifLeadTimeExpanded)
+                                },
+                                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+                                modifier = Modifier
+                                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                                    .fillMaxWidth(),
+                            )
+                            ExposedDropdownMenu(
+                                expanded = notifLeadTimeExpanded,
+                                onDismissRequest = { notifLeadTimeExpanded = false }
+                            ) {
+                                NotificationLeadTime.entries.forEach { option ->
+                                    DropdownMenuItem(
+                                        text = { Text(stringResource(option.labelRes)) },
+                                        onClick = {
+                                            onSetNotificationLeadTime(option)
+                                            notifLeadTimeExpanded = false
+                                        },
+                                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                                    )
+                                }
+                            }
+                        }
+                    },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.event_24px), contentDescription = null)
                     }
-                } ?: Modifier
-            )
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.source_code))
-                },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.code_24px), contentDescription = null)
-                },
-                modifier = Modifier.clickable { context.openUrl(githubUrl) }
-            )
-            ListItem(
-                headlineContent = {
-                    Text(stringResource(R.string.f_droid_package))
-                },
-                leadingContent = {
-                    Icon(painterResource(R.drawable.fdroid), contentDescription = null)
-                },
-                modifier = Modifier.clickable { context.openUrl(fdroidUrl) }
-            )
+                )
+                SettingsSectionHeader(stringResource(R.string.settings_section_about))
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.app_version))
+                    },
+                    supportingContent = versionName?.let { version -> { Text(version) } },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.info_24px), contentDescription = null)
+                    },
+                    modifier = versionName?.let { version ->
+                        Modifier.clickable {
+                            context.openUrl("$githubReleasesBaseUrl/v$version")
+                        }
+                    } ?: Modifier
+                )
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.source_code))
+                    },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.code_24px), contentDescription = null)
+                    },
+                    modifier = Modifier.clickable { context.openUrl(githubUrl) }
+                )
+                ListItem(
+                    headlineContent = {
+                        Text(stringResource(R.string.f_droid_package))
+                    },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.fdroid), contentDescription = null)
+                    },
+                    modifier = Modifier.clickable { context.openUrl(fdroidUrl) }
+                )
+            }
         }
     }
 
     if (showLanguageDialog) {
         LanguagePickerDialog(
-            currentTag = currentTag,
+            currentTag = currentLocaleTag,
             supportedLocales = supportedLocales,
             onDismiss = { showLanguageDialog = false },
             onSelectTag = { tag ->
-                AppCompatDelegate.setApplicationLocales(
-                    if (tag.isEmpty()) LocaleListCompat.getEmptyLocaleList()
-                    else LocaleListCompat.forLanguageTags(tag)
-                )
+                onSetLanguage(tag)
                 showLanguageDialog = false
             }
         )
@@ -232,14 +276,12 @@ fun SettingsScreenContent(
 
     if (showThemeDialog) {
         ThemePickerDialog(
-            currentThemeMode,
+            themeMode,
             onDismiss = {
                 showThemeDialog = false
             },
             onSelection = { mode ->
-                coroutineScope.launch {
-                    appPreferences.setTheme(mode)
-                }
+                onSetTheme(mode)
                 showThemeDialog = false
             }
         )
@@ -355,7 +397,17 @@ fun ThemePickerDialog(
 @Composable
 private fun SettingsScreenPreview() {
     DoItTheme {
-        SettingsScreenContent(onNavigateBack = {})
+        SettingsScreenContent(
+            onNavigateBack = {},
+            themeMode = AppThemeMode.FOLLOW_SYSTEM,
+            onSetTheme = {},
+            versionName = "1.0.0",
+            currentLocaleTag = "",
+            supportedLocales = emptyList(),
+            onSetLanguage = {},
+            notificationLeadTime = NotificationLeadTime.THIRTY_MINUTES,
+            onSetNotificationLeadTime = {}
+        )
     }
 }
 
@@ -364,7 +416,17 @@ private fun SettingsScreenPreview() {
 private fun SettingsScreenDarkPreview() {
     DoItTheme(darkTheme = true) {
         Surface {
-            SettingsScreenContent(onNavigateBack = {})
+            SettingsScreenContent(
+                onNavigateBack = {},
+                themeMode = AppThemeMode.DARK,
+                onSetTheme = {},
+                versionName = "1.0.0",
+                currentLocaleTag = "",
+                supportedLocales = emptyList(),
+                onSetLanguage = {},
+                notificationLeadTime = NotificationLeadTime.THIRTY_MINUTES,
+                onSetNotificationLeadTime = {}
+            )
         }
     }
 }
