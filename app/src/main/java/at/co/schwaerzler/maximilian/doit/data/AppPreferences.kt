@@ -35,8 +35,10 @@ object AppPreferenceKeys {
     val THEME = stringPreferencesKey("theme")
     val NOTIFICATION_LEAD_TIME = stringPreferencesKey("notification_lead_time")
     val DO_NOT_SHOW_WIDGET_PIN_DIALOG = booleanPreferencesKey("do_not_show_widget_pin_dialog")
-    val DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG = booleanPreferencesKey("do_not_show_notification_permission_dialog")
+    val DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG =
+        booleanPreferencesKey("do_not_show_notification_permission_dialog")
     val TODOS_DONE_COUNT = intPreferencesKey("todos_done_count")
+    val USE_DYNAMIC_COLOR = booleanPreferencesKey("use_dynamic_color")
 }
 
 suspend fun DataStore<Preferences>.setTheme(themeMode: AppThemeMode) {
@@ -61,7 +63,11 @@ suspend fun DataStore<Preferences>.setNotificationLeadTime(leadTime: Notificatio
 fun DataStore<Preferences>.notificationLeadTimeFlow(): Flow<NotificationLeadTime> =
     data.map { prefs ->
         prefs[AppPreferenceKeys.NOTIFICATION_LEAD_TIME]?.let {
-            try { NotificationLeadTime.valueOf(it) } catch (_: IllegalArgumentException) { null }
+            try {
+                NotificationLeadTime.valueOf(it)
+            } catch (_: IllegalArgumentException) {
+                null
+            }
         } ?: NotificationLeadTime.THIRTY_MINUTES
     }
 
@@ -88,10 +94,21 @@ fun DataStore<Preferences>.doNotShowNotificationDialogAgainFlow(): Flow<Boolean>
     }
 
 suspend fun DataStore<Preferences>.incrementTodosDoneCount() {
-    edit { it[AppPreferenceKeys.TODOS_DONE_COUNT] = (it[AppPreferenceKeys.TODOS_DONE_COUNT] ?: 0) + 1 }
+    edit {
+        it[AppPreferenceKeys.TODOS_DONE_COUNT] = (it[AppPreferenceKeys.TODOS_DONE_COUNT] ?: 0) + 1
+    }
 }
 
 fun DataStore<Preferences>.todosDoneCountFlow(): Flow<Int> =
     data.map { preferences ->
         preferences[AppPreferenceKeys.TODOS_DONE_COUNT] ?: 0
+    }
+
+suspend fun DataStore<Preferences>.setUseDynamicTheme(use: Boolean) {
+    edit { it[AppPreferenceKeys.USE_DYNAMIC_COLOR] = use }
+}
+
+fun DataStore<Preferences>.useDynamicColorFlow(): Flow<Boolean> =
+    data.map { preferences ->
+        preferences[AppPreferenceKeys.USE_DYNAMIC_COLOR] ?: true
     }
