@@ -20,6 +20,10 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import at.co.schwaerzler.maximilian.doit.data.appPreferencesDataStore
+import at.co.schwaerzler.maximilian.doit.data.useDynamicColorFlow
 import at.co.schwaerzler.maximilian.doit.ui.navigation.AppNavigation
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 
@@ -28,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            DoItTheme {
+            val useDynamicColors by appPreferencesDataStore.useDynamicColorFlow()
+                .collectAsStateWithLifecycle(true)
+            DoItTheme(dynamicColor = useDynamicColors) {
                 AppNavigation()
             }
         }

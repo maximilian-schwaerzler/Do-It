@@ -39,6 +39,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -89,6 +90,7 @@ fun SettingsScreen(
 ) {
     val themeMode by viewModel.themeMode.collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
     val currentLocaleTag by viewModel.currentLocaleTag.collectAsStateWithLifecycle()
+    val useDynamicColors by viewModel.useDynamicColors.collectAsStateWithLifecycle(true)
     val notificationLeadTime by viewModel.notificationLeadTime
         .collectAsStateWithLifecycle(NotificationLeadTime.THIRTY_MINUTES)
     SettingsScreenContent(
@@ -101,6 +103,8 @@ fun SettingsScreen(
         onSetLanguage = viewModel::setLanguage,
         notificationLeadTime = notificationLeadTime,
         onSetNotificationLeadTime = viewModel::setNotificationLeadTime,
+        useDynamicColors = useDynamicColors,
+        onSetUseDynamicColors = viewModel::setUseDynamicColor,
         modifier = modifier
     )
 }
@@ -117,7 +121,9 @@ fun SettingsScreenContent(
     onSetLanguage: (String) -> Unit,
     notificationLeadTime: NotificationLeadTime,
     onSetNotificationLeadTime: (NotificationLeadTime) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    useDynamicColors: Boolean?,
+    onSetUseDynamicColors: (Boolean) -> Unit
 ) {
     val context = LocalContext.current
     val githubUrl = stringResource(R.string.github_repo_url)
@@ -172,6 +178,18 @@ fun SettingsScreenContent(
 
                 ListItem(
                     headlineContent = {
+                        Text("Dynamic Color")
+                    },
+                    leadingContent = {
+                        Icon(painterResource(R.drawable.colors_24px), contentDescription = null)
+                    },
+                    trailingContent = useDynamicColors?.let { enabled ->
+                        { Switch(enabled, { onSetUseDynamicColors(it) }) }
+                    }
+                )
+
+                ListItem(
+                    headlineContent = {
                         Text(stringResource(R.string.settings_language))
                     },
                     supportingContent = {
@@ -182,6 +200,7 @@ fun SettingsScreenContent(
                     },
                     modifier = Modifier.clickable { showLanguageDialog = true }
                 )
+
                 ListItem(
                     headlineContent = {
                         Text(stringResource(R.string.settings_notif_lead_time))
@@ -406,7 +425,9 @@ private fun SettingsScreenPreview() {
             supportedLocales = emptyList(),
             onSetLanguage = {},
             notificationLeadTime = NotificationLeadTime.THIRTY_MINUTES,
-            onSetNotificationLeadTime = {}
+            onSetNotificationLeadTime = {},
+            useDynamicColors = true,
+            onSetUseDynamicColors = {},
         )
     }
 }
@@ -425,7 +446,9 @@ private fun SettingsScreenDarkPreview() {
                 supportedLocales = emptyList(),
                 onSetLanguage = {},
                 notificationLeadTime = NotificationLeadTime.THIRTY_MINUTES,
-                onSetNotificationLeadTime = {}
+                onSetNotificationLeadTime = {},
+                useDynamicColors = true,
+                onSetUseDynamicColors = {},
             )
         }
     }

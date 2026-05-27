@@ -32,9 +32,12 @@ import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
 import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
 import at.co.schwaerzler.maximilian.doit.util.applyNightMode
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -48,6 +51,7 @@ class SettingsViewModel(
 
     val notificationLeadTime = appPreferences.notificationLeadTimeFlow()
 
+    val useDynamicColors: Flow<Boolean> = appPreferences.useDynamicColorFlow()
     val versionName: String? =
         application.packageManager.getPackageInfo(application.packageName, 0).versionName
 
@@ -73,6 +77,12 @@ class SettingsViewModel(
     fun setNotificationLeadTime(leadTime: NotificationLeadTime) {
         viewModelScope.launch {
             appPreferences.setNotificationLeadTime(leadTime)
+        }
+    }
+
+    fun setUseDynamicColor(use: Boolean) {
+        viewModelScope.launch {
+            appPreferences.setUseDynamicTheme(use)
         }
     }
 
