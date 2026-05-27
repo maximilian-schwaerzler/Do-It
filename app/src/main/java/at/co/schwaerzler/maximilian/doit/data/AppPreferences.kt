@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package at.co.schwaerzler.maximilian.doit.util
+package at.co.schwaerzler.maximilian.doit.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -24,6 +24,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
+import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

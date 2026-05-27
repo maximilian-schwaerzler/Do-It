@@ -74,10 +74,10 @@ import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel.EditTodoUiState
 import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.component.NotificationPermissionDialog
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.util.doNotShowNotificationDialogAgain
-import at.co.schwaerzler.maximilian.doit.util.doNotShowNotificationDialogAgainFlow
-import at.co.schwaerzler.maximilian.doit.util.resetDoNotShowNotificationDialog
+import at.co.schwaerzler.maximilian.doit.data.appPreferencesDataStore
+import at.co.schwaerzler.maximilian.doit.data.doNotShowNotificationDialogAgain
+import at.co.schwaerzler.maximilian.doit.data.doNotShowNotificationDialogAgainFlow
+import at.co.schwaerzler.maximilian.doit.data.resetDoNotShowNotificationDialog
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus

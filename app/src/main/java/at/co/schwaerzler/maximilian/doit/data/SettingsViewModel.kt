@@ -32,11 +32,6 @@ import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
 import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
 import at.co.schwaerzler.maximilian.doit.util.applyNightMode
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.util.notificationLeadTimeFlow
-import at.co.schwaerzler.maximilian.doit.util.setNotificationLeadTime
-import at.co.schwaerzler.maximilian.doit.util.setTheme
-import at.co.schwaerzler.maximilian.doit.util.themeFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

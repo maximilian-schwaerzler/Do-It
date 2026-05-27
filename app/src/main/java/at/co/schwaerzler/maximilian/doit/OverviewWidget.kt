@@ -17,8 +17,6 @@
 package at.co.schwaerzler.maximilian.doit
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,14 +30,10 @@ import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
-import androidx.glance.action.ActionParameters
-import androidx.glance.action.actionParametersOf
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
-import androidx.glance.appwidget.action.actionStartActivity
-import androidx.glance.appwidget.components.CircleIconButton
 import androidx.glance.appwidget.components.Scaffold
 import androidx.glance.appwidget.components.TitleBar
 import androidx.glance.appwidget.lazy.LazyColumn
@@ -57,11 +51,10 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
+import at.co.schwaerzler.maximilian.doit.data.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import kotlin.time.Clock
-import androidx.core.net.toUri
 
 class OverviewWidget : GlanceAppWidget() {
     override val sizeMode: SizeMode = SizeMode.Single

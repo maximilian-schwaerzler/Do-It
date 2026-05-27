@@ -32,7 +32,7 @@ import at.co.schwaerzler.maximilian.doit.data.db.dao.TodoDao
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
-import at.co.schwaerzler.maximilian.doit.util.notificationLeadTimeFlow
+import at.co.schwaerzler.maximilian.doit.data.notificationLeadTimeFlow
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first

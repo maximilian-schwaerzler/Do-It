@@ -77,10 +77,10 @@ import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.component.TodoListItem
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.util.doNotShowWidgetDialogAgain
-import at.co.schwaerzler.maximilian.doit.util.doNotShowWidgetDialogAgainFlow
-import at.co.schwaerzler.maximilian.doit.util.todosDoneCountFlow
+import at.co.schwaerzler.maximilian.doit.data.appPreferencesDataStore
+import at.co.schwaerzler.maximilian.doit.data.doNotShowWidgetDialogAgain
+import at.co.schwaerzler.maximilian.doit.data.doNotShowWidgetDialogAgainFlow
+import at.co.schwaerzler.maximilian.doit.data.todosDoneCountFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.time.Clock

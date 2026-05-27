@@ -29,8 +29,6 @@ import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.util.incrementTodosDoneCount
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map

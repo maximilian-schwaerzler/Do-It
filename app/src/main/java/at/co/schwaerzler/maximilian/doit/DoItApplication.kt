@@ -22,8 +22,8 @@ import android.app.NotificationManager
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
 import at.co.schwaerzler.maximilian.doit.util.applyNightMode
-import at.co.schwaerzler.maximilian.doit.util.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.util.themeFlow
+import at.co.schwaerzler.maximilian.doit.data.appPreferencesDataStore
+import at.co.schwaerzler.maximilian.doit.data.themeFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
