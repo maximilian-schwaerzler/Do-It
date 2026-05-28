@@ -16,8 +16,6 @@
 
 package at.co.schwaerzler.maximilian.doit.data
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -37,7 +35,7 @@ import kotlinx.coroutines.launch
 /** ViewModel for the home screen, exposing the todo lists and bulk-action operations. */
 class HomeViewModel(
     private val repository: TodoRepository,
-    private val appPreferences: DataStore<Preferences>
+    private val appPreferences: AppPreferences
 ) : ViewModel() {
     /**
      * Flow of open and done [TodoSummary] lists derived from a single Room query.
@@ -61,6 +59,13 @@ class HomeViewModel(
      *  Empty when no undo is pending. */
     private val _pendingUndoTodos = MutableStateFlow<List<Todo>>(emptyList())
     val pendingUndoTodos = _pendingUndoTodos.asStateFlow()
+
+    val todosDone = appPreferences.todosDone
+    val doNotShowWidgetDialogAgain = appPreferences.doNotShowWidgetDialogAgain
+
+    fun enableDoNotShowWidgetDialogAgain() {
+        appPreferences.enableDoNotShowWidgetDialogAgain()
+    }
 
     /**
      * Toggles [todo] between [TodoState.OPEN] and [TodoState.DONE].
@@ -105,7 +110,7 @@ class HomeViewModel(
                 val app = this[APPLICATION_KEY] as DoItApplication
                 HomeViewModel(
                     repository = app.repository,
-                    appPreferences = app.appPreferencesDataStore
+                    appPreferences = app.appPreferences
                 )
             }
         }

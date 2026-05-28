@@ -88,11 +88,10 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = viewModel(factory = SettingsViewModel.Factory)
 ) {
-    val themeMode by viewModel.themeMode.collectAsStateWithLifecycle(AppThemeMode.FOLLOW_SYSTEM)
+    val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
     val currentLocaleTag by viewModel.currentLocaleTag.collectAsStateWithLifecycle()
-    val useDynamicColors by viewModel.useDynamicColors.collectAsStateWithLifecycle(null)
-    val notificationLeadTime by viewModel.notificationLeadTime
-        .collectAsStateWithLifecycle(NotificationLeadTime.THIRTY_MINUTES)
+    val useDynamicColors by viewModel.useDynamicColors.collectAsStateWithLifecycle()
+    val notificationLeadTime by viewModel.notificationLeadTime.collectAsStateWithLifecycle()
     SettingsScreenContent(
         onNavigateBack = onNavigateBack,
         themeMode = themeMode,

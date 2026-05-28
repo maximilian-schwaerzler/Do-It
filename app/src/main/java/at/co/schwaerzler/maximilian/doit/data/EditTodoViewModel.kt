@@ -44,7 +44,8 @@ import kotlin.time.Instant
  */
 class EditTodoViewModel(
     private val appContext: Context,
-    private val repository: TodoRepository
+    private val repository: TodoRepository,
+    private val appPreferences: AppPreferences
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<EditTodoUiState>(EditTodoUiState())
 
@@ -55,6 +56,16 @@ class EditTodoViewModel(
     private var originalTitle = ""
     private var originalDescription = ""
     private var originalDeadline: Instant? = null
+
+    val doNotShowNotificationDialogAgain = appPreferences.doNotShowNotificationDialogAgain
+
+    fun enableDoNotShowNotificationDialogAgain() {
+        appPreferences.enableDoNotShowNotificationDialogAgain()
+    }
+
+    fun resetDoNotShowNotificationDialog() {
+        appPreferences.resetDoNotShowNotificationDialog()
+    }
 
     /**
      * `true` when any form field differs from the values loaded by [loadTodo].
@@ -168,7 +179,8 @@ class EditTodoViewModel(
                 val app = this[APPLICATION_KEY] as DoItApplication
                 EditTodoViewModel(
                     appContext = app.applicationContext,
-                    repository = app.repository
+                    repository = app.repository,
+                    appPreferences = app.appPreferences
                 )
             }
         }

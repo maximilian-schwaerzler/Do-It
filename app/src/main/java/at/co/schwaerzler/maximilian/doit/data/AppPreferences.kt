@@ -26,23 +26,31 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
 import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class AppPreferences(private val dataStore: DataStore<Preferences>) {
+class AppPreferences(
+    private val dataStore: DataStore<Preferences>,
+    private val scope: CoroutineScope
+) {
     val theme = dataStore.data.map { preferences ->
         preferences[THEME]?.let { themeModeString ->
             try {
                 AppThemeMode.valueOf(themeModeString)
             } catch (_: IllegalArgumentException) {
-                AppThemeMode.FOLLOW_SYSTEM
+                null
             }
         } ?: AppThemeMode.FOLLOW_SYSTEM
+    }.stateIn(scope, SharingStarted.Eagerly, AppThemeMode.FOLLOW_SYSTEM)
+
+    fun setTheme(themeMode: AppThemeMode) = scope.launch {
+        dataStore.edit { it[THEME] = themeMode.name }
     }
 
-    suspend fun setTheme(themeMode: AppThemeMode) =
-        dataStore.edit { it[THEME] = themeMode.name }
-
-    val notificationLeadTimeFlow =
+    val notificationLeadTime =
         dataStore.data.map { prefs ->
             prefs[NOTIFICATION_LEAD_TIME]?.let {
                 try {
@@ -51,29 +59,46 @@ class AppPreferences(private val dataStore: DataStore<Preferences>) {
                     null
                 }
             } ?: NotificationLeadTime.THIRTY_MINUTES
-        }
+        }.stateIn(scope, SharingStarted.Eagerly, NotificationLeadTime.THIRTY_MINUTES)
 
-    suspend fun setNotificationLeadTime(leadTime: NotificationLeadTime) =
+    fun setNotificationLeadTime(leadTime: NotificationLeadTime) = scope.launch {
         dataStore.edit { it[NOTIFICATION_LEAD_TIME] = leadTime.name }
+    }
 
     val doNotShowWidgetDialogAgain = dataStore.data.map {
         it[DO_NOT_SHOW_WIDGET_PIN_DIALOG] ?: false
+    }.stateIn(scope, SharingStarted.Eagerly, false)
+
+    fun enableDoNotShowWidgetDialogAgain() = scope.launch {
+        dataStore.edit { it[DO_NOT_SHOW_WIDGET_PIN_DIALOG] = true }
     }
 
-    suspend fun doNotShowWidgetDialogAgain() = dataStore.edit {
-        it[DO_NOT_SHOW_WIDGET_PIN_DIALOG] = true
+    fun enableDoNotShowNotificationDialogAgain() = scope.launch {
+        dataStore.edit { it[DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] = true }
     }
 
-    suspend fun resetDoNotShowNotificationDialog() = dataStore.edit {
-        it[DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] = false
+    fun resetDoNotShowNotificationDialog() = scope.launch {
+        dataStore.edit { it[DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] = false }
     }
 
-    val doNotShowNotificationDialogAgainFlow = dataStore.data.map {
+    val doNotShowNotificationDialogAgain = dataStore.data.map {
         it[DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] ?: false
+    }.stateIn(scope, SharingStarted.Eagerly, false)
+
+    val todosDone = dataStore.data.map {
+        it[TODOS_DONE_COUNT] ?: 0
+    }.stateIn(scope, SharingStarted.Eagerly, 0)
+
+    fun incrementTodosDoneCount() = scope.launch {
+        dataStore.edit { it[TODOS_DONE_COUNT] = (it[TODOS_DONE_COUNT] ?: 0) + 1 }
     }
 
-    suspend fun incrementTodosDoneCount() = dataStore.edit {
-        it[TODOS_DONE_COUNT] = (it[TODOS_DONE_COUNT] ?: 0) + 1
+    val useDynamicColors = dataStore.data.map {
+        it[USE_DYNAMIC_COLOR] ?: true
+    }.stateIn(scope, SharingStarted.Eagerly, true)
+
+    fun setUseDynamicColors(use: Boolean) = scope.launch {
+        dataStore.edit { it[USE_DYNAMIC_COLOR] = use }
     }
 
     companion object {
@@ -87,19 +112,4 @@ class AppPreferences(private val dataStore: DataStore<Preferences>) {
     }
 }
 
-
 val Context.appPreferencesDataStore: DataStore<Preferences> by preferencesDataStore(name = "appPreferences")
-
-//fun DataStore<Preferences>.todosDoneCountFlow(): Flow<Int> =
-//    data.map { preferences ->
-//        preferences[AppPreferenceKeys.TODOS_DONE_COUNT] ?: 0
-//    }
-//
-//suspend fun DataStore<Preferences>.setUseDynamicTheme(use: Boolean) {
-//    edit { it[AppPreferenceKeys.USE_DYNAMIC_COLOR] = use }
-//}
-//
-//fun DataStore<Preferences>.useDynamicColorFlow(): Flow<Boolean> =
-//    data.map { preferences ->
-//        preferences[AppPreferenceKeys.USE_DYNAMIC_COLOR] ?: true
-//    }

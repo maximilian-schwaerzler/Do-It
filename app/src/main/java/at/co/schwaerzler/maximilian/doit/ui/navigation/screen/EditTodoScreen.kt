@@ -54,13 +54,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -74,16 +72,11 @@ import at.co.schwaerzler.maximilian.doit.data.EditTodoViewModel.EditTodoUiState
 import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.component.NotificationPermissionDialog
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
-import at.co.schwaerzler.maximilian.doit.data.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.data.doNotShowNotificationDialogAgain
-import at.co.schwaerzler.maximilian.doit.data.doNotShowNotificationDialogAgainFlow
-import at.co.schwaerzler.maximilian.doit.data.resetDoNotShowNotificationDialog
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
@@ -114,13 +107,11 @@ fun EditTodoScreen(
     modifier: Modifier = Modifier,
     viewModel: EditTodoViewModel = viewModel(factory = EditTodoViewModel.Factory)
 ) {
-    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isModified by viewModel.isModified.collectAsStateWithLifecycle()
     var showDiscardDialog by remember { mutableStateOf(false) }
     var showNotificationPermissionDialog by remember { mutableStateOf(false) }
-    val appPreferences = remember { context.appPreferencesDataStore }
-    val doNotShowNotificationDialog by appPreferences.doNotShowNotificationDialogAgainFlow().collectAsStateWithLifecycle(false)
+    val doNotShowNotificationDialog by viewModel.doNotShowNotificationDialogAgain.collectAsStateWithLifecycle()
 
     LaunchedEffect(todoId) {
         if (todoId != null) {
@@ -163,11 +154,9 @@ fun EditTodoScreen(
             }
         }
 
-    val coroutineScope = rememberCoroutineScope()
-
     LaunchedEffect(notificationPermissionState.status.isGranted) {
         if (notificationPermissionState.status.isGranted) {
-            appPreferences.resetDoNotShowNotificationDialog()
+            viewModel.resetDoNotShowNotificationDialog()
             if (showNotificationPermissionDialog) {
                 showNotificationPermissionDialog = false
                 navigateBack()
@@ -183,11 +172,9 @@ fun EditTodoScreen(
                 navigateBack()
             },
             onDoNotShowAgain = {
-                coroutineScope.launch {
-                    appPreferences.doNotShowNotificationDialogAgain()
-                    showNotificationPermissionDialog = false
-                    navigateBack()
-                }
+                viewModel.enableDoNotShowNotificationDialogAgain()
+                showNotificationPermissionDialog = false
+                navigateBack()
             }
         )
     }

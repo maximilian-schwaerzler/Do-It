@@ -19,13 +19,14 @@ package at.co.schwaerzler.maximilian.doit
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import at.co.schwaerzler.maximilian.doit.data.AppPreferences
+import at.co.schwaerzler.maximilian.doit.data.appPreferencesDataStore
 import at.co.schwaerzler.maximilian.doit.data.db.TodoDatabase
 import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
 import at.co.schwaerzler.maximilian.doit.util.applyNightMode
-import at.co.schwaerzler.maximilian.doit.data.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.data.themeFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 
 /** Application subclass that lazily initializes the Room database singleton. */
 class DoItApplication : Application() {
@@ -34,12 +35,15 @@ class DoItApplication : Application() {
     }
 
     val repository: TodoRepository by lazy {
-        TodoRepository(applicationContext, database.todoDao(), appPreferencesDataStore)
+        TodoRepository(applicationContext, database.todoDao(), appPreferences)
     }
+
+    val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    val appPreferences by lazy { AppPreferences(appPreferencesDataStore, applicationScope) }
 
     override fun onCreate() {
         super.onCreate()
-        val themeMode = runBlocking { appPreferencesDataStore.themeFlow().first() }
+        val themeMode = appPreferences.theme.value
         themeMode.applyNightMode(this)
         setupNotificationChannel()
     }
@@ -48,7 +52,11 @@ class DoItApplication : Application() {
         val name = getString(R.string.todo_deadline_notif_channel_name)
         val descriptionText = getString(R.string.todo_deadline_notif_channel_description)
         val importance = NotificationManager.IMPORTANCE_HIGH
-        val mChannel = NotificationChannel(getString(R.string.todo_deadline_notif_channel_id), name, importance)
+        val mChannel = NotificationChannel(
+            getString(R.string.todo_deadline_notif_channel_id),
+            name,
+            importance
+        )
         mChannel.description = descriptionText
         val notificationManager = getSystemService(NotificationManager::class.java)
         notificationManager.createNotificationChannel(mChannel)

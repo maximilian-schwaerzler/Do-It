@@ -57,7 +57,7 @@ class EditTodoViewModelTest {
             .build()
         viewModel = EditTodoViewModel(
             context,
-            TodoRepository(context, db.todoDao(), context.appPreferencesDataStore)
+            TodoRepository(context, db.todoDao(), context.appPreferencesDataStore),
         )
     }
 

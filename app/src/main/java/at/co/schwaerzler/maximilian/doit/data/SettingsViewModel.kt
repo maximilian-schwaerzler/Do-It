@@ -19,12 +19,9 @@ package at.co.schwaerzler.maximilian.doit.data
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import at.co.schwaerzler.maximilian.doit.DoItApplication
@@ -32,26 +29,22 @@ import at.co.schwaerzler.maximilian.doit.R
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
 import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
 import at.co.schwaerzler.maximilian.doit.util.applyNightMode
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 /** ViewModel for the settings screen, owning theme preference, locale, and app-version state. */
 class SettingsViewModel(
     private val application: Application,
-    private val appPreferences: DataStore<Preferences>
+    private val appPreferences: AppPreferences
 ) : ViewModel() {
 
-    val themeMode = appPreferences.themeFlow()
+    val themeMode = appPreferences.theme
 
-    val notificationLeadTime = appPreferences.notificationLeadTimeFlow()
+    val notificationLeadTime = appPreferences.notificationLeadTime
 
-    val useDynamicColors: Flow<Boolean> = appPreferences.useDynamicColorFlow()
+    val useDynamicColors = appPreferences.useDynamicColors
     val versionName: String? =
         application.packageManager.getPackageInfo(application.packageName, 0).versionName
 
@@ -69,21 +62,15 @@ class SettingsViewModel(
 
     fun setTheme(mode: AppThemeMode) {
         mode.applyNightMode(application)
-        viewModelScope.launch {
-            appPreferences.setTheme(mode)
-        }
+        appPreferences.setTheme(mode)
     }
 
     fun setNotificationLeadTime(leadTime: NotificationLeadTime) {
-        viewModelScope.launch {
-            appPreferences.setNotificationLeadTime(leadTime)
-        }
+        appPreferences.setNotificationLeadTime(leadTime)
     }
 
     fun setUseDynamicColor(use: Boolean) {
-        viewModelScope.launch {
-            appPreferences.setUseDynamicTheme(use)
-        }
+        appPreferences.setUseDynamicColors(use)
     }
 
     fun setLanguage(tag: String) {
@@ -100,7 +87,7 @@ class SettingsViewModel(
                 val app = this[APPLICATION_KEY] as DoItApplication
                 SettingsViewModel(
                     application = app,
-                    appPreferences = app.appPreferencesDataStore
+                    appPreferences = app.appPreferences
                 )
             }
         }

@@ -77,10 +77,6 @@ import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
 import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.component.TodoListItem
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
-import at.co.schwaerzler.maximilian.doit.data.appPreferencesDataStore
-import at.co.schwaerzler.maximilian.doit.data.doNotShowWidgetDialogAgain
-import at.co.schwaerzler.maximilian.doit.data.doNotShowWidgetDialogAgainFlow
-import at.co.schwaerzler.maximilian.doit.data.todosDoneCountFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.time.Clock
@@ -140,6 +136,9 @@ fun HomeScreen(
         }
     }
 
+    val todosDoneCount by viewModel.todosDone.collectAsStateWithLifecycle()
+    val doNotShowWidgetDialogAgain by viewModel.doNotShowWidgetDialogAgain.collectAsStateWithLifecycle()
+
     HomeScreenContent(
         openTodos = openTodos,
         doneTodos = doneTodos,
@@ -166,7 +165,10 @@ fun HomeScreen(
         onDeleteTodo = {
             viewModel.deleteTodosByIds(listOf(it))
         },
-        snackbarHostState = snackbarHostState
+        snackbarHostState = snackbarHostState,
+        todosDoneCount = todosDoneCount,
+        doNotShowWidgetPinDialog = doNotShowWidgetDialogAgain,
+        doNotShowWidgetDialogAgain = viewModel::enableDoNotShowWidgetDialogAgain
     )
 }
 
@@ -187,27 +189,18 @@ private fun HomeScreenContent(
     onDeleteTodo: (id: Int) -> Unit,
     modifier: Modifier = Modifier,
     onSelectAll: () -> Unit,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    todosDoneCount: Int,
+    doNotShowWidgetPinDialog: Boolean,
+    doNotShowWidgetDialogAgain: () -> Unit
 ) {
     val selectionToolbar = selectedTodos.isNotEmpty()
     val isAllSelected = selectedTodos.size == openTodos.size + doneTodos.size
     var showWidgetPinIncentiveDialog by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
-    val appPreferences = remember { context.appPreferencesDataStore }
-    val doNotShowWidgetPinDialog by remember { appPreferences.doNotShowWidgetDialogAgainFlow() }.collectAsStateWithLifecycle(
-        false
-    )
-    val todosDoneCount by remember { appPreferences.todosDoneCountFlow() }.collectAsStateWithLifecycle(
-        0
-    )
 
     val coroutineScope = rememberCoroutineScope()
-    fun widgetDialogDismissDoNotShowAgain() {
-        coroutineScope.launch {
-            appPreferences.doNotShowWidgetDialogAgain()
-        }
-    }
 
     LaunchedEffect(todosDoneCount, doNotShowWidgetPinDialog) {
         if (todosDoneCount < 1) {
@@ -429,7 +422,7 @@ private fun HomeScreenContent(
                 coroutineScope,
                 onDismissRequest = {
                     if (it) {
-                        widgetDialogDismissDoNotShowAgain()
+                        doNotShowWidgetDialogAgain()
                     }
                     showWidgetPinIncentiveDialog = false
                 }
@@ -505,7 +498,10 @@ private fun HomeScreenEmptyPreview() {
             onDeleteSelection = {},
             onClickSettings = {},
             onDeleteTodo = {},
-            snackbarHostState = remember { SnackbarHostState() }
+            snackbarHostState = remember { SnackbarHostState() },
+            todosDoneCount = 0,
+            doNotShowWidgetPinDialog = true,
+            doNotShowWidgetDialogAgain = {},
         )
     }
 }
@@ -527,7 +523,10 @@ private fun HomeScreenWithTodosPreview() {
             onDeleteSelection = {},
             onClickSettings = {},
             onDeleteTodo = {},
-            snackbarHostState = remember { SnackbarHostState() }
+            snackbarHostState = remember { SnackbarHostState() },
+            todosDoneCount = 0,
+            doNotShowWidgetPinDialog = true,
+            doNotShowWidgetDialogAgain = {},
         )
     }
 }
@@ -549,7 +548,10 @@ private fun HomeScreenAllDonePreview() {
             onDeleteSelection = {},
             onClickSettings = {},
             onDeleteTodo = {},
-            snackbarHostState = remember { SnackbarHostState() }
+            snackbarHostState = remember { SnackbarHostState() },
+            todosDoneCount = 0,
+            doNotShowWidgetPinDialog = true,
+            doNotShowWidgetDialogAgain = {},
         )
     }
 }
@@ -571,7 +573,10 @@ private fun HomeScreenSelectionPreview() {
             onDeleteSelection = {},
             onClickSettings = {},
             onDeleteTodo = {},
-            snackbarHostState = remember { SnackbarHostState() }
+            snackbarHostState = remember { SnackbarHostState() },
+            todosDoneCount = 0,
+            doNotShowWidgetPinDialog = true,
+            doNotShowWidgetDialogAgain = {},
         )
     }
 }

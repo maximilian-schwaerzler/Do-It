@@ -18,8 +18,6 @@ package at.co.schwaerzler.maximilian.doit.data.db
 
 import android.content.Context
 import android.util.Log
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.glance.appwidget.updateAll
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
@@ -27,15 +25,14 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import at.co.schwaerzler.maximilian.doit.OverviewWidget
 import at.co.schwaerzler.maximilian.doit.R
+import at.co.schwaerzler.maximilian.doit.data.AppPreferences
 import at.co.schwaerzler.maximilian.doit.data.DeadlineNotificationWorker
 import at.co.schwaerzler.maximilian.doit.data.db.dao.TodoDao
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
-import at.co.schwaerzler.maximilian.doit.data.notificationLeadTimeFlow
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlin.time.Clock
 import kotlin.time.Instant
@@ -44,7 +41,7 @@ import kotlin.time.toJavaDuration
 class TodoRepository(
     private val appContext: Context,
     private val dao: TodoDao,
-    private val appPreferences: DataStore<Preferences>
+    private val appPreferences: AppPreferences
 ) {
     private val workManager = WorkManager.getInstance(appContext)
 
@@ -147,7 +144,7 @@ class TodoRepository(
     }
 
     private suspend fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
-        val leadTime = appPreferences.notificationLeadTimeFlow().first()
+        val leadTime = appPreferences.notificationLeadTime.value
         val delay = (deadline - Clock.System.now()) - leadTime.duration
         if (delay.isNegative()) return
 
