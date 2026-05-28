@@ -43,7 +43,7 @@ class DoItApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val themeMode = appPreferences.theme.value
+        val themeMode = appPreferences.themeMode.value
         themeMode.applyNightMode(this)
         setupNotificationChannel()
     }

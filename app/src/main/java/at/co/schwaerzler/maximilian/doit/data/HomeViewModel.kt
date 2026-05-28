@@ -61,10 +61,10 @@ class HomeViewModel(
     val pendingUndoTodos = _pendingUndoTodos.asStateFlow()
 
     val todosDone = appPreferences.todosDone
-    val doNotShowWidgetDialogAgain = appPreferences.doNotShowWidgetDialogAgain
+    val widgetDialogSuppressed = appPreferences.widgetDialogSuppressed
 
-    fun enableDoNotShowWidgetDialogAgain() {
-        appPreferences.enableDoNotShowWidgetDialogAgain()
+    fun suppressWidgetDialog() {
+        appPreferences.saveWidgetDialogSuppressed(true)
     }
 
     /**
@@ -77,7 +77,7 @@ class HomeViewModel(
             val newState = if (todo.state == TodoState.OPEN) TodoState.DONE else TodoState.OPEN
             repository.updateState(todo.id, newState)
             if (newState == TodoState.DONE) {
-                appPreferences.incrementTodosDoneCount()
+                appPreferences.incrementTodosDone()
             }
         }
     }

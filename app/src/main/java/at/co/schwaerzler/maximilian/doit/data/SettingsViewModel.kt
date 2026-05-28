@@ -39,21 +39,16 @@ class SettingsViewModel(
     private val application: Application,
     private val appPreferences: AppPreferences
 ) : ViewModel() {
-
-    val themeMode = appPreferences.theme
-
+    val themeMode = appPreferences.themeMode
     val notificationLeadTime = appPreferences.notificationLeadTime
-
     val useDynamicColors = appPreferences.useDynamicColors
     val versionName: String? =
         application.packageManager.getPackageInfo(application.packageName, 0).versionName
-
     private val _currentLocaleTag = MutableStateFlow(run {
         val locales = AppCompatDelegate.getApplicationLocales()
         if (locales.isEmpty) "" else locales.toLanguageTags().split(",").first().trim()
     })
     val currentLocaleTag: StateFlow<String> = _currentLocaleTag.asStateFlow()
-
     val supportedLocales: List<Pair<String, String>> =
         application.resources.getStringArray(R.array.supported_locales).map { tag ->
             val locale = Locale.forLanguageTag(tag)
@@ -62,15 +57,15 @@ class SettingsViewModel(
 
     fun setTheme(mode: AppThemeMode) {
         mode.applyNightMode(application)
-        appPreferences.setTheme(mode)
+        appPreferences.saveThemeMode(mode)
     }
 
     fun setNotificationLeadTime(leadTime: NotificationLeadTime) {
-        appPreferences.setNotificationLeadTime(leadTime)
+        appPreferences.saveNotificationLeadTime(leadTime)
     }
 
     fun setUseDynamicColor(use: Boolean) {
-        appPreferences.setUseDynamicColors(use)
+        appPreferences.saveUseDynamicColors(use)
     }
 
     fun setLanguage(tag: String) {

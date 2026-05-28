@@ -143,7 +143,7 @@ class TodoRepository(
         } ?: return
     }
 
-    private suspend fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
+    private fun scheduleDeadlineNotification(todoId: Long, deadline: Instant) {
         val leadTime = appPreferences.notificationLeadTime.value
         val delay = (deadline - Clock.System.now()) - leadTime.duration
         if (delay.isNegative()) return

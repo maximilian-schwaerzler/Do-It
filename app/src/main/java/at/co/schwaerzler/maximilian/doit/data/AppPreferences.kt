@@ -36,7 +36,7 @@ class AppPreferences(
     private val dataStore: DataStore<Preferences>,
     private val scope: CoroutineScope
 ) {
-    val theme = dataStore.data.map { preferences ->
+    val themeMode = dataStore.data.map { preferences ->
         preferences[THEME]?.let { themeModeString ->
             try {
                 AppThemeMode.valueOf(themeModeString)
@@ -46,7 +46,7 @@ class AppPreferences(
         } ?: AppThemeMode.FOLLOW_SYSTEM
     }.stateIn(scope, SharingStarted.Eagerly, AppThemeMode.FOLLOW_SYSTEM)
 
-    fun setTheme(themeMode: AppThemeMode) = scope.launch {
+    fun saveThemeMode(themeMode: AppThemeMode) = scope.launch {
         dataStore.edit { it[THEME] = themeMode.name }
     }
 
@@ -61,27 +61,23 @@ class AppPreferences(
             } ?: NotificationLeadTime.THIRTY_MINUTES
         }.stateIn(scope, SharingStarted.Eagerly, NotificationLeadTime.THIRTY_MINUTES)
 
-    fun setNotificationLeadTime(leadTime: NotificationLeadTime) = scope.launch {
+    fun saveNotificationLeadTime(leadTime: NotificationLeadTime) = scope.launch {
         dataStore.edit { it[NOTIFICATION_LEAD_TIME] = leadTime.name }
     }
 
-    val doNotShowWidgetDialogAgain = dataStore.data.map {
+    val widgetDialogSuppressed = dataStore.data.map {
         it[DO_NOT_SHOW_WIDGET_PIN_DIALOG] ?: false
     }.stateIn(scope, SharingStarted.Eagerly, false)
 
-    fun enableDoNotShowWidgetDialogAgain() = scope.launch {
-        dataStore.edit { it[DO_NOT_SHOW_WIDGET_PIN_DIALOG] = true }
+    fun saveWidgetDialogSuppressed(suppressed: Boolean) = scope.launch {
+        dataStore.edit { it[DO_NOT_SHOW_WIDGET_PIN_DIALOG] = suppressed }
     }
 
-    fun enableDoNotShowNotificationDialogAgain() = scope.launch {
-        dataStore.edit { it[DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] = true }
+    fun saveNotificationDialogSuppressed(suppressed: Boolean) = scope.launch {
+        dataStore.edit { it[DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] = suppressed }
     }
 
-    fun resetDoNotShowNotificationDialog() = scope.launch {
-        dataStore.edit { it[DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] = false }
-    }
-
-    val doNotShowNotificationDialogAgain = dataStore.data.map {
+    val notificationDialogSuppressed = dataStore.data.map {
         it[DO_NOT_SHOW_NOTIFICATION_PERMISSION_DIALOG] ?: false
     }.stateIn(scope, SharingStarted.Eagerly, false)
 
@@ -89,7 +85,7 @@ class AppPreferences(
         it[TODOS_DONE_COUNT] ?: 0
     }.stateIn(scope, SharingStarted.Eagerly, 0)
 
-    fun incrementTodosDoneCount() = scope.launch {
+    fun incrementTodosDone() = scope.launch {
         dataStore.edit { it[TODOS_DONE_COUNT] = (it[TODOS_DONE_COUNT] ?: 0) + 1 }
     }
 
@@ -97,7 +93,7 @@ class AppPreferences(
         it[USE_DYNAMIC_COLOR] ?: true
     }.stateIn(scope, SharingStarted.Eagerly, true)
 
-    fun setUseDynamicColors(use: Boolean) = scope.launch {
+    fun saveUseDynamicColors(use: Boolean) = scope.launch {
         dataStore.edit { it[USE_DYNAMIC_COLOR] = use }
     }
 

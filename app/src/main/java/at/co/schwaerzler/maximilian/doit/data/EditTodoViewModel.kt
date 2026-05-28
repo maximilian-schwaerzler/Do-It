@@ -57,14 +57,10 @@ class EditTodoViewModel(
     private var originalDescription = ""
     private var originalDeadline: Instant? = null
 
-    val doNotShowNotificationDialogAgain = appPreferences.doNotShowNotificationDialogAgain
+    val notificationDialogSuppressed = appPreferences.notificationDialogSuppressed
 
-    fun enableDoNotShowNotificationDialogAgain() {
-        appPreferences.enableDoNotShowNotificationDialogAgain()
-    }
-
-    fun resetDoNotShowNotificationDialog() {
-        appPreferences.resetDoNotShowNotificationDialog()
+    fun saveNotificationDialogSuppressed(suppressed: Boolean) {
+        appPreferences.saveNotificationDialogSuppressed(suppressed)
     }
 
     /**

@@ -137,7 +137,7 @@ fun HomeScreen(
     }
 
     val todosDoneCount by viewModel.todosDone.collectAsStateWithLifecycle()
-    val doNotShowWidgetDialogAgain by viewModel.doNotShowWidgetDialogAgain.collectAsStateWithLifecycle()
+    val widgetDialogSuppressed by viewModel.widgetDialogSuppressed.collectAsStateWithLifecycle()
 
     HomeScreenContent(
         openTodos = openTodos,
@@ -167,8 +167,8 @@ fun HomeScreen(
         },
         snackbarHostState = snackbarHostState,
         todosDoneCount = todosDoneCount,
-        doNotShowWidgetPinDialog = doNotShowWidgetDialogAgain,
-        doNotShowWidgetDialogAgain = viewModel::enableDoNotShowWidgetDialogAgain
+        widgetDialogSuppressed = widgetDialogSuppressed,
+        onSuppressWidgetDialog = viewModel::suppressWidgetDialog
     )
 }
 
@@ -191,8 +191,8 @@ private fun HomeScreenContent(
     onSelectAll: () -> Unit,
     snackbarHostState: SnackbarHostState,
     todosDoneCount: Int,
-    doNotShowWidgetPinDialog: Boolean,
-    doNotShowWidgetDialogAgain: () -> Unit
+    widgetDialogSuppressed: Boolean,
+    onSuppressWidgetDialog: () -> Unit
 ) {
     val selectionToolbar = selectedTodos.isNotEmpty()
     val isAllSelected = selectedTodos.size == openTodos.size + doneTodos.size
@@ -202,7 +202,7 @@ private fun HomeScreenContent(
 
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(todosDoneCount, doNotShowWidgetPinDialog) {
+    LaunchedEffect(todosDoneCount, widgetDialogSuppressed) {
         if (todosDoneCount < 1) {
             Log.d(
                 "WidgetIncentive",
@@ -210,7 +210,7 @@ private fun HomeScreenContent(
             )
             return@LaunchedEffect
         }
-        if (doNotShowWidgetPinDialog) {
+        if (widgetDialogSuppressed) {
             Log.d("WidgetIncentive", "Dialog not shown: user opted out")
             return@LaunchedEffect
         }
@@ -422,7 +422,7 @@ private fun HomeScreenContent(
                 coroutineScope,
                 onDismissRequest = {
                     if (it) {
-                        doNotShowWidgetDialogAgain()
+                        onSuppressWidgetDialog()
                     }
                     showWidgetPinIncentiveDialog = false
                 }
@@ -500,8 +500,8 @@ private fun HomeScreenEmptyPreview() {
             onDeleteTodo = {},
             snackbarHostState = remember { SnackbarHostState() },
             todosDoneCount = 0,
-            doNotShowWidgetPinDialog = true,
-            doNotShowWidgetDialogAgain = {},
+            widgetDialogSuppressed = true,
+            onSuppressWidgetDialog = {},
         )
     }
 }
@@ -525,8 +525,8 @@ private fun HomeScreenWithTodosPreview() {
             onDeleteTodo = {},
             snackbarHostState = remember { SnackbarHostState() },
             todosDoneCount = 0,
-            doNotShowWidgetPinDialog = true,
-            doNotShowWidgetDialogAgain = {},
+            widgetDialogSuppressed = true,
+            onSuppressWidgetDialog = {},
         )
     }
 }
@@ -550,8 +550,8 @@ private fun HomeScreenAllDonePreview() {
             onDeleteTodo = {},
             snackbarHostState = remember { SnackbarHostState() },
             todosDoneCount = 0,
-            doNotShowWidgetPinDialog = true,
-            doNotShowWidgetDialogAgain = {},
+            widgetDialogSuppressed = true,
+            onSuppressWidgetDialog = {},
         )
     }
 }
@@ -575,8 +575,8 @@ private fun HomeScreenSelectionPreview() {
             onDeleteTodo = {},
             snackbarHostState = remember { SnackbarHostState() },
             todosDoneCount = 0,
-            doNotShowWidgetPinDialog = true,
-            doNotShowWidgetDialogAgain = {},
+            widgetDialogSuppressed = true,
+            onSuppressWidgetDialog = {},
         )
     }
 }

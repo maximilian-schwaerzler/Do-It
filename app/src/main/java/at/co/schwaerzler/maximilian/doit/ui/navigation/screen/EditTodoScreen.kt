@@ -111,7 +111,7 @@ fun EditTodoScreen(
     val isModified by viewModel.isModified.collectAsStateWithLifecycle()
     var showDiscardDialog by remember { mutableStateOf(false) }
     var showNotificationPermissionDialog by remember { mutableStateOf(false) }
-    val doNotShowNotificationDialog by viewModel.doNotShowNotificationDialogAgain.collectAsStateWithLifecycle()
+    val notificationDialogSuppressed by viewModel.notificationDialogSuppressed.collectAsStateWithLifecycle()
 
     LaunchedEffect(todoId) {
         if (todoId != null) {
@@ -156,7 +156,7 @@ fun EditTodoScreen(
 
     LaunchedEffect(notificationPermissionState.status.isGranted) {
         if (notificationPermissionState.status.isGranted) {
-            viewModel.resetDoNotShowNotificationDialog()
+            viewModel.saveNotificationDialogSuppressed(false)
             if (showNotificationPermissionDialog) {
                 showNotificationPermissionDialog = false
                 navigateBack()
@@ -172,7 +172,7 @@ fun EditTodoScreen(
                 navigateBack()
             },
             onDoNotShowAgain = {
-                viewModel.enableDoNotShowNotificationDialogAgain()
+                viewModel.saveNotificationDialogSuppressed(true)
                 showNotificationPermissionDialog = false
                 navigateBack()
             }
@@ -187,7 +187,7 @@ fun EditTodoScreen(
         onDeadlineChange = { viewModel.updateDeadline(it) },
         onSave = {
             if (viewModel.saveTodo(todoId)) {
-                if (uiState.deadline != null && !doNotShowNotificationDialog && !notificationPermissionState.status.isGranted) {
+                if (uiState.deadline != null && !notificationDialogSuppressed && !notificationPermissionState.status.isGranted) {
                     showNotificationPermissionDialog = true
                 } else {
                     navigateBack()
