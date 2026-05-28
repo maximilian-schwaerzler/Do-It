@@ -91,4 +91,5 @@
     <string name="notif_lead_time_2_hours">2 hours</string>
     <string name="notif_lead_time_1_day">1 day</string>
     <string name="undo_snackbar_action_label">Undo</string>
+    <string name="dynamic_color_setting_label">Dynamic Color</string>
 </resources>

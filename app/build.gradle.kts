@@ -118,6 +118,7 @@ androidComponents {
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
+    implementation(platform(libs.kotlinx.coroutines.bom))
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
@@ -132,7 +133,6 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
     implementation(libs.androidx.room.runtime)

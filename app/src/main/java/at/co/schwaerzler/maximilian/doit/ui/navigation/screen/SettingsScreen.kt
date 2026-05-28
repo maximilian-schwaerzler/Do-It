@@ -178,7 +178,7 @@ fun SettingsScreenContent(
 
                 ListItem(
                     headlineContent = {
-                        Text("Dynamic Color")
+                        Text(stringResource(R.string.dynamic_color_setting_label))
                     },
                     leadingContent = {
                         Icon(painterResource(R.drawable.colors_24px), contentDescription = null)
