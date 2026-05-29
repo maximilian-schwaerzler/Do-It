@@ -121,7 +121,7 @@ fun SettingsScreenContent(
     notificationLeadTime: NotificationLeadTime,
     onSetNotificationLeadTime: (NotificationLeadTime) -> Unit,
     modifier: Modifier = Modifier,
-    useDynamicColors: Boolean?,
+    useDynamicColors: Boolean,
     onSetUseDynamicColors: (Boolean) -> Unit
 ) {
     val context = LocalContext.current
@@ -182,9 +182,7 @@ fun SettingsScreenContent(
                     leadingContent = {
                         Icon(painterResource(R.drawable.colors_24px), contentDescription = null)
                     },
-                    trailingContent = useDynamicColors?.let { enabled ->
-                        { Switch(enabled, { onSetUseDynamicColors(it) }) }
-                    }
+                    trailingContent = { Switch(useDynamicColors, { onSetUseDynamicColors(it) }) }
                 )
 
                 ListItem(
