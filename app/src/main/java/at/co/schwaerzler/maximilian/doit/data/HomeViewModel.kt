@@ -16,6 +16,7 @@
 
 package at.co.schwaerzler.maximilian.doit.data
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -27,10 +28,13 @@ import at.co.schwaerzler.maximilian.doit.data.db.TodoRepository
 import at.co.schwaerzler.maximilian.doit.data.db.entity.Todo
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoState
 import at.co.schwaerzler.maximilian.doit.data.db.entity.TodoSummary
+import at.co.schwaerzler.maximilian.doit.util.SortOrder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlin.time.Instant
 
 /** ViewModel for the home screen, exposing the todo lists and bulk-action operations. */
 class HomeViewModel(
@@ -53,6 +57,47 @@ class HomeViewModel(
             .filter { it.state == TodoState.DONE }
             .sortedByDescending { it.creationDateTime }
         Pair(open, done)
+    }
+
+    val sortOrder = appPreferences.homeScreenSortOrder
+
+    val sortedTodos = combine(repository.getAllSummaries(), sortOrder) { list, order ->
+        val comparator = when (order) {
+            SortOrder.DEADLINE_SOONEST_FIRST -> compareBy<TodoSummary, Instant?>(nullsLast()) { it.deadlineDateTime }
+            SortOrder.ALPHABETICAL_A_Z -> compareBy(String.CASE_INSENSITIVE_ORDER) { it.title }
+            SortOrder.ALPHABETICAL_Z_A -> compareByDescending(String.CASE_INSENSITIVE_ORDER) { it.title }
+            SortOrder.CREATION_DATE_NEWEST_FIRST -> compareByDescending { it.creationDateTime }
+            SortOrder.CREATION_DATE_OLDEST_FIRST -> compareBy { it.creationDateTime }
+        }
+        val sorted = list.sortedWith(comparator)
+        sorted.partition { it.state != TodoState.DONE }
+    }
+
+    /**
+     * Advances [sortOrder] to the next value in the cycle and returns it.
+     *
+     * The new order is returned directly because the DataStore-backed [sortOrder] flow
+     * does not emit the updated value synchronously — callers that need the new label
+     * immediately (e.g. to show a snackbar) must use the return value rather than
+     * reading [sortOrder] after this call.
+     */
+    fun rotateSortOrder(): SortOrder {
+        val newOrder = when (sortOrder.value) {
+            SortOrder.DEADLINE_SOONEST_FIRST -> SortOrder.ALPHABETICAL_A_Z
+            SortOrder.ALPHABETICAL_A_Z -> SortOrder.ALPHABETICAL_Z_A
+            SortOrder.ALPHABETICAL_Z_A -> SortOrder.CREATION_DATE_NEWEST_FIRST
+            SortOrder.CREATION_DATE_NEWEST_FIRST -> SortOrder.CREATION_DATE_OLDEST_FIRST
+            SortOrder.CREATION_DATE_OLDEST_FIRST -> SortOrder.DEADLINE_SOONEST_FIRST
+        }
+
+        setSortOrder(newOrder)
+        return newOrder
+    }
+
+    /** Persists [order] to [AppPreferences], updating [sortOrder] asynchronously. */
+    fun setSortOrder(order: SortOrder) {
+        Log.d("SortOrder", "New order: ${order.name}")
+        appPreferences.saveHomeScreenSortOrder(order)
     }
 
     /** Todos that were just deleted and can still be restored via [undoDeleteTodos].

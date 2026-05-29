@@ -78,6 +78,7 @@ import at.co.schwaerzler.maximilian.doit.ui.component.MaxWidthLayout
 import at.co.schwaerzler.maximilian.doit.ui.component.TodoListItem
 import at.co.schwaerzler.maximilian.doit.ui.theme.DoItTheme
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.time.Clock
 
@@ -99,7 +100,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
 ) {
-    val todos by viewModel.todos.collectAsStateWithLifecycle(Pair(emptyList(), emptyList()))
+    val todos by viewModel.sortedTodos.collectAsStateWithLifecycle(Pair(emptyList(), emptyList()))
     val (openTodos, doneTodos) = todos
 
     var selectedTodos by rememberSaveable {
@@ -116,6 +117,7 @@ fun HomeScreen(
 
     val pendingUndoTodos by viewModel.pendingUndoTodos.collectAsStateWithLifecycle()
     val resources = LocalResources.current
+
 
     LaunchedEffect(pendingUndoTodos) {
         if (pendingUndoTodos.isNotEmpty()) {
@@ -138,6 +140,9 @@ fun HomeScreen(
 
     val todosDoneCount by viewModel.todosDone.collectAsStateWithLifecycle()
     val widgetDialogSuppressed by viewModel.widgetDialogSuppressed.collectAsStateWithLifecycle()
+
+    val sortOrderScope = rememberCoroutineScope()
+    var sortSnackbarJob by remember { mutableStateOf<Job?>(null) }
 
     HomeScreenContent(
         openTodos = openTodos,
@@ -168,7 +173,16 @@ fun HomeScreen(
         snackbarHostState = snackbarHostState,
         todosDoneCount = todosDoneCount,
         widgetDialogSuppressed = widgetDialogSuppressed,
-        onSuppressWidgetDialog = viewModel::suppressWidgetDialog
+        onSuppressWidgetDialog = viewModel::suppressWidgetDialog,
+        onRotateSortOrder = {
+            val newOrder = viewModel.rotateSortOrder()
+            sortSnackbarJob?.cancel()
+            sortSnackbarJob = sortOrderScope.launch {
+                snackbarHostState.showSnackbar(
+                    resources.getString(newOrder.labelRes)
+                )
+            }
+        }
     )
 }
 
@@ -192,7 +206,8 @@ private fun HomeScreenContent(
     snackbarHostState: SnackbarHostState,
     todosDoneCount: Int,
     widgetDialogSuppressed: Boolean,
-    onSuppressWidgetDialog: () -> Unit
+    onSuppressWidgetDialog: () -> Unit,
+    onRotateSortOrder: () -> Unit
 ) {
     val selectionToolbar = selectedTodos.isNotEmpty()
     val isAllSelected = selectedTodos.size == openTodos.size + doneTodos.size
@@ -269,6 +284,13 @@ private fun HomeScreenContent(
                             containerColor = MaterialTheme.colorScheme.surfaceContainer
                         ),
                         actions = {
+                            IconButton(onClick = onRotateSortOrder) {
+                                Icon(
+                                    painterResource(R.drawable.sort_24px),
+                                    contentDescription = null
+                                )
+                            }
+
                             IconButton(onClick = onClickSettings) {
                                 Icon(
                                     painterResource(R.drawable.settings_24px),
@@ -502,6 +524,7 @@ private fun HomeScreenEmptyPreview() {
             todosDoneCount = 0,
             widgetDialogSuppressed = true,
             onSuppressWidgetDialog = {},
+            onRotateSortOrder = {},
         )
     }
 }
@@ -527,6 +550,7 @@ private fun HomeScreenWithTodosPreview() {
             todosDoneCount = 0,
             widgetDialogSuppressed = true,
             onSuppressWidgetDialog = {},
+            onRotateSortOrder = {},
         )
     }
 }
@@ -552,6 +576,7 @@ private fun HomeScreenAllDonePreview() {
             todosDoneCount = 0,
             widgetDialogSuppressed = true,
             onSuppressWidgetDialog = {},
+            onRotateSortOrder = {},
         )
     }
 }
@@ -577,6 +602,7 @@ private fun HomeScreenSelectionPreview() {
             todosDoneCount = 0,
             widgetDialogSuppressed = true,
             onSuppressWidgetDialog = {},
+            onRotateSortOrder = {},
         )
     }
 }
