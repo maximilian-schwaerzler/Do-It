@@ -118,7 +118,6 @@ fun HomeScreen(
     val pendingUndoTodos by viewModel.pendingUndoTodos.collectAsStateWithLifecycle()
     val resources = LocalResources.current
 
-
     LaunchedEffect(pendingUndoTodos) {
         if (pendingUndoTodos.isNotEmpty()) {
             val snackbarResult = snackbarHostState.showSnackbar(

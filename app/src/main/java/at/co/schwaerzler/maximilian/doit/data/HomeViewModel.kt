@@ -41,24 +41,6 @@ class HomeViewModel(
     private val repository: TodoRepository,
     private val appPreferences: AppPreferences
 ) : ViewModel() {
-    /**
-     * Flow of open and done [TodoSummary] lists derived from a single Room query.
-     *
-     * Using one query instead of combining two separate flows avoids a race condition where
-     * [kotlinx.coroutines.flow.combine] could pair a stale emission from one flow with a fresh
-     * emission from the other, momentarily placing the same todo id in both lists and crashing
-     * the [androidx.compose.foundation.lazy.LazyColumn] that uses id as a key.
-     */
-    val todos = repository.getAllSummaries().map { all ->
-        val open = all
-            .filter { it.state == TodoState.OPEN }
-            .sortedWith(compareBy(nullsLast(naturalOrder())) { it.deadlineDateTime })
-        val done = all
-            .filter { it.state == TodoState.DONE }
-            .sortedByDescending { it.creationDateTime }
-        Pair(open, done)
-    }
-
     val sortOrder = appPreferences.homeScreenSortOrder
 
     val sortedTodos = combine(repository.getAllSummaries(), sortOrder) { list, order ->
@@ -96,7 +78,6 @@ class HomeViewModel(
 
     /** Persists [order] to [AppPreferences], updating [sortOrder] asynchronously. */
     fun setSortOrder(order: SortOrder) {
-        Log.d("SortOrder", "New order: ${order.name}")
         appPreferences.saveHomeScreenSortOrder(order)
     }
 
