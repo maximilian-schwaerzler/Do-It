@@ -26,6 +26,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import at.co.schwaerzler.maximilian.doit.util.AppThemeMode
 import at.co.schwaerzler.maximilian.doit.util.NotificationLeadTime
+import at.co.schwaerzler.maximilian.doit.util.SortOrder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -97,6 +98,22 @@ class AppPreferences(
         dataStore.edit { it[USE_DYNAMIC_COLOR] = use }
     }
 
+    val homeScreenSortOrder = dataStore.data.map {
+        it[HOME_SCREEN_SORT_ORDER]?.let { preference ->
+            try {
+                SortOrder.valueOf(preference)
+            } catch (_: IllegalStateException) {
+                null
+            }
+        } ?: SortOrder.DEADLINE_SOONEST_FIRST
+    }.stateIn(scope, SharingStarted.Eagerly, SortOrder.DEADLINE_SOONEST_FIRST)
+
+    fun saveHomeScreenSortOrder(sortOrder: SortOrder) = scope.launch {
+        dataStore.edit {
+            it[HOME_SCREEN_SORT_ORDER] = sortOrder.name
+        }
+    }
+
     companion object {
         val THEME = stringPreferencesKey("theme")
         val NOTIFICATION_LEAD_TIME = stringPreferencesKey("notification_lead_time")
@@ -105,6 +122,7 @@ class AppPreferences(
             booleanPreferencesKey("do_not_show_notification_permission_dialog")
         val TODOS_DONE_COUNT = intPreferencesKey("todos_done_count")
         val USE_DYNAMIC_COLOR = booleanPreferencesKey("use_dynamic_color")
+        val HOME_SCREEN_SORT_ORDER = stringPreferencesKey("home_screen_sort_order")
     }
 }
 

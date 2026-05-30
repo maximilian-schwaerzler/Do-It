@@ -92,4 +92,9 @@
     <string name="notif_lead_time_1_day">1 day</string>
     <string name="undo_snackbar_action_label">Undo</string>
     <string name="dynamic_color_setting_label">Dynamic Color</string>
+    <string name="sort_label_creation_date_newest_first">Newest created first</string>
+    <string name="sort_label_creation_date_oldest_first">Oldest created first</string>
+    <string name="sort_label_alphabetical_a_z">Alphabetical</string>
+    <string name="sort_label_alphabetical_z_a">Alphabetical (reversed)</string>
+    <string name="sort_label_deadline_soonest_first">Deadline (soonest first)</string>
 </resources>
