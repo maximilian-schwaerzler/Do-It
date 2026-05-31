@@ -89,4 +89,13 @@
     <string name="sort_label_alphabetical_z_a">Alphabetisch (umgekehrt)</string>
     <string name="sort_label_deadline_soonest_first">Frist (früheste zuerst)</string>
     <string name="sort_label_creation_date_newest_first">Neuste zuerst</string>
+    <string name="just_do_it_app_bar" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="deadline_notification_unique_work_name_template" translatable="false"></string>
+    <string name="github_repo_url" translatable="false"></string>
+    <string name="github_releases_base_url" translatable="false"></string>
+    <string name="fdroid_package_url" translatable="false"></string>
+    <string name="todo_deadline_notif_channel_id" translatable="false"></string>
+    <string name="deadline_notification_worker_todo_id_input_data" translatable="false"></string>
+    <string name="deadline_notification_worker_lead_time_input_data" translatable="false"></string>
 </resources>
