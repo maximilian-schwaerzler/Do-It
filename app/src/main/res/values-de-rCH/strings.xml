@@ -92,4 +92,6 @@
     <plurals name="todos_deleted_template">
     </plurals>
     <string name="sort_label_alphabetical_z_a"></string>
+    <plurals name="todos_selected_template">
+    </plurals>
 </resources>
