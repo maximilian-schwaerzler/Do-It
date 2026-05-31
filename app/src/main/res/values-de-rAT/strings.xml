@@ -93,4 +93,6 @@
     <string name="clear_selection"></string>
     <string name="select_all"></string>
     <string name="todo_deadline_notif_channel_name"></string>
+    <plurals name="todos_selected_template">
+    </plurals>
 </resources>
