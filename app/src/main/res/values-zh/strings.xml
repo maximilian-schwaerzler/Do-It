@@ -65,34 +65,4 @@
     <string name="do_not_ask_again_dialog">别再问了</string>
     <string name="add_widget_dialog">添加小工具</string>
     <string name="add_widget_dialog_text">您想在主屏幕上添加一个小工具，以便查看所有未完成任务的概览吗？</string>
-    <string name="dynamic_color_setting_label"></string>
-    <string name="notification_permission_dialog_text"></string>
-    <string name="app_name" translatable="false"></string>
-    <string name="just_do_it_app_bar" translatable="false"></string>
-    <string name="notif_lead_time_5_minutes"></string>
-    <string name="notif_lead_time_30_minutes"></string>
-    <string name="deadline_notification_worker_lead_time_input_data" translatable="false"></string>
-    <string name="sort_label_deadline_soonest_first"></string>
-    <string name="todo_deadline_notif_channel_description"></string>
-    <string name="todo_deadline_notif_channel_id" translatable="false"></string>
-    <string name="notif_lead_time_1_day"></string>
-    <string name="sort_label_creation_date_newest_first"></string>
-    <string name="sort_label_creation_date_oldest_first"></string>
-    <string name="sort_label_alphabetical_a_z"></string>
-    <string name="sort_label_alphabetical_z_a"></string>
-    <string name="deadline_notification_unique_work_name_template" translatable="false"></string>
-    <string name="deadline_notification_worker_todo_id_input_data" translatable="false"></string>
-    <plurals name="todos_deleted_template">
-    </plurals>
-    <string name="github_repo_url" translatable="false"></string>
-    <string name="github_releases_base_url" translatable="false"></string>
-    <string name="notification_permission_dialog_title"></string>
-    <string name="todo_deadline_notif_channel_name"></string>
-    <string name="notif_lead_time_2_hours"></string>
-    <string name="deadline_notification_content_text"></string>
-    <string name="deadline_notification_content_title"></string>
-    <string name="undo_snackbar_action_label"></string>
-    <string name="fdroid_package_url" translatable="false"></string>
-    <string name="permission_granted"></string>
-    <string name="settings_notif_lead_time"></string>
 </resources>

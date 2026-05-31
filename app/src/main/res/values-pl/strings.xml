@@ -68,34 +68,4 @@
     <string name="do_not_ask_again_dialog">Nie pytaj o to ponownie</string>
     <string name="add_widget_dialog">Dodaj widżet</string>
     <string name="add_widget_dialog_text">Czy chcesz dodać na ekran główny widżet zawierający przegląd wszystkich Twoich otwartych zadań?</string>
-    <string name="todo_deadline_notif_channel_name"></string>
-    <string name="deadline_notification_unique_work_name_template" translatable="false"></string>
-    <string name="deadline_notification_worker_lead_time_input_data" translatable="false"></string>
-    <string name="github_repo_url" translatable="false"></string>
-    <string name="github_releases_base_url" translatable="false"></string>
-    <string name="fdroid_package_url" translatable="false"></string>
-    <string name="undo_snackbar_action_label"></string>
-    <string name="permission_granted"></string>
-    <string name="notification_permission_dialog_text"></string>
-    <string name="notification_permission_dialog_title"></string>
-    <string name="todo_deadline_notif_channel_description"></string>
-    <string name="todo_deadline_notif_channel_id" translatable="false"></string>
-    <string name="settings_notif_lead_time"></string>
-    <string name="notif_lead_time_5_minutes"></string>
-    <string name="notif_lead_time_30_minutes"></string>
-    <string name="notif_lead_time_2_hours"></string>
-    <string name="notif_lead_time_1_day"></string>
-    <string name="deadline_notification_worker_todo_id_input_data" translatable="false"></string>
-    <string name="deadline_notification_content_title"></string>
-    <string name="sort_label_creation_date_newest_first"></string>
-    <plurals name="todos_deleted_template">
-    </plurals>
-    <string name="app_name" translatable="false"></string>
-    <string name="just_do_it_app_bar" translatable="false"></string>
-    <string name="dynamic_color_setting_label"></string>
-    <string name="sort_label_creation_date_oldest_first"></string>
-    <string name="sort_label_alphabetical_a_z"></string>
-    <string name="sort_label_alphabetical_z_a"></string>
-    <string name="sort_label_deadline_soonest_first"></string>
-    <string name="deadline_notification_content_text"></string>
 </resources>
