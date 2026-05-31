@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright 2026 Maximilian Schwärzler
   ~
   ~    Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,11 +13,83 @@
   ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~    See the License for the specific language governing permissions and
   ~    limitations under the License.
-  -->
-
-<resources>
+  --><resources>
     <string name="nothing_to_do_empty_text">Nüt z\'tue! 🫕</string>
     <string name="you_did_everything_empty_text">Du hesch alles gmacht! 🚀</string>
     <string name="settings_app_bar">Ihstellige</string>
     <string name="set_deadline">Frist setze</string>
+    <string name="dynamic_color_setting_label"></string>
+    <string name="clear_selection"></string>
+    <string name="select_all"></string>
+    <string name="source_code"></string>
+    <string name="f_droid_package"></string>
+    <string name="theme"></string>
+    <string name="settings_section_general"></string>
+    <string name="overview_widget_description"></string>
+    <string name="share_todo"></string>
+    <string name="cancel"></string>
+    <string name="done_fab"></string>
+    <string name="add_new_todo_app_bar"></string>
+    <string name="edit_todo_app_bar"></string>
+    <string name="delete_todo"></string>
+    <string name="todo_deadline_notif_channel_description"></string>
+    <string name="github_releases_base_url" translatable="false"></string>
+    <string name="fdroid_package_url" translatable="false"></string>
+    <string name="settings_language"></string>
+    <string name="settings_language_dialog_title"></string>
+    <string name="settings_language_system_default"></string>
+    <string name="theme_follow_system"></string>
+    <string name="settings_section_about"></string>
+    <string name="app_version"></string>
+    <string name="sort_label_creation_date_newest_first"></string>
+    <string name="sort_label_creation_date_oldest_first"></string>
+    <string name="sort_label_deadline_soonest_first"></string>
+    <string name="just_do_it_app_bar" translatable="false"></string>
+    <string name="add_new_todo_fab"></string>
+    <string name="done_headline"></string>
+    <string name="open_headline"></string>
+    <string name="deadline_notification_content_title"></string>
+    <string name="notification_permission_dialog_text"></string>
+    <string name="sort_label_alphabetical_a_z"></string>
+    <string name="notification_permission_dialog_title"></string>
+    <string name="todo_deadline_notif_channel_name"></string>
+    <string name="deadline_notification_content_text"></string>
+    <string name="settings_notif_lead_time"></string>
+    <string name="notif_lead_time_30_minutes"></string>
+    <string name="notif_lead_time_2_hours"></string>
+    <string name="optional"></string>
+    <string name="deadline"></string>
+    <string name="select_this_todo"></string>
+    <string name="deadline_template"></string>
+    <string name="title_is_required"></string>
+    <string name="select_time"></string>
+    <string name="github_repo_url" translatable="false"></string>
+    <string name="theme_light"></string>
+    <string name="add_new_todo_button"></string>
+    <string name="discard_changes_question"></string>
+    <string name="unsaved_changes_lost"></string>
+    <string name="discard"></string>
+    <string name="keep_editing"></string>
+    <string name="next"></string>
+    <string name="title"></string>
+    <string name="required"></string>
+    <string name="theme_dark"></string>
+    <string name="new_todo_shortcut_short_label"></string>
+    <string name="yes_dialog"></string>
+    <string name="do_not_ask_again_dialog"></string>
+    <string name="add_widget_dialog"></string>
+    <string name="todo_deadline_notif_channel_id" translatable="false"></string>
+    <string name="deadline_notification_unique_work_name_template" translatable="false"></string>
+    <string name="deadline_notification_worker_todo_id_input_data" translatable="false"></string>
+    <string name="permission_granted"></string>
+    <string name="notif_lead_time_5_minutes"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="add_widget_dialog_text"></string>
+    <string name="undo_snackbar_action_label"></string>
+    <string name="description"></string>
+    <string name="deadline_notification_worker_lead_time_input_data" translatable="false"></string>
+    <string name="notif_lead_time_1_day"></string>
+    <plurals name="todos_deleted_template">
+    </plurals>
+    <string name="sort_label_alphabetical_z_a"></string>
 </resources>
