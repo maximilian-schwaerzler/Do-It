@@ -78,4 +78,15 @@
     <string name="notif_lead_time_30_minutes">30 Minuten</string>
     <string name="notif_lead_time_2_hours">2 Stunden</string>
     <string name="notif_lead_time_1_day">1 Tag</string>
+    <string name="sort_label_creation_date_oldest_first">Älteste zuerst</string>
+    <string name="sort_label_alphabetical_a_z">Alphabetisch</string>
+    <string name="undo_snackbar_action_label">Rückgängig</string>
+    <string name="dynamic_color_setting_label">Dynamische Farben</string>
+    <plurals name="todos_deleted_template">
+        <item quantity="one">Aufgabe gelöscht</item>
+        <item quantity="other">Aufgaben gelöscht</item>
+    </plurals>
+    <string name="sort_label_alphabetical_z_a">Alphabetisch (umgekehrt)</string>
+    <string name="sort_label_deadline_soonest_first">Frist (früheste zuerst)</string>
+    <string name="sort_label_creation_date_newest_first">Neuste zuerst</string>
 </resources>

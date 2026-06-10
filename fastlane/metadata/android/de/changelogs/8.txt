@@ -1,0 +1,1 @@
+- Das Startbildschirm-Widget funktioniert jetzt in der Vollversion
