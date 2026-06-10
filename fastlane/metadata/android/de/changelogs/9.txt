@@ -1,0 +1,4 @@
+- Lass dich benachrichtigen, bevor die Frist einer Aufgabe abläuft
+- Lege in den Einstellungen fest, wie lange im Voraus du Terminerinnerungen erhalten möchtest
+- Nach Erledigung deiner ersten Aufgabe wirst du nun aufgefordert, das Startbildschirm-Widget hinzuzufügen
+- Verschiedene Fehlerbehebungen und Verbesserungen
